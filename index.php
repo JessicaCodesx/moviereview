@@ -78,6 +78,15 @@ try {
     $router->post('/api/auth/logout', 'Controllers\AuthController@logout');
     $router->get('/api/auth/check', 'Controllers\AuthController@checkAuth');
     $router->get('/logout', 'Controllers\AuthController@logout');
+    $router->post('/api/auth/change-password', 'Controllers\AuthController@changePassword');
+    $router->post('/api/auth/delete-account', 'Controllers\AuthController@deleteAccount');
+    $router->get('/api/auth/stats', 'Controllers\AuthController@getUserStats');
+
+    $router->get('/api/ratings/user', 'Controllers\RatingController@getUserRatings');
+    $router->put('/api/ratings/update', 'Controllers\RatingController@updateRating');
+    $router->delete('/api/ratings/delete', 'Controllers\RatingController@deleteRating');
+    $router->get('/api/ratings/stats', 'Controllers\RatingController@getRatingStats');
+    $router->get('/api/ratings/top', 'Controllers\RatingController@getTopRated');
 
     // User dashboard routes
     $router->get('/dashboard', 'Controllers\UserController@dashboard');
@@ -90,6 +99,11 @@ try {
     $router->post('/api/movie', 'Controllers\MovieController@getMovie');
     $router->post('/api/rate', 'Controllers\RatingController@addRating');
     $router->post('/api/review', 'Controllers\ReviewController@generateReview');
+    $router->get('/api/movies/trending', 'Controllers\MovieController@trending');
+    $router->get('/api/movies/popular', 'Controllers\MovieController@popular');
+    $router->get('/api/movies/recent', 'Controllers\MovieController@recentlyAdded');
+    $router->get('/api/movies/genre', 'Controllers\MovieController@byGenre');
+    $router->post('/api/movies/search-advanced', 'Controllers\MovieController@searchAdvanced');
 
     // User functionality API routes
     $router->post('/api/watchlist/add', 'Controllers\UserController@addToWatchlist');

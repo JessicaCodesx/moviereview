@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS ai_reviews (
     FOREIGN KEY (movie_id) REFERENCES movies(id)
 );
 
--- Create indexes for better performance
+ Create indexes for better performance
 CREATE INDEX idx_movies_imdb_id ON movies(imdb_id);
 CREATE INDEX idx_ratings_movie_id ON ratings(movie_id);
 CREATE INDEX idx_ratings_user_ip ON ratings(user_ip);
