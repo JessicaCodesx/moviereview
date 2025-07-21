@@ -50,13 +50,13 @@ require_once CONFIG_PATH . '/app.php';
 require_once CONFIG_PATH . '/database.php';
 
 // Load core classes
-require_once APP_PATH . '/core/Database.php';
-require_once APP_PATH . '/core/Router.php';
-require_once APP_PATH . '/core/APIClient.php';
+require_once APP_PATH . '/core/database.php';
+require_once APP_PATH . '/core/router.php';
+require_once APP_PATH . '/core/apiclient.php';
 
 // Load base classes
-require_once APP_PATH . '/models/BaseModel.php';
-require_once APP_PATH . '/controllers/BaseController.php';
+require_once APP_PATH . '/models/basemodel.php';
+require_once APP_PATH . '/controllers/basecontroller.php';
 
 try {
     // Initialize database
