@@ -141,12 +141,12 @@ class AuthController extends BaseController {
         ]);
     }
 
-    private function isLoggedIn() {
+    protected function isLoggedIn() {
         return isset($_SESSION['user']) && !empty($_SESSION['user']['id']);
     }
 
 
-    
+
     public function changePassword() {
         if (!$this->isLoggedIn()) {
             $this->jsonResponse(['error' => 'Authentication required'], 401);
