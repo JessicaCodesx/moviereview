@@ -14,6 +14,18 @@ class Router {
         $this->addRoute('POST', $path, $handler);
     }
 
+    public function put($path, $handler) {
+        $this->addRoute('PUT', $path, $handler);
+    }
+
+    public function delete($path, $handler) {
+        $this->addRoute('DELETE', $path, $handler);
+    }
+
+    public function patch($path, $handler) {
+        $this->addRoute('PATCH', $path, $handler);
+    }
+
     private function addRoute($method, $path, $handler) {
         $this->routes[] = [
             'method' => $method,
@@ -23,7 +35,7 @@ class Router {
     }
 
     public function dispatch() {
-        $requestMethod = $_SERVER['REQUEST_METHOD'];
+        $requestMethod = $this->getRequestMethod();
         $requestPath = $this->getCurrentPath();
 
         foreach ($this->routes as $route) {
@@ -35,7 +47,28 @@ class Router {
 
         // No route found
         http_response_code(404);
-        echo "Page not found";
+
+        // Check if it's an AJAX request
+        $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
+                  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+
+        if ($isAjax) {
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Route not found']);
+        } else {
+            echo "Page not found";
+        }
+    }
+
+    private function getRequestMethod() {
+        $method = $_SERVER['REQUEST_METHOD'];
+
+        // Handle method override for browsers that don't support PUT/DELETE
+        if ($method === 'POST' && isset($_POST['_method'])) {
+            $method = strtoupper($_POST['_method']);
+        }
+
+        return $method;
     }
 
     private function getCurrentPath() {
@@ -58,8 +91,18 @@ class Router {
                 require_once $controllerFile;
             }
 
-            $controller = new $class();
-            $controller->$method();
+            if (class_exists($class)) {
+                $controller = new $class();
+                if (method_exists($controller, $method)) {
+                    $controller->$method();
+                } else {
+                    http_response_code(500);
+                    echo "Method {$method} not found in {$class}";
+                }
+            } else {
+                http_response_code(500);
+                echo "Controller class {$class} not found";
+            }
         }
     }
 }
