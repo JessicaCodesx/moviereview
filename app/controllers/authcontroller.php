@@ -144,4 +144,127 @@ class AuthController extends BaseController {
     private function isLoggedIn() {
         return isset($_SESSION['user']) && !empty($_SESSION['user']['id']);
     }
-}
+
+
+    
+    public function changePassword() {
+        if (!$this->isLoggedIn()) {
+            $this->jsonResponse(['error' => 'Authentication required'], 401);
+            return;
+        }
+
+        try {
+            $currentPassword = $_POST['current_password'] ?? '';
+            $newPassword = $_POST['new_password'] ?? '';
+            $confirmPassword = $_POST['confirm_password'] ?? '';
+
+            // Validation
+            if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
+                $this->jsonResponse(['error' => 'All fields are required'], 400);
+                return;
+            }
+
+            if ($newPassword !== $confirmPassword) {
+                $this->jsonResponse(['error' => 'New passwords do not match'], 400);
+                return;
+            }
+
+            if (strlen($newPassword) < 6) {
+                $this->jsonResponse(['error' => 'New password must be at least 6 characters long'], 400);
+                return;
+            }
+
+            $userId = $_SESSION['user']['id'];
+
+            // Verify current password
+            if (!$this->userModel->verifyPassword($userId, $currentPassword)) {
+                $this->jsonResponse(['error' => 'Current password is incorrect'], 400);
+                return;
+            }
+
+            // Update password
+            $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+            $success = $this->userModel->update($userId, ['password' => $hashedPassword]);
+
+            if ($success) {
+                // Log the activity
+                $this->logUserActivity('password_changed');
+
+                $this->jsonResponse([
+                    'success' => true,
+                    'message' => 'Password updated successfully'
+                ]);
+            } else {
+                $this->jsonResponse(['error' => 'Failed to update password'], 500);
+            }
+
+        } catch (\Exception $e) {
+            $this->jsonResponse(['error' => 'Password change failed: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function deleteAccount() {
+        if (!$this->isLoggedIn()) {
+            $this->jsonResponse(['error' => 'Authentication required'], 401);
+            return;
+        }
+
+        try {
+            $password = $_POST['password'] ?? '';
+            $confirmation = $_POST['confirmation'] ?? '';
+
+            if (empty($password) || $confirmation !== 'DELETE') {
+                $this->jsonResponse(['error' => 'Invalid confirmation'], 400);
+                return;
+            }
+
+            $userId = $_SESSION['user']['id'];
+
+            // Verify password
+            if (!$this->userModel->verifyPassword($userId, $password)) {
+                $this->jsonResponse(['error' => 'Incorrect password'], 400);
+                return;
+            }
+
+            // Delete user account (cascade will handle related data)
+            $success = $this->userModel->delete($userId);
+
+            if ($success) {
+                // Log the activity before destroying session
+                $this->logUserActivity('account_deleted');
+
+                // Destroy session
+                session_destroy();
+
+                $this->jsonResponse([
+                    'success' => true,
+                    'message' => 'Account deleted successfully'
+                ]);
+            } else {
+                $this->jsonResponse(['error' => 'Failed to delete account'], 500);
+            }
+
+        } catch (\Exception $e) {
+            $this->jsonResponse(['error' => 'Account deletion failed: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function getUserStats() {
+        if (!$this->isLoggedIn()) {
+            $this->jsonResponse(['error' => 'Authentication required'], 401);
+            return;
+        }
+
+        try {
+            $userId = $_SESSION['user']['id'];
+            $stats = $this->userModel->getUserStats($userId);
+
+            $this->jsonResponse([
+                'success' => true,
+                'stats' => $stats
+            ]);
+
+        } catch (\Exception $e) {
+            $this->jsonResponse(['error' => 'Failed to get user stats: ' . $e->getMessage()], 500);
+        }
+    }
