@@ -1,3 +1,6 @@
+<?php
+// config/env.php - Environment Variable Validator
+
 class EnvValidator {
     private static $requiredVars = [
         'DB_HOST' => 'Database host (e.g., your-filess-io-host)',
@@ -68,6 +71,32 @@ class EnvValidator {
             'optional_vars' => self::$optionalVars,
             'errors' => $errors,
             'is_valid' => empty($missingVars) && empty($errors)
+        ];
+    }
+
+    public static function getSetupInstructions() {
+        return [
+            'replit' => [
+                'title' => 'Setting up Environment Variables in Replit',
+                'steps' => [
+                    '1. Open your Replit project',
+                    '2. Click on the "Secrets" tab in the left sidebar (lock icon)',
+                    '3. Add each required environment variable:',
+                    '   - Key: Variable name (e.g., DB_HOST)',
+                    '   - Value: Your actual value (e.g., your-filess-io-host)',
+                    '4. Click "Add new secret" for each variable',
+                    '5. Restart your Replit after adding all secrets'
+                ]
+            ],
+            'local' => [
+                'title' => 'Setting up Environment Variables Locally',
+                'steps' => [
+                    '1. Create a .env file in your project root',
+                    '2. Add your environment variables in KEY=VALUE format',
+                    '3. Load the .env file in your application',
+                    '4. Never commit the .env file to version control'
+                ]
+            ]
         ];
     }
 }
