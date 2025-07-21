@@ -48,7 +48,7 @@ class MovieApp {
         const resultsDiv = document.getElementById('searchResults');
 
         if (data.Response === 'False') {
-            resultsDiv.innerHTML = '<p>No movies found. Try a different search term.</p>';
+            resultsDiv.innerHTML = '<div class="empty-state"><p>No movies found. Try a different search term.</p></div>';
             return;
         }
 
@@ -56,9 +56,11 @@ class MovieApp {
             const poster = movie.Poster !== 'N/A' ? movie.Poster : '/public/assets/images/no-image.png';
             return `
                 <div class="movie-card" onclick="movieAppInstance.loadMovieDetails('${movie.imdbID}')">
-                    <img src="${poster}" alt="${movie.Title}" onerror="this.src='/public/assets/images/no-image.png'">
+                    <div class="movie-poster">
+                        <img src="${poster}" alt="${movie.Title}" onerror="this.src='/public/assets/images/no-image.png'">
+                    </div>
                     <div class="movie-card-info">
-                        <h3>${movie.Title}</h3>
+                        <h3>${this.escapeHtml(movie.Title)}</h3>
                         <p>${movie.Year}</p>
                     </div>
                 </div>
@@ -84,32 +86,63 @@ class MovieApp {
             }
 
             this.currentMovieId = movie.id;
-            this.displayMovieDetails(movie);
+            await this.displayMovieDetails(movie);
 
         } catch (error) {
             this.showError(detailsDiv, error.message);
         }
     }
 
-    displayMovieDetails(movie) {
+    async displayMovieDetails(movie) {
         const detailsDiv = document.getElementById('movieDetails');
         const poster = movie.poster !== 'N/A' ? movie.poster : '/public/assets/images/no-image.png';
+
+        // Get movie status if user is logged in
+        let movieStatus = { in_watchlist: false, is_watched: false };
+        if (window.authState && window.authState.isLoggedIn) {
+            try {
+                const statusResponse = await this.makeRequest('/api/movie/status', {
+                    method: 'POST',
+                    body: this.createFormData({ movieId: movie.id })
+                });
+                if (statusResponse.ok) {
+                    movieStatus = await statusResponse.json();
+                }
+            } catch (error) {
+                console.warn('Failed to get movie status:', error);
+            }
+        }
 
         detailsDiv.innerHTML = `
             <div class="movie-header">
                 <div class="movie-poster">
-                    <img src="${poster}" alt="${movie.title}">
+                    <img src="${poster}" alt="${this.escapeHtml(movie.title)}">
                 </div>
                 <div class="movie-info">
-                    <h2>${movie.title} (${movie.year})</h2>
+                    <h2>${this.escapeHtml(movie.title)} (${movie.year})</h2>
                     <div class="movie-meta">
-                        <span class="meta-item">📽️ ${movie.director}</span>
-                        <span class="meta-item">🎭 ${movie.genre}</span>
+                        <span class="meta-item">📽️ ${this.escapeHtml(movie.director)}</span>
+                        <span class="meta-item">🎭 ${this.escapeHtml(movie.genre)}</span>
                         <span class="meta-item">⏱️ ${movie.runtime}</span>
-                        <span class="meta-item">⭐ IMDB: ${movie.rating}</span>
+                        <span class="meta-item">⭐ IMDb: ${movie.rating}</span>
                     </div>
-                    <p class="movie-plot">${movie.plot}</p>
-                    <p><strong>Starring:</strong> ${movie.actors}</p>
+                    <p class="movie-plot">${this.escapeHtml(movie.plot)}</p>
+                    <p><strong>Starring:</strong> ${this.escapeHtml(movie.actors)}</p>
+
+                    ${window.authState && window.authState.isLoggedIn ? `
+                        <div class="movie-actions">
+                            <button onclick="movieAppInstance.toggleWatchlist(${movie.id}, ${movieStatus.in_watchlist})" 
+                                    class="btn ${movieStatus.in_watchlist ? 'btn-secondary' : 'btn-primary'}" 
+                                    id="watchlistBtn">
+                                ${movieStatus.in_watchlist ? '📝 Remove from Watchlist' : '📝 Add to Watchlist'}
+                            </button>
+                            <button onclick="movieAppInstance.toggleWatched(${movie.id}, ${movieStatus.is_watched})" 
+                                    class="btn ${movieStatus.is_watched ? 'btn-secondary' : 'btn-success'}" 
+                                    id="watchedBtn">
+                                ${movieStatus.is_watched ? '✅ Mark as Unwatched' : '✅ Mark as Watched'}
+                            </button>
+                        </div>
+                    ` : ''}
                 </div>
             </div>
 
@@ -124,6 +157,7 @@ class MovieApp {
                     </div>
                     <div class="rating-info" id="ratingInfo">
                         Average: ${movie.ratings.average}/5 (${movie.ratings.count} rating${movie.ratings.count !== 1 ? 's' : ''})
+                        ${movie.user_rating ? `<br><small>Your rating: ${movie.user_rating}/5</small>` : ''}
                     </div>
                 </div>
             </div>
@@ -136,6 +170,82 @@ class MovieApp {
 
         // Add hover effects to stars
         this.setupStarHoverEffects();
+    }
+
+    async toggleWatchlist(movieId, isInWatchlist) {
+        if (!window.authState || !window.authState.isLoggedIn) {
+            alert('Please login to manage your watchlist');
+            return;
+        }
+
+        const endpoint = isInWatchlist ? '/api/watchlist/remove' : '/api/watchlist/add';
+        const btn = document.getElementById('watchlistBtn');
+        const originalText = btn.textContent;
+
+        btn.disabled = true;
+        btn.textContent = isInWatchlist ? 'Removing...' : 'Adding...';
+
+        try {
+            const response = await this.makeRequest(endpoint, {
+                method: 'POST',
+                body: this.createFormData({ movieId })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                btn.textContent = isInWatchlist ? '📝 Add to Watchlist' : '📝 Remove from Watchlist';
+                btn.className = isInWatchlist ? 'btn btn-primary' : 'btn btn-secondary';
+                btn.onclick = () => this.toggleWatchlist(movieId, !isInWatchlist);
+
+                this.showToast(data.message, 'success');
+            } else {
+                throw new Error(data.error);
+            }
+        } catch (error) {
+            btn.textContent = originalText;
+            this.showToast(error.message, 'error');
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    async toggleWatched(movieId, isWatched) {
+        if (!window.authState || !window.authState.isLoggedIn) {
+            alert('Please login to track watched movies');
+            return;
+        }
+
+        const endpoint = isWatched ? '/api/movie/unwatch' : '/api/movie/watch';
+        const btn = document.getElementById('watchedBtn');
+        const originalText = btn.textContent;
+
+        btn.disabled = true;
+        btn.textContent = isWatched ? 'Unmarking...' : 'Marking...';
+
+        try {
+            const response = await this.makeRequest(endpoint, {
+                method: 'POST',
+                body: this.createFormData({ movieId })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                btn.textContent = isWatched ? '✅ Mark as Watched' : '✅ Mark as Unwatched';
+                btn.className = isWatched ? 'btn btn-success' : 'btn btn-secondary';
+                btn.onclick = () => this.toggleWatched(movieId, !isWatched);
+
+                this.showToast(data.message, 'success');
+            } else {
+                throw new Error(data.error);
+            }
+        } catch (error) {
+            btn.textContent = originalText;
+            this.showToast(error.message, 'error');
+        } finally {
+            btn.disabled = false;
+        }
     }
 
     setupStarHoverEffects() {
@@ -182,18 +292,22 @@ class MovieApp {
 
             if (data.success) {
                 // Update rating display
-                document.getElementById('ratingInfo').innerHTML = 
-                    `Average: ${data.ratings.average}/5 (${data.ratings.count} rating${data.ratings.count !== 1 ? 's' : ''})`;
+                const ratingInfo = document.getElementById('ratingInfo');
+                ratingInfo.innerHTML = 
+                    `Average: ${data.ratings.average}/5 (${data.ratings.count} rating${data.ratings.count !== 1 ? 's' : ''})`
+                    + (data.user_rating ? `<br><small>Your rating: ${data.user_rating}/5</small>` : '');
 
                 // Highlight selected stars
                 const stars = document.querySelectorAll('.star');
                 stars.forEach((star, index) => {
                     star.classList.toggle('active', index < rating);
                 });
+
+                this.showToast('Rating saved successfully!', 'success');
             }
 
         } catch (error) {
-            this.showError(document.getElementById('ratingInfo'), error.message);
+            this.showToast(error.message, 'error');
         }
     }
 
@@ -216,7 +330,7 @@ class MovieApp {
             }
 
             if (data.review) {
-                reviewDiv.innerHTML = `<h4>AI-Generated Review:</h4><p>${data.review}</p>`;
+                reviewDiv.innerHTML = `<h4>AI-Generated Review:</h4><p>${this.escapeHtml(data.review)}</p>`;
             }
 
         } catch (error) {
@@ -255,15 +369,71 @@ class MovieApp {
     }
 
     showError(element, message) {
-        element.innerHTML = `<div class="error">Error: ${message}</div>`;
+        element.innerHTML = `<div class="error">Error: ${this.escapeHtml(message)}</div>`;
     }
 
     showSuccess(element, message) {
-        element.innerHTML = `<div class="success">${message}</div>`;
+        element.innerHTML = `<div class="success">${this.escapeHtml(message)}</div>`;
+    }
+
+    showToast(message, type = 'info') {
+        // Create toast element
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.textContent = message;
+
+        // Add styles
+        Object.assign(toast.style, {
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            padding: '16px 20px',
+            borderRadius: '8px',
+            color: 'white',
+            fontWeight: '600',
+            zIndex: '10000',
+            transform: 'translateX(400px)',
+            transition: 'transform 0.3s ease',
+            maxWidth: '300px',
+            wordWrap: 'break-word'
+        });
+
+        // Set background color based on type
+        const colors = {
+            success: '#48bb78',
+            error: '#f56565',
+            warning: '#ed8936',
+            info: '#4299e1'
+        };
+        toast.style.backgroundColor = colors[type] || colors.info;
+
+        // Add to DOM
+        document.body.appendChild(toast);
+
+        // Animate in
+        setTimeout(() => {
+            toast.style.transform = 'translateX(0)';
+        }, 100);
+
+        // Remove after delay
+        setTimeout(() => {
+            toast.style.transform = 'translateX(400px)';
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 300);
+        }, 3000);
+    }
+
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
     }
 }
 
-// Initialize the app with a different name to avoid conflicts
+// Initialize the app
 const movieAppInstance = new MovieApp();
 
 // For backward compatibility, also expose methods globally
