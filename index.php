@@ -66,13 +66,37 @@ try {
     // Initialize router
     $router = new Core\Router();
 
-    // Define routes
+    // Public routes
     $router->get('/', 'Controllers\MovieController@index');
     $router->get('/health', 'Controllers\HealthController@check');
+
+    // Authentication routes
+    $router->get('/login', 'Controllers\AuthController@loginPage');
+    $router->get('/register', 'Controllers\AuthController@registerPage');
+    $router->post('/api/auth/login', 'Controllers\AuthController@login');
+    $router->post('/api/auth/register', 'Controllers\AuthController@register');
+    $router->post('/api/auth/logout', 'Controllers\AuthController@logout');
+    $router->get('/api/auth/check', 'Controllers\AuthController@checkAuth');
+    $router->get('/logout', 'Controllers\AuthController@logout');
+
+    // User dashboard routes
+    $router->get('/dashboard', 'Controllers\UserController@dashboard');
+    $router->get('/profile', 'Controllers\AuthController@profile');
+    $router->get('/watchlist', 'Controllers\UserController@watchlist');
+    $router->get('/watched', 'Controllers\UserController@watchedMovies');
+
+    // Movie API routes
     $router->post('/api/search', 'Controllers\MovieController@search');
     $router->post('/api/movie', 'Controllers\MovieController@getMovie');
     $router->post('/api/rate', 'Controllers\RatingController@addRating');
     $router->post('/api/review', 'Controllers\ReviewController@generateReview');
+
+    // User functionality API routes
+    $router->post('/api/watchlist/add', 'Controllers\UserController@addToWatchlist');
+    $router->post('/api/watchlist/remove', 'Controllers\UserController@removeFromWatchlist');
+    $router->post('/api/movie/watch', 'Controllers\UserController@markWatched');
+    $router->post('/api/movie/unwatch', 'Controllers\UserController@unmarkWatched');
+    $router->post('/api/movie/status', 'Controllers\UserController@getMovieStatus');
 
     // Process request
     $router->dispatch();
@@ -85,7 +109,38 @@ try {
         echo '<pre>Debug Error: ' . $e->getMessage() . "\n" . $e->getTraceAsString() . '</pre>';
     } else {
         http_response_code(500);
-        echo json_encode(['error' => 'Internal server error']);
+
+        // Check if it's an AJAX request
+        $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
+                  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+
+        if ($isAjax) {
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Internal server error']);
+        } else {
+            echo '<!DOCTYPE html>
+            <html>
+            <head>
+                <title>Error - Movie Review Hub</title>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <style>
+                    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+                    .error-container { max-width: 600px; margin: 0 auto; }
+                    h1 { color: #e53e3e; }
+                    p { color: #666; margin-bottom: 20px; }
+                    a { color: #667eea; text-decoration: none; }
+                    a:hover { text-decoration: underline; }
+                </style>
+            </head>
+            <body>
+                <div class="error-container">
+                    <h1>🎬 Oops! Something went wrong</h1>
+                    <p>We\'re experiencing some technical difficulties. Please try again later.</p>
+                    <a href="/">← Back to Home</a>
+                </div>
+            </body>
+            </html>';
+        }
     }
 }
 
