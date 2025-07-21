@@ -76,13 +76,28 @@ class Database {
 
     public function initializeTables() {
         try {
+            $this->createUsersTable();
             $this->createMoviesTable();
             $this->createRatingsTable();
             $this->createReviewsTable();
+            $this->createWatchlistTable();
+            $this->createUserMoviesTable();
             $this->createIndexes();
         } catch (\PDOException $e) {
             throw new \Exception("Failed to initialize database tables: " . $e->getMessage());
         }
+    }
+
+    private function createUsersTable() {
+        $sql = "CREATE TABLE IF NOT EXISTS users (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            username VARCHAR(50) UNIQUE NOT NULL,
+            password VARCHAR(255) NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            last_login TIMESTAMP NULL,
+            INDEX idx_username (username)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        $this->connection->exec($sql);
     }
 
     private function createMoviesTable() {
@@ -105,14 +120,18 @@ class Database {
     }
 
     private function createRatingsTable() {
+        // Updated to support both user_id and user_ip for backwards compatibility
         $sql = "CREATE TABLE IF NOT EXISTS ratings (
             id INT AUTO_INCREMENT PRIMARY KEY,
             movie_id INT,
+            user_id INT NULL,
             rating INT CHECK (rating >= 1 AND rating <= 5),
             user_ip VARCHAR(45),
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE,
-            UNIQUE KEY unique_user_movie (movie_id, user_ip)
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            UNIQUE KEY unique_user_movie (movie_id, user_id),
+            UNIQUE KEY unique_ip_movie (movie_id, user_ip)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
         $this->connection->exec($sql);
     }
@@ -128,17 +147,57 @@ class Database {
         $this->connection->exec($sql);
     }
 
+    private function createWatchlistTable() {
+        $sql = "CREATE TABLE IF NOT EXISTS watchlist (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id INT,
+            movie_id INT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE,
+            UNIQUE KEY unique_user_watchlist (user_id, movie_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        $this->connection->exec($sql);
+    }
+
+    private function createUserMoviesTable() {
+        $sql = "CREATE TABLE IF NOT EXISTS user_movies (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id INT,
+            movie_id INT,
+            status ENUM('watched', 'want_to_watch') DEFAULT 'watched',
+            watched_at TIMESTAMP NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE,
+            UNIQUE KEY unique_user_movie_status (user_id, movie_id, status)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        $this->connection->exec($sql);
+    }
+
     private function createIndexes() {
         $indexes = [
             "CREATE INDEX IF NOT EXISTS idx_movies_imdb_id ON movies(imdb_id)",
             "CREATE INDEX IF NOT EXISTS idx_movies_title ON movies(title)",
+            "CREATE INDEX IF NOT EXISTS idx_movies_genre ON movies(genre)",
             "CREATE INDEX IF NOT EXISTS idx_ratings_movie_id ON ratings(movie_id)",
+            "CREATE INDEX IF NOT EXISTS idx_ratings_user_id ON ratings(user_id)",
             "CREATE INDEX IF NOT EXISTS idx_ratings_user_ip ON ratings(user_ip)",
-            "CREATE INDEX IF NOT EXISTS idx_reviews_movie_id ON ai_reviews(movie_id)"
+            "CREATE INDEX IF NOT EXISTS idx_reviews_movie_id ON ai_reviews(movie_id)",
+            "CREATE INDEX IF NOT EXISTS idx_watchlist_user_id ON watchlist(user_id)",
+            "CREATE INDEX IF NOT EXISTS idx_watchlist_movie_id ON watchlist(movie_id)",
+            "CREATE INDEX IF NOT EXISTS idx_user_movies_user_id ON user_movies(user_id)",
+            "CREATE INDEX IF NOT EXISTS idx_user_movies_status ON user_movies(status)",
+            "CREATE INDEX IF NOT EXISTS idx_user_movies_watched_at ON user_movies(watched_at)"
         ];
 
         foreach ($indexes as $sql) {
-            $this->connection->exec($sql);
+            try {
+                $this->connection->exec($sql);
+            } catch (\PDOException $e) {
+                // Ignore index creation errors (might already exist)
+                continue;
+            }
         }
     }
 }
