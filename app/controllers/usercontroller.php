@@ -198,7 +198,7 @@ class UserController extends BaseController {
         }
     }
 
-    private function isLoggedIn() {
+    protected function isLoggedIn() {
         return isset($_SESSION['user']) && !empty($_SESSION['user']['id']);
     }
 }
