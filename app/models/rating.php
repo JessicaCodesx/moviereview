@@ -1,4 +1,4 @@
-
+<?php
 namespace Models;
 
 class Rating extends BaseModel {

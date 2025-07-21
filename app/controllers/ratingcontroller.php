@@ -1,3 +1,5 @@
+<?php
+
 namespace Controllers;
 
 use Models\Rating;

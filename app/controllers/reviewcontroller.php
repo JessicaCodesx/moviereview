@@ -1,3 +1,4 @@
+<?php
 namespace Controllers;
 
 use Models\Review;

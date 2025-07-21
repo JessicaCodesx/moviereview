@@ -1,3 +1,4 @@
+<?php
 namespace Models;
 
 use Core\APIClient;
