@@ -1,4 +1,3 @@
-
 class MovieApp {
     constructor() {
         this.currentMovieId = null;
@@ -56,7 +55,7 @@ class MovieApp {
         resultsDiv.innerHTML = data.Search.map(movie => {
             const poster = movie.Poster !== 'N/A' ? movie.Poster : '/public/assets/images/no-image.png';
             return `
-                <div class="movie-card" onclick="MovieApp.loadMovieDetails('${movie.imdbID}')">
+                <div class="movie-card" onclick="movieAppInstance.loadMovieDetails('${movie.imdbID}')">
                     <img src="${poster}" alt="${movie.Title}" onerror="this.src='/public/assets/images/no-image.png'">
                     <div class="movie-card-info">
                         <h3>${movie.Title}</h3>
@@ -120,7 +119,7 @@ class MovieApp {
                     <div class="stars">
                         ${[1,2,3,4,5].map(i => 
                             `<span class="star ${i <= (movie.user_rating || 0) ? 'active' : ''}" 
-                                   data-rating="${i}" onclick="MovieApp.rateMovie(${i})">⭐</span>`
+                                   data-rating="${i}" onclick="movieAppInstance.rateMovie(${i})">⭐</span>`
                         ).join('')}
                     </div>
                     <div class="rating-info" id="ratingInfo">
@@ -130,7 +129,7 @@ class MovieApp {
             </div>
 
             <div class="review-section">
-                <button onclick="MovieApp.generateReview(${movie.id})" class="btn">📝 Get AI Review</button>
+                <button onclick="movieAppInstance.generateReview(${movie.id})" class="btn">📝 Get AI Review</button>
                 <div id="reviewContent" class="review-content"></div>
             </div>
         `;
@@ -264,5 +263,13 @@ class MovieApp {
     }
 }
 
-// Initialize the app
-const MovieApp = new MovieApp();
+// Initialize the app with a different name to avoid conflicts
+const movieAppInstance = new MovieApp();
+
+// For backward compatibility, also expose methods globally
+window.MovieApp = {
+    searchMovies: () => movieAppInstance.searchMovies(),
+    loadMovieDetails: (imdbId) => movieAppInstance.loadMovieDetails(imdbId),
+    rateMovie: (rating) => movieAppInstance.rateMovie(rating),
+    generateReview: (movieId) => movieAppInstance.generateReview(movieId)
+};
