@@ -268,3 +268,4 @@ class AuthController extends BaseController {
             $this->jsonResponse(['error' => 'Failed to get user stats: ' . $e->getMessage()], 500);
         }
     }
+}

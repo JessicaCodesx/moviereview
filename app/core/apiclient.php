@@ -44,6 +44,10 @@ class APIClient {
     }
 
     public function generateReview($prompt) {
+        // Updated API endpoint for the current Gemini API
+        $model = 'gemini-2.5-flash';
+        $url = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent";
+
         $data = [
             'contents' => [
                 [
@@ -51,8 +55,19 @@ class APIClient {
                         ['text' => $prompt]
                     ]
                 ]
+            ],
+            'generationConfig' => [
+                'temperature' => 0.7,
+                'maxOutputTokens' => 1024,
+                'topP' => 0.8,
+                'topK' => 40
             ]
         ];
+
+        $postData = json_encode($data);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception("JSON encoding error: " . json_last_error_msg());
+        }
 
         $options = [
             'http' => [
@@ -61,24 +76,58 @@ class APIClient {
                     'x-goog-api-key: ' . $this->config['gemini_api_key']
                 ],
                 'method' => 'POST',
-                'content' => json_encode($data),
-                'timeout' => 30
+                'content' => $postData,
+                'timeout' => 30,
+                'ignore_errors' => true
             ]
         ];
 
         $context = stream_context_create($options);
-        $response = @file_get_contents($this->config['gemini_api_url'], false, $context);
+        $response = @file_get_contents($url, false, $context);
 
-        if ($response) {
-            $result = json_decode($response, true);
-            if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
-                return $result['candidates'][0]['content']['parts'][0]['text'];
-            } else if (isset($result['error'])) {
-                throw new \Exception("Gemini API error: " . $result['error']['message']);
+        // Log the response for debugging
+        error_log("Gemini API Response: " . $response);
+
+        if ($response === false) {
+            $error = error_get_last();
+            throw new \Exception("Failed to make request to Gemini API: " . ($error['message'] ?? 'Unknown error'));
+        }
+
+        // Check HTTP status code
+        if (isset($http_response_header)) {
+            $statusLine = $http_response_header[0] ?? '';
+            if (strpos($statusLine, '200') === false) {
+                error_log("Gemini API HTTP Error: " . $statusLine);
+                error_log("Gemini API Response Body: " . $response);
+                throw new \Exception("Gemini API HTTP Error: " . $statusLine);
             }
         }
 
-        return null;
+        $result = json_decode($response, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception("Invalid JSON response from Gemini API: " . json_last_error_msg());
+        }
+
+        // Check for API errors
+        if (isset($result['error'])) {
+            $errorMessage = $result['error']['message'] ?? 'Unknown API error';
+            $errorCode = $result['error']['code'] ?? 'UNKNOWN';
+            throw new \Exception("Gemini API error [{$errorCode}]: {$errorMessage}");
+        }
+
+        // Extract the generated text
+        if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
+            return trim($result['candidates'][0]['content']['parts'][0]['text']);
+        }
+
+        // Check for blocked content
+        if (isset($result['candidates'][0]['finishReason']) && 
+            $result['candidates'][0]['finishReason'] === 'SAFETY') {
+            throw new \Exception("Content was blocked by safety filters");
+        }
+
+        error_log("Unexpected Gemini API response structure: " . $response);
+        throw new \Exception("Unexpected response format from Gemini API");
     }
 
     public function testGemini() {
@@ -89,7 +138,7 @@ class APIClient {
             if ($response && stripos($response, 'API test successful') !== false) {
                 return ['status' => 'ok', 'service' => 'Gemini AI'];
             } else {
-                return ['status' => 'error', 'service' => 'Gemini AI', 'error' => 'Unexpected response'];
+                return ['status' => 'error', 'service' => 'Gemini AI', 'error' => 'Unexpected response: ' . $response];
             }
         } catch (\Exception $e) {
             return ['status' => 'error', 'service' => 'Gemini AI', 'error' => $e->getMessage()];
@@ -100,7 +149,8 @@ class APIClient {
         $context = stream_context_create([
             'http' => [
                 'timeout' => 30,
-                'user_agent' => 'Movie Review Hub/1.0'
+                'user_agent' => 'Movie Review Hub/1.0',
+                'ignore_errors' => true
             ]
         ]);
 
@@ -110,6 +160,11 @@ class APIClient {
             throw new \Exception("Failed to make HTTP request to: " . parse_url($url, PHP_URL_HOST));
         }
 
-        return json_decode($response, true);
+        $result = json_decode($response, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception("Invalid JSON response from API");
+        }
+
+        return $result;
     }
 }
