@@ -1,4 +1,8 @@
--- 2. Create the movies table
+-- ===========================
+-- DATABASE SETUP SCRIPT 
+-- ===========================
+
+-- 1. Create the movies table (must exist before ratings, watchlist, etc.)
 CREATE TABLE IF NOT EXISTS movies (
     id INT AUTO_INCREMENT PRIMARY KEY,
     imdb_id VARCHAR(20) UNIQUE,
@@ -12,9 +16,18 @@ CREATE TABLE IF NOT EXISTS movies (
     runtime VARCHAR(50),
     rating VARCHAR(10),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 3. Create the ratings table
+-- Create indexes for better performance on movies
+CREATE INDEX idx_movies_imdb_id ON movies(imdb_id);
+CREATE INDEX idx_movies_title ON movies(title);
+CREATE INDEX idx_movies_genre ON movies(genre);
+CREATE INDEX idx_movies_year ON movies(year);
+CREATE INDEX idx_movies_rating ON movies(rating);
+
+-- =========================================
+
+-- 2. Create the ratings table (initial structure)
 CREATE TABLE IF NOT EXISTS ratings (
     id INT AUTO_INCREMENT PRIMARY KEY,
     movie_id INT,
@@ -23,25 +36,142 @@ CREATE TABLE IF NOT EXISTS ratings (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (movie_id) REFERENCES movies(id),
     UNIQUE KEY unique_user_movie (movie_id, user_ip)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 4. Create the AI reviews table
+-- Create indexes for ratings
+CREATE INDEX idx_ratings_movie_id ON ratings(movie_id);
+CREATE INDEX idx_ratings_user_ip ON ratings(user_ip);
+
+-- =========================================
+
+-- 3. Create the AI reviews table
 CREATE TABLE IF NOT EXISTS ai_reviews (
     id INT AUTO_INCREMENT PRIMARY KEY,
     movie_id INT,
     review TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (movie_id) REFERENCES movies(id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
- Create indexes for better performance
-CREATE INDEX idx_movies_imdb_id ON movies(imdb_id);
-CREATE INDEX idx_ratings_movie_id ON ratings(movie_id);
-CREATE INDEX idx_ratings_user_ip ON ratings(user_ip);
+-- Create index for AI reviews
 CREATE INDEX idx_reviews_movie_id ON ai_reviews(movie_id);
 
--- Verify tables were created successfully
+-- =========================================
+
+-- 4. Create the users table
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_login TIMESTAMP NULL,
+    INDEX idx_username (username)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- =========================================
+
+-- 5. Alter ratings to support logged-in users
+ALTER TABLE ratings 
+    ADD COLUMN user_id INT NULL AFTER movie_id,
+    ADD CONSTRAINT fk_ratings_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+-- Remove old unique constraint on movie+IP
+ALTER TABLE ratings DROP INDEX unique_user_movie;
+
+-- Add new constraints for logged-in users & anonymous users
+ALTER TABLE ratings 
+    ADD UNIQUE KEY unique_user_movie (movie_id, user_id),
+    ADD UNIQUE KEY unique_ip_movie (movie_id, user_ip);
+
+-- Add index for user_id in ratings
+CREATE INDEX idx_ratings_user_id ON ratings(user_id);
+
+-- =========================================
+
+-- 6. Create the watchlist table
+CREATE TABLE IF NOT EXISTS watchlist (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    movie_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_user_watchlist (user_id, movie_id),
+    INDEX idx_watchlist_user_id (user_id),
+    INDEX idx_watchlist_movie_id (movie_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- =========================================
+
+-- 7. Create the user_movies table (tracks watched / want-to-watch)
+CREATE TABLE IF NOT EXISTS user_movies (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    movie_id INT NOT NULL,
+    status ENUM('watched', 'want_to_watch') DEFAULT 'watched',
+    watched_at TIMESTAMP NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_user_movie_status (user_id, movie_id, status),
+    INDEX idx_user_movies_user_id (user_id),
+    INDEX idx_user_movies_status (status),
+    INDEX idx_user_movies_watched_at (watched_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- =========================================
+
+-- 8. Add updated_at column to movies (if it doesn’t already exist)
+ALTER TABLE movies 
+    ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+-- =========================================
+
+-- 9. Create a view for user statistics
+CREATE OR REPLACE VIEW user_stats AS
+SELECT 
+    u.id AS user_id,
+    u.username,
+    COUNT(DISTINCT r.id) AS total_ratings,
+    AVG(r.rating) AS avg_rating,
+    COUNT(DISTINCT w.id) AS watchlist_count,
+    COUNT(DISTINCT um.id) AS watched_count,
+    u.created_at AS member_since,
+    u.last_login
+FROM users u
+LEFT JOIN ratings r ON u.id = r.user_id
+LEFT JOIN watchlist w ON u.id = w.user_id
+LEFT JOIN user_movies um ON u.id = um.user_id AND um.status = 'watched'
+GROUP BY u.id;
+
+-- =========================================
+
+-- 10. (Optional) Insert sample test users
+/*
+INSERT IGNORE INTO users (username, password) VALUES 
+('testuser', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'),
+('moviefan', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'),
+('cinephile', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi');
+*/
+
+-- =========================================
+
+-- 11. Verify everything
 SHOW TABLES;
+
 DESCRIBE movies;
 DESCRIBE ratings;
 DESCRIBE ai_reviews;
+DESCRIBE users;
+DESCRIBE watchlist;
+DESCRIBE user_movies;
+
+SELECT 
+    TABLE_NAME,
+    CONSTRAINT_NAME,
+    CONSTRAINT_TYPE
+FROM information_schema.TABLE_CONSTRAINTS 
+WHERE TABLE_SCHEMA = DATABASE()
+  AND TABLE_NAME IN ('users', 'ratings', 'watchlist', 'user_movies');
+
+DESCRIBE user_stats;
