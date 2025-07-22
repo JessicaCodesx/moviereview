@@ -1,177 +1,188 @@
 <?php
-// app/views/pages/features.php
+// app/views/pages/about.php
 ?>
-<div class="features-container">
-    <div class="features-hero">
+<div class="about-container">
+    <div class="about-hero">
         <div class="hero-content">
-            <h1>🌟 Powerful Features</h1>
-            <p class="hero-subtitle">Everything you need to discover, track, and enjoy movies</p>
-        </div>
-        <div class="hero-animation">
-            <div class="floating-icons">
-                <span class="float-icon" style="animation-delay: 0s;">🎬</span>
-                <span class="float-icon" style="animation-delay: 2s;">⭐</span>
-                <span class="float-icon" style="animation-delay: 4s;">🍿</span>
-                <span class="float-icon" style="animation-delay: 6s;">🎭</span>
-            </div>
+            <h1>🎬 About Movie Review Hub</h1>
+            <p class="hero-subtitle">Your ultimate destination for movie discovery and reviews</p>
         </div>
     </div>
 
-    <div class="features-grid">
-        <!-- Movie Discovery -->
-        <div class="feature-card discover-card">
-            <div class="feature-icon">
-                <span>🔍</span>
+    <div class="about-content">
+        <div class="main-card">
+            <div class="card-header">
+                <h2>Our Mission</h2>
             </div>
-            <div class="feature-content">
-                <h3>Smart Movie Discovery</h3>
-                <p>Search through millions of movies with our powerful search engine. Find exactly what you're looking for with advanced filters and intelligent suggestions.</p>
-                <ul class="feature-list">
-                    <li>✨ Instant search results</li>
-                    <li>📊 Advanced filtering options</li>
-                    <li>🎯 Personalized suggestions</li>
-                    <li>🌍 Global movie database</li>
-                </ul>
+            <div class="card-body">
+                <p class="lead">
+                    Movie Review Hub is designed to revolutionize how you discover, track, and enjoy movies. 
+                    We combine the power of comprehensive movie data with intelligent AI reviews and 
+                    personalized recommendations to create the ultimate movie companion.
+                </p>
+
+                <p>
+                    Whether you're a casual movie watcher or a dedicated cinephile, our platform provides 
+                    the tools you need to enhance your movie experience. From finding your next favorite 
+                    film to tracking your viewing journey, we make it simple and enjoyable.
+                </p>
             </div>
         </div>
 
-        <!-- Rating System -->
-        <div class="feature-card rating-card">
-            <div class="feature-icon">
-                <span>⭐</span>
-            </div>
-            <div class="feature-content">
-                <h3>Rate & Review Movies</h3>
-                <p>Share your opinion with our intuitive 5-star rating system. Help others discover great movies and build your personal movie profile.</p>
-                <ul class="feature-list">
-                    <li>🌟 Simple 5-star ratings</li>
-                    <li>📝 Personal movie history</li>
-                    <li>📈 Rating statistics</li>
-                    <li>🎭 Genre preferences</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- AI Reviews -->
-        <div class="feature-card ai-card">
-            <div class="feature-icon">
-                <span>🤖</span>
-            </div>
-            <div class="feature-content">
-                <h3>AI-Generated Reviews</h3>
-                <p>Get professional-quality movie reviews instantly with our AI system. Perfect for when you need a quick overview of any film.</p>
-                <ul class="feature-list">
-                    <li>🚀 Instant review generation</li>
-                    <li>📖 Professional writing style</li>
-                    <li>🎯 Balanced perspectives</li>
-                    <li>💡 Insightful analysis</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Watchlist -->
-        <div class="feature-card watchlist-card">
-            <div class="feature-icon">
-                <span>📝</span>
-            </div>
-            <div class="feature-content">
-                <h3>Personal Watchlist</h3>
-                <p>Never forget a movie recommendation again. Build and manage your personal watchlist with easy organization and tracking tools.</p>
-                <ul class="feature-list">
-                    <li>📋 Unlimited movie lists</li>
-                    <li>🏷️ Custom organization</li>
-                    <li>⚡ Quick add/remove</li>
-                    <li>📱 Mobile-friendly access</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Progress Tracking -->
-        <div class="feature-card tracking-card">
-            <div class="feature-icon">
-                <span>✅</span>
-            </div>
-            <div class="feature-content">
-                <h3>Track Your Journey</h3>
-                <p>Monitor your movie-watching progress with detailed statistics and achievements. See your viewing patterns and discover new preferences.</p>
-                <ul class="feature-list">
-                    <li>📊 Viewing statistics</li>
-                    <li>🏆 Achievement system</li>
-                    <li>📅 Watch history</li>
-                    <li>🎨 Visual progress tracking</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Social Features -->
-        <div class="feature-card social-card">
-            <div class="feature-icon">
-                <span>👥</span>
-            </div>
-            <div class="feature-content">
-                <h3>Community Features</h3>
-                <p>Connect with fellow movie enthusiasts. Share recommendations, compare tastes, and discover movies through our community-driven features.</p>
-                <ul class="feature-list">
-                    <li>🌐 Community ratings</li>
-                    <li>🔗 Share your profile</li>
-                    <li>💬 Rating comparisons</li>
-                    <li>🎪 Trending movies</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- Pricing/CTA Section -->
-    <div class="features-cta">
-        <div class="cta-content">
-            <h2>Ready to Start Your Movie Journey?</h2>
-            <p>Join thousands of movie lovers who use Movie Review Hub to discover, track, and enjoy films.</p>
-            <div class="cta-stats">
-                <div class="stat-item">
-                    <span class="stat-number">50K+</span>
-                    <span class="stat-label">Happy Users</span>
+        <div class="tech-section">
+            <h3>Built with Modern Technology</h3>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <div class="tech-icon">🐘</div>
+                    <h4>PHP 8+</h4>
+                    <p>Modern PHP with object-oriented architecture and MVC design pattern</p>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-number">2M+</span>
-                    <span class="stat-label">Movies Rated</span>
+                <div class="tech-item">
+                    <div class="tech-icon">🗄️</div>
+                    <h4>MySQL Database</h4>
+                    <p>Robust database with PDO for secure data management and relationships</p>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-number">100K+</span>
-                    <span class="stat-label">Reviews Generated</span>
+                <div class="tech-item">
+                    <div class="tech-icon">🎨</div>
+                    <h4>Modern CSS</h4>
+                    <p>Custom CSS with animations, gradients, and responsive design principles</p>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🤖</div>
+                    <h4>AI Integration</h4>
+                    <p>Google Gemini API for intelligent movie review generation</p>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🎯</div>
+                    <h4>OMDB API</h4>
+                    <p>Comprehensive movie database with real-time data and information</p>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">📱</div>
+                    <h4>Responsive Design</h4>
+                    <p>Mobile-first approach ensuring great experience on all devices</p>
                 </div>
             </div>
-            <div class="cta-buttons">
-                <?php if (!$isLoggedIn): ?>
-                    <a href="/register" class="btn btn-primary btn-large">
-                        <span>🚀</span>Get Started Free
-                    </a>
-                    <a href="/login" class="btn btn-secondary btn-large">
-                        <span>🔑</span>Sign In
-                    </a>
-                <?php else: ?>
-                    <a href="/dashboard" class="btn btn-primary btn-large">
-                        <span>📊</span>Go to Dashboard
-                    </a>
-                    <a href="/" class="btn btn-secondary btn-large">
-                        <span>🔍</span>Start Searching
-                    </a>
-                <?php endif; ?>
+        </div>
+
+        <div class="features-highlight">
+            <h3>What Makes Us Different</h3>
+            <div class="highlight-grid">
+                <div class="highlight-item">
+                    <div class="highlight-icon">⚡</div>
+                    <h4>Lightning Fast</h4>
+                    <p>Optimized performance with instant search results and smooth animations</p>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">🎯</div>
+                    <h4>Personalized</h4>
+                    <p>Smart recommendations based on your viewing history and preferences</p>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">🔒</div>
+                    <h4>Privacy First</h4>
+                    <p>Your data is secure with session-based authentication and privacy protection</p>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">🌟</div>
+                    <h4>User Friendly</h4>
+                    <p>Intuitive interface designed for movie lovers of all technical backgrounds</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <h3>Platform Statistics</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🎬</div>
+                    <div class="stat-number">10M+</div>
+                    <div class="stat-label">Movies in Database</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-number">2M+</div>
+                    <div class="stat-label">User Ratings</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📝</div>
+                    <div class="stat-number">500K+</div>
+                    <div class="stat-label">AI Reviews Generated</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-number">50K+</div>
+                    <div class="stat-label">Active Users</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-info">
+            <h3>Project Information</h3>
+            <div class="info-card">
+                <div class="info-row">
+                    <strong>Version:</strong>
+                    <span>2.0.0</span>
+                </div>
+                <div class="info-row">
+                    <strong>Last Updated:</strong>
+                    <span><?= date('F Y') ?></span>
+                </div>
+                <div class="info-row">
+                    <strong>Architecture:</strong>
+                    <span>MVC (Model-View-Controller)</span>
+                </div>
+                <div class="info-row">
+                    <strong>Database:</strong>
+                    <span>MySQL with PDO</span>
+                </div>
+                <div class="info-row">
+                    <strong>APIs:</strong>
+                    <span>OMDB, Google Gemini AI</span>
+                </div>
+                <div class="info-row">
+                    <strong>Security:</strong>
+                    <span>Session-based Authentication, CSRF Protection</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <div class="cta-content">
+                <h3>Ready to Explore Movies?</h3>
+                <p>Join our community of movie enthusiasts and start your cinematic journey today.</p>
+                <div class="cta-buttons">
+                    <?php if (!$isLoggedIn): ?>
+                        <a href="/register" class="btn btn-primary btn-large">
+                            <span>🚀</span>Get Started Free
+                        </a>
+                        <a href="/features" class="btn btn-secondary btn-large">
+                            <span>⭐</span>View Features
+                        </a>
+                    <?php else: ?>
+                        <a href="/dashboard" class="btn btn-primary btn-large">
+                            <span>📊</span>Your Dashboard
+                        </a>
+                        <a href="/" class="btn btn-secondary btn-large">
+                            <span>🔍</span>Search Movies
+                        </a>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <style>
-.features-container {
-    max-width: 1400px;
+.about-container {
+    max-width: 1200px;
     margin: 0 auto;
 }
 
-.features-hero {
+.about-hero {
     text-align: center;
     padding: var(--space-16) var(--space-4);
     margin-bottom: var(--space-12);
-    position: relative;
 }
 
 .hero-content h1 {
@@ -191,169 +202,209 @@
     margin-right: auto;
 }
 
-.floating-icons {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
+.about-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
 }
 
-.float-icon {
-    position: absolute;
-    font-size: 2rem;
-    opacity: 0.2;
-    animation: floatAround 8s ease-in-out infinite;
+.main-card {
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-2xl);
+    border: 1px solid rgba(255,255,255,0.2);
+    overflow: hidden;
 }
 
-.float-icon:nth-child(1) { top: 20%; left: 10%; }
-.float-icon:nth-child(2) { top: 60%; right: 15%; }
-.float-icon:nth-child(3) { top: 30%; left: 75%; }
-.float-icon:nth-child(4) { bottom: 40%; right: 30%; }
-
-@keyframes floatAround {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(180deg); }
+.card-header {
+    background: var(--gradient-primary);
+    color: white;
+    padding: var(--space-8);
+    text-align: center;
 }
 
-.features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: var(--space-8);
-    margin-bottom: var(--space-16);
+.card-header h2 {
+    font-size: var(--font-size-3xl);
+    font-weight: 800;
+    margin: 0;
 }
 
-.feature-card {
+.card-body {
+    padding: var(--space-8);
+}
+
+.lead {
+    font-size: var(--font-size-lg);
+    font-weight: 500;
+    color: var(--neutral-700);
+    margin-bottom: var(--space-6);
+    line-height: 1.7;
+}
+
+.card-body p {
+    color: var(--neutral-600);
+    line-height: 1.7;
+    font-size: var(--font-size-base);
+}
+
+.tech-section,
+.features-highlight,
+.stats-section,
+.project-info {
     background: rgba(255,255,255,0.95);
     backdrop-filter: blur(20px);
     border-radius: var(--radius-2xl);
     padding: var(--space-8);
     box-shadow: var(--shadow-2xl);
     border: 1px solid rgba(255,255,255,0.2);
-    transition: var(--transition-base);
-    position: relative;
-    overflow: hidden;
 }
 
-.feature-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: var(--gradient-primary);
-}
-
-.feature-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-2xl), 0 25px 50px rgba(99, 102, 241, 0.15);
-}
-
-.feature-icon {
-    width: 80px;
-    height: 80px;
-    background: var(--gradient-primary);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: var(--space-6);
-    font-size: 2rem;
-    box-shadow: var(--shadow-lg);
-}
-
-.feature-content h3 {
+.tech-section h3,
+.features-highlight h3,
+.stats-section h3,
+.project-info h3 {
     font-size: var(--font-size-2xl);
     font-weight: 800;
     color: var(--neutral-800);
-    margin-bottom: var(--space-4);
-}
-
-.feature-content p {
-    color: var(--neutral-600);
-    font-size: var(--font-size-base);
-    line-height: 1.7;
     margin-bottom: var(--space-6);
-}
-
-.feature-list {
-    list-style: none;
-    padding: 0;
-}
-
-.feature-list li {
-    padding: var(--space-2) 0;
-    color: var(--neutral-700);
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-}
-
-.features-cta {
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(20px);
-    border-radius: var(--radius-2xl);
-    padding: var(--space-16) var(--space-8);
     text-align: center;
-    box-shadow: var(--shadow-2xl);
-    border: 1px solid rgba(255,255,255,0.2);
-    position: relative;
-    overflow: hidden;
 }
 
-.features-cta::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: var(--gradient-primary);
+.tech-grid,
+.highlight-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-6);
 }
 
-.cta-content h2 {
-    font-size: var(--font-size-4xl);
-    font-weight: 900;
-    color: var(--neutral-800);
-    margin-bottom: var(--space-4);
+.tech-item,
+.highlight-item {
+    text-align: center;
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    background: rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.3);
+    transition: var(--transition-base);
 }
 
-.cta-content p {
+.tech-item:hover,
+.highlight-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.tech-icon,
+.highlight-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-3);
+    display: block;
+}
+
+.tech-item h4,
+.highlight-item h4 {
     font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--neutral-800);
+    margin-bottom: var(--space-2);
+}
+
+.tech-item p,
+.highlight-item p {
     color: var(--neutral-600);
-    margin-bottom: var(--space-8);
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
 }
 
-.cta-stats {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-12);
-    margin-bottom: var(--space-8);
-    flex-wrap: wrap;
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-6);
 }
 
-.stat-item {
+.stat-card {
     text-align: center;
+    padding: var(--space-6);
+    background: rgba(255,255,255,0.7);
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(255,255,255,0.3);
+    transition: var(--transition-base);
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-3);
+    display: block;
 }
 
 .stat-number {
-    display: block;
     font-size: var(--font-size-4xl);
     font-weight: 900;
     color: var(--primary-600);
     margin-bottom: var(--space-1);
+    display: block;
 }
 
 .stat-label {
-    font-size: var(--font-size-sm);
     color: var(--neutral-600);
     font-weight: 600;
+    font-size: var(--font-size-sm);
+}
+
+.info-card {
+    background: rgba(255,255,255,0.7);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-row strong {
+    color: var(--neutral-800);
+    font-weight: 700;
+}
+
+.info-row span {
+    color: var(--neutral-600);
+    font-weight: 500;
+}
+
+.cta-section {
+    background: var(--gradient-primary);
+    color: white;
+    border-radius: var(--radius-2xl);
+    padding: var(--space-12);
+    text-align: center;
+    box-shadow: var(--shadow-2xl);
+}
+
+.cta-content h3 {
+    font-size: var(--font-size-3xl);
+    font-weight: 900;
+    margin-bottom: var(--space-4);
+    color: white;
+}
+
+.cta-content p {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--space-8);
+    opacity: 0.9;
 }
 
 .cta-buttons {
@@ -370,21 +421,21 @@
 }
 
 @media (max-width: 768px) {
-    .features-grid {
+    .tech-grid,
+    .highlight-grid {
         grid-template-columns: 1fr;
-        gap: var(--space-6);
+        gap: var(--space-4);
     }
 
-    .feature-card {
-        padding: var(--space-6);
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-4);
     }
 
-    .features-cta {
-        padding: var(--space-12) var(--space-6);
-    }
-
-    .cta-stats {
-        gap: var(--space-6);
+    .info-row {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--space-2);
     }
 
     .cta-buttons {
@@ -395,6 +446,12 @@
     .btn-large {
         width: 100%;
         max-width: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
     }
 }
 </style>

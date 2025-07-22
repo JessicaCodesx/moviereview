@@ -152,6 +152,12 @@ try {
     $router->post('/api/movie/unwatch', 'Controllers\UserController@unmarkWatched');
     $router->post('/api/movie/status', 'Controllers\UserController@getMovieStatus');
 
+    // Static page routes
+    $router->get('/features', 'Controllers\PagesController@features');
+    $router->get('/about', 'Controllers\PagesController@about');
+    $router->get('/contact', 'Controllers\PagesController@contact');
+    $router->post('/api/contact/submit', 'Controllers\PagesController@submitContact');
+
     error_log("All routes registered successfully");
 
     // Debug: Log current request details
