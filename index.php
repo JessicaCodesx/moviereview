@@ -1,11 +1,16 @@
 <?php
+// FIXED index.php
 // Enable error reporting for debugging
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('log_errors', 1);
 
-// Start session FIRST before any output
-session_start();
+// Start session FIRST before any output - BUT only if headers haven't been sent
+if (!headers_sent()) {
+    session_start();
+} else {
+    error_log("Headers already sent, cannot start session");
+}
 
 // Define root path
 define('ROOT_PATH', __DIR__);
@@ -46,8 +51,11 @@ try {
         $classPath = str_replace('\\', '/', $class);
         $file = APP_PATH . '/' . strtolower($classPath) . '.php';
 
+        error_log("Autoloader: Trying to load $class from $file");
+
         if (file_exists($file)) {
             require_once $file;
+            error_log("Autoloader: Successfully loaded $class");
             return true;
         }
 
@@ -81,16 +89,22 @@ try {
             throw new Exception("Core file missing: $file");
         }
         require_once $file;
+        error_log("Loaded core file: $file");
     }
 
     // Initialize database
+    error_log("Initializing database...");
     $database = new Core\Database();
     $database->initializeTables();
+    error_log("Database initialized successfully");
 
     // Initialize router
+    error_log("Initializing router...");
     $router = new Core\Router();
 
-    // Register routes
+    // Register routes - CRITICAL: Make sure all routes are registered
+    error_log("Registering routes...");
+
     // Public routes
     $router->get('/', 'Controllers\MovieController@index');
     $router->get('/health', 'Controllers\HealthController@check');
@@ -138,7 +152,15 @@ try {
     $router->post('/api/movie/unwatch', 'Controllers\UserController@unmarkWatched');
     $router->post('/api/movie/status', 'Controllers\UserController@getMovieStatus');
 
+    error_log("All routes registered successfully");
+
+    // Debug: Log current request details
+    $currentMethod = $_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN';
+    $currentPath = $_SERVER['REQUEST_URI'] ?? '/unknown';
+    error_log("Processing request: $currentMethod $currentPath");
+
     // Process the request
+    error_log("Dispatching router...");
     $router->dispatch();
 
 } catch (Exception $e) {
@@ -177,76 +199,61 @@ try {
                     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
                     margin: 0; 
                     padding: 20px; 
-                    background: #f8f9fa; 
-                    color: #333;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    color: white;
+                    min-height: 100vh;
                 }
                 .error-container { 
                     max-width: 800px; 
                     margin: 0 auto; 
-                    background: white; 
-                    border-radius: 8px; 
-                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                    background: rgba(255,255,255,0.1);
+                    backdrop-filter: blur(20px);
+                    border-radius: 20px; 
                     overflow: hidden;
-                }
-                .error-header {
-                    background: #dc3545;
-                    color: white;
-                    padding: 20px;
-                }
-                .error-body {
-                    padding: 20px;
+                    padding: 40px;
                 }
                 .error-details {
-                    background: #f8f9fa;
-                    border: 1px solid #dee2e6;
-                    border-radius: 4px;
-                    padding: 15px;
-                    margin: 15px 0;
+                    background: rgba(0,0,0,0.3);
+                    border-radius: 10px;
+                    padding: 20px;
+                    margin: 20px 0;
                     font-family: monospace;
                     white-space: pre-wrap;
+                    overflow-x: auto;
                 }
                 .btn {
                     display: inline-block;
-                    padding: 10px 20px;
-                    background: #007bff;
+                    padding: 12px 24px;
+                    background: rgba(255,255,255,0.2);
                     color: white;
                     text-decoration: none;
-                    border-radius: 4px;
-                    margin-top: 15px;
+                    border-radius: 10px;
+                    margin: 10px 5px;
+                    border: 2px solid rgba(255,255,255,0.3);
                 }
-                .btn:hover { background: #0056b3; }
+                .btn:hover { background: rgba(255,255,255,0.3); }
             </style>
         </head>
         <body>
             <div class="error-container">
-                <div class="error-header">
-                    <h1>🚨 Application Error</h1>
-                    <p>Something went wrong while processing your request.</p>
+                <h1>🚨 Application Error</h1>
+                <p>Something went wrong while processing your request.</p>
+
+                <div class="error-details">
+<strong>Message:</strong> <?php echo htmlspecialchars($e->getMessage()); ?>
+
+<strong>File:</strong> <?php echo htmlspecialchars($e->getFile()); ?>
+
+<strong>Line:</strong> <?php echo $e->getLine(); ?>
+
+<strong>Stack Trace:</strong>
+<?php echo htmlspecialchars($e->getTraceAsString()); ?>
                 </div>
-                <div class="error-body">
-                    <h3>Error Details:</h3>
-                    <div class="error-details">
-                        <strong>Message:</strong> <?php echo htmlspecialchars($e->getMessage()); ?>
 
-                        <strong>File:</strong> <?php echo htmlspecialchars($e->getFile()); ?>
-
-                        <strong>Line:</strong> <?php echo $e->getLine(); ?>
-
-                        <strong>Stack Trace:</strong>
-                        <?php echo htmlspecialchars($e->getTraceAsString()); ?>
-                    </div>
-
-                    <h3>Possible Solutions:</h3>
-                    <ul>
-                        <li>Check that all required files exist in the correct directories</li>
-                        <li>Verify your environment variables are set correctly</li>
-                        <li>Ensure your database connection details are correct</li>
-                        <li>Check file permissions (especially for logs directory)</li>
-                    </ul>
-
-                    <a href="/debug.php" class="btn">Run Debug Check</a>
-                    <a href="/" class="btn">Try Again</a>
-                </div>
+                <h3>Quick Actions:</h3>
+                <a href="/debug.php" class="btn">🔍 Debug Info</a>
+                <a href="/test.php" class="btn">🧪 Simple Test</a>
+                <a href="/" class="btn">🔄 Try Again</a>
             </div>
         </body>
         </html>
@@ -270,24 +277,15 @@ function showSetupPage($envValidation) {
                 background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
                 min-height: 100vh;
                 padding: 20px;
+                color: white;
             }
             .container {
                 max-width: 800px;
                 margin: 0 auto;
-                background: white;
-                border-radius: 15px;
+                background: rgba(255,255,255,0.1);
+                backdrop-filter: blur(20px);
+                border-radius: 20px;
                 padding: 40px;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            }
-            .header {
-                text-align: center;
-                margin-bottom: 40px;
-                color: #333;
-            }
-            .header h1 {
-                font-size: 2.5rem;
-                margin-bottom: 10px;
-                color: #667eea;
             }
             .status {
                 padding: 15px;
@@ -295,81 +293,32 @@ function showSetupPage($envValidation) {
                 margin-bottom: 20px;
             }
             .status.error {
-                background: #f8d7da;
-                border: 1px solid #f5c6cb;
-                color: #721c24;
-            }
-            .status.warning {
-                background: #fff3cd;
-                border: 1px solid #ffeaa7;
-                color: #856404;
-            }
-            .status.success {
-                background: #d4edda;
-                border: 1px solid #c3e6cb;
-                color: #155724;
+                background: rgba(239, 68, 68, 0.2);
+                border: 1px solid rgba(239, 68, 68, 0.3);
             }
             .env-var {
-                background: #f8f9fa;
+                background: rgba(255,255,255,0.1);
                 padding: 15px;
                 margin: 10px 0;
                 border-radius: 8px;
                 border-left: 4px solid #667eea;
             }
-            .env-var.required {
-                border-left-color: #dc3545;
-            }
-            .env-var h4 {
-                color: #333;
-                margin-bottom: 5px;
-            }
-            .env-var p {
-                color: #666;
-                font-size: 14px;
-            }
-            .instructions {
-                margin-top: 30px;
-            }
-            .instructions h3 {
-                color: #667eea;
-                margin-bottom: 15px;
-            }
-            .instructions ol {
-                margin-left: 20px;
-            }
-            .instructions li {
-                margin-bottom: 8px;
-                line-height: 1.5;
-            }
             .refresh-btn {
-                background: linear-gradient(45deg, #667eea, #764ba2);
+                background: rgba(255,255,255,0.2);
                 color: white;
-                border: none;
+                border: 2px solid rgba(255,255,255,0.3);
                 padding: 15px 30px;
-                border-radius: 8px;
+                border-radius: 10px;
                 font-size: 16px;
                 cursor: pointer;
                 margin-top: 20px;
-                transition: transform 0.2s;
-            }
-            .refresh-btn:hover {
-                transform: translateY(-2px);
-            }
-            .code {
-                background: #f1f3f4;
-                padding: 2px 6px;
-                border-radius: 4px;
-                font-family: monospace;
-                font-size: 90%;
             }
         </style>
     </head>
     <body>
         <div class="container">
-            <div class="header">
-                <h1>🎬 Movie Review Hub</h1>
-                <p>Environment Setup Required</p>
-            </div>
+            <h1>🎬 Movie Review Hub</h1>
+            <p>Environment Setup Required</p>
 
             <?php if (!empty($envValidation['errors'])): ?>
                 <div class="status error">
@@ -383,38 +332,17 @@ function showSetupPage($envValidation) {
             <?php endif; ?>
 
             <?php if (!empty($envValidation['missing_vars'])): ?>
-                <div class="status warning">
-                    <h3>⚠️ Missing Required Environment Variables</h3>
-                    <p>The following environment variables need to be configured:</p>
-                </div>
-
                 <?php foreach ($envValidation['missing_vars'] as $var): ?>
-                    <div class="env-var required">
-                        <h4><span class="code"><?php echo $var['name']; ?></span></h4>
+                    <div class="env-var">
+                        <h4><?php echo $var['name']; ?></h4>
                         <p><?php echo htmlspecialchars($var['description']); ?></p>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
 
-            <div class="instructions">
-                <h3>🔧 <?php echo $instructions['replit']['title']; ?></h3>
-                <ol>
-                    <?php foreach ($instructions['replit']['steps'] as $step): ?>
-                        <li><?php echo htmlspecialchars($step); ?></li>
-                    <?php endforeach; ?>
-                </ol>
-            </div>
-
             <button class="refresh-btn" onclick="window.location.reload()">
                 🔄 Check Configuration Again
             </button>
-
-            <?php if ($envValidation['is_valid']): ?>
-                <div class="status success">
-                    <h3>✅ Configuration Valid!</h3>
-                    <p>All required environment variables are set. <a href="/">Go to Movie Review Hub</a></p>
-                </div>
-            <?php endif; ?>
         </div>
     </body>
     </html>
