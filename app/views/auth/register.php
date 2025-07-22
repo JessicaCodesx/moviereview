@@ -1,41 +1,806 @@
 <?php
+// Complete register page for app/views/auth/register.php
 ?>
-<div class="auth-container">
-    <!-- Background Animation -->
-    <div class="auth-background">
-        <div class="floating-shapes">
-            <div class="shape shape-1"></div>
-            <div class="shape shape-2"></div>
-            <div class="shape shape-3"></div>
-            <div class="shape shape-4"></div>
-            <div class="shape shape-5"></div>
-        </div>
-    </div>
 
+<style>
+/* Mobile-first responsive design */
+:root {
+    --primary-color: #6366f1;
+    --primary-hover: #4f46e5;
+    --success-color: #10b981;
+    --error-color: #ef4444;
+    --warning-color: #f59e0b;
+    --neutral-50: #f9fafb;
+    --neutral-100: #f3f4f6;
+    --neutral-200: #e5e7eb;
+    --neutral-300: #d1d5db;
+    --neutral-600: #4b5563;
+    --neutral-800: #1f2937;
+    --neutral-900: #111827;
+
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 1.875rem;
+    --text-4xl: 2.25rem;
+
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+/* Auth Container - Mobile First */
+.auth-container {
+    min-height: calc(100vh - 120px);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    align-items: center;
+    padding: var(--space-6);
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+@media (min-width: 1024px) {
+    .auth-container {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-16);
+        padding: var(--space-8);
+    }
+}
+
+/* Floating Background Shapes */
+.auth-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.floating-shapes {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.shape {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: float 20s infinite linear;
+}
+
+.shape:nth-child(1) {
+    width: 80px;
+    height: 80px;
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.shape:nth-child(2) {
+    width: 120px;
+    height: 120px;
+    top: 60%;
+    right: 15%;
+    animation-delay: -7s;
+}
+
+.shape:nth-child(3) {
+    width: 60px;
+    height: 60px;
+    bottom: 20%;
+    left: 20%;
+    animation-delay: -14s;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
+    33% { transform: translateY(-30px) rotate(120deg); opacity: 0.4; }
+    66% { transform: translateY(30px) rotate(240deg); opacity: 0.7; }
+    100% { transform: translateY(0px) rotate(360deg); opacity: 0.7; }
+}
+
+/* Welcome Section */
+.welcome-section {
+    text-align: left;
+    color: white;
+    order: 2;
+}
+
+@media (min-width: 1024px) {
+    .welcome-section {
+        order: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .welcome-section {
+        text-align: center;
+    }
+}
+
+.welcome-content h2 {
+    font-size: var(--text-4xl);
+    font-weight: 800;
+    margin-bottom: var(--space-6);
+    background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+    .welcome-content h2 {
+        font-size: var(--text-3xl);
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome-content h2 {
+        font-size: var(--text-2xl);
+    }
+}
+
+.welcome-content p {
+    font-size: var(--text-lg);
+    line-height: 1.7;
+    margin-bottom: var(--space-8);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Community Stats */
+.community-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+}
+
+@media (min-width: 768px) {
+    .community-stats {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.stat-item {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: var(--space-5);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.stat-number {
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    color: white;
+    display: block;
+}
+
+@media (max-width: 480px) {
+    .stat-number {
+        font-size: var(--text-xl);
+    }
+}
+
+.stat-label {
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: var(--space-1);
+}
+
+/* Testimonial */
+.testimonial {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: var(--space-6);
+    margin-top: var(--space-8);
+}
+
+.testimonial blockquote {
+    font-style: italic;
+    font-size: var(--text-lg);
+    line-height: 1.6;
+    margin-bottom: var(--space-4);
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.testimonial cite {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: var(--text-sm);
+}
+
+/* Auth Card */
+.auth-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 24px;
+    padding: var(--space-8);
+    box-shadow: var(--shadow-xl);
+    order: 1;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+@media (min-width: 1024px) {
+    .auth-card {
+        order: 2;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-card {
+        padding: var(--space-6) var(--space-4);
+        border-radius: 20px;
+    }
+}
+
+.animate-in {
+    animation: slideInUp 0.6s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.shake {
+    animation: shake 0.6s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Brand Header */
+.auth-brand {
+    text-align: center;
+    margin-bottom: var(--space-8);
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-2);
+}
+
+.logo-icon {
+    font-size: var(--text-4xl);
+    animation: brandFloat 4s ease-in-out infinite;
+}
+
+@keyframes brandFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-3px) rotate(2deg); }
+}
+
+.logo-text {
+    font-size: var(--text-2xl);
+    font-weight: 900;
+    color: var(--primary-color);
+}
+
+.brand-tagline {
+    color: var(--neutral-600);
+    font-size: var(--text-sm);
+}
+
+/* Auth Header */
+.auth-header {
+    text-align: center;
+    margin-bottom: var(--space-8);
+}
+
+.auth-header h2 {
+    font-size: var(--text-3xl);
+    font-weight: 800;
+    color: var(--neutral-900);
+    margin-bottom: var(--space-2);
+}
+
+.auth-header p {
+    color: var(--neutral-600);
+    font-size: var(--text-base);
+}
+
+/* Form Styles */
+.auth-form {
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: var(--space-6);
+}
+
+.form-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: 600;
+    color: var(--neutral-800);
+    margin-bottom: var(--space-2);
+    font-size: var(--text-sm);
+}
+
+.label-icon {
+    font-size: var(--text-base);
+}
+
+.required {
+    color: var(--error-color);
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.form-control {
+    width: 100%;
+    padding: var(--space-4);
+    border: 2px solid var(--neutral-200);
+    border-radius: 12px;
+    font-size: var(--text-base);
+    transition: all 0.3s ease;
+    background: white;
+    position: relative;
+    z-index: 1;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.form-control.valid {
+    border-color: var(--success-color);
+}
+
+.form-control.invalid {
+    border-color: var(--error-color);
+}
+
+.input-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+}
+
+.form-control:focus + .input-border {
+    opacity: 1;
+}
+
+.input-feedback {
+    margin-top: var(--space-2);
+    font-size: var(--text-sm);
+    min-height: 1.25rem;
+}
+
+.input-feedback.success {
+    color: var(--success-color);
+}
+
+.input-feedback.error {
+    color: var(--error-color);
+}
+
+.form-hint {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--neutral-600);
+}
+
+.hint-icon {
+    font-size: var(--text-sm);
+}
+
+.password-toggle {
+    position: absolute;
+    right: var(--space-3);
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-2);
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+    z-index: 2;
+}
+
+.password-toggle:hover {
+    background: var(--neutral-100);
+}
+
+/* Checkbox Styles */
+.checkbox-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    cursor: pointer;
+    line-height: 1.5;
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border: 2px solid var(--neutral-300);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.checkbox-wrapper:hover .checkmark {
+    border-color: var(--primary-color);
+}
+
+.checkbox-wrapper input:checked ~ .checkmark {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 6px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.checkbox-wrapper input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.checkbox-label {
+    font-size: var(--text-sm);
+    color: var(--neutral-700);
+}
+
+.agreement-checkbox {
+    background: var(--neutral-50);
+    border: 1px solid var(--neutral-200);
+    border-radius: 8px;
+    padding: var(--space-4);
+}
+
+.terms-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.terms-link:hover {
+    text-decoration: underline;
+}
+
+/* Button Styles */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-4) var(--space-6);
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: var(--text-base);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-full {
+    width: 100%;
+    padding: var(--space-5) var(--space-6);
+    font-size: var(--text-lg);
+    border-radius: 16px;
+}
+
+.btn-register {
+    margin-top: var(--space-4);
+}
+
+.btn-loader {
+    display: none;
+}
+
+.btn.loading .btn-text {
+    opacity: 0;
+}
+
+.btn.loading .btn-loader {
+    display: flex;
+}
+
+.btn.success {
+    background: linear-gradient(135deg, var(--success-color), #059669);
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Footer */
+.auth-footer {
+    text-align: center;
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--neutral-200);
+}
+
+.auth-footer p {
+    color: var(--neutral-600);
+    margin-bottom: var(--space-3);
+}
+
+.auth-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    padding: var(--space-2) var(--space-4);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.auth-link:hover {
+    background: rgba(99, 102, 241, 0.1);
+    text-decoration: none;
+}
+
+/* Message Styles */
+.message {
+    padding: var(--space-4);
+    border-radius: 12px;
+    margin-bottom: var(--space-6);
+    font-weight: 600;
+    display: none;
+}
+
+.message.show {
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message.success {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success-color);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.message.error {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--error-color);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: var(--shadow-xl);
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+    .modal-content {
+        margin: 5% auto;
+        width: 95%;
+    }
+}
+
+.modal-header {
+    padding: var(--space-6);
+    border-bottom: 1px solid var(--neutral-200);
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: var(--neutral-900);
+    font-size: var(--text-xl);
+}
+
+.modal-body {
+    padding: var(--space-6);
+    line-height: 1.6;
+    color: var(--neutral-700);
+}
+
+.modal-body ul {
+    margin: var(--space-4) 0;
+    padding-left: var(--space-5);
+}
+
+.modal-body li {
+    margin-bottom: var(--space-2);
+}
+
+.modal-footer {
+    padding: var(--space-6);
+    border-top: 1px solid var(--neutral-200);
+    text-align: right;
+}
+
+.btn-secondary {
+    background: var(--neutral-100);
+    color: var(--neutral-700);
+    border: 1px solid var(--neutral-300);
+}
+
+.btn-secondary:hover {
+    background: var(--neutral-200);
+}
+
+/* Confetti Animation */
+@keyframes confetti-fall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: var(--primary-color);
+    animation: confetti-fall 3s linear forwards;
+    z-index: 10000;
+}
+</style>
+
+<!-- Floating Background -->
+<div class="auth-background">
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+</div>
+
+<div class="auth-container">
     <!-- Welcome Section -->
-    <div class="welcome-section animate-in">
+    <div class="welcome-section">
         <div class="welcome-content">
             <h2>Join the Movie Community</h2>
-            <p>Connect with fellow movie enthusiasts and discover your next favorite film</p>
+            <p>Discover your next favorite film, connect with fellow movie enthusiasts, and build your personal movie collection. Track what you've watched, rate your favorites, and get personalized recommendations.</p>
 
             <div class="community-stats">
                 <div class="stat-item">
-                    <div class="stat-number">50K+</div>
-                    <div class="stat-label">Active Users</div>
+                    <span class="stat-number">50K+</span>
+                    <span class="stat-label">Movies Rated</span>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number">2M+</div>
-                    <div class="stat-label">Movies Rated</div>
+                    <span class="stat-number">2K+</span>
+                    <span class="stat-label">Active Users</span>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number">100K+</div>
-                    <div class="stat-label">Reviews Written</div>
+                    <span class="stat-number">15K+</span>
+                    <span class="stat-label">Reviews Written</span>
                 </div>
             </div>
 
             <div class="testimonial">
                 <blockquote>
-                    "This platform changed how I discover movies. The recommendations are spot-on!"
+                    "This platform completely changed how I discover movies. The recommendations are spot-on!"
                 </blockquote>
                 <cite>— Sarah M., Movie Enthusiast</cite>
             </div>
@@ -56,6 +821,9 @@
             <h2>Create Account</h2>
             <p>Start your personalized movie journey today</p>
         </div>
+
+        <!-- Message Container -->
+        <div id="authMessage" class="message"></div>
 
         <form id="registerForm" class="auth-form">
             <div class="form-group">
@@ -95,32 +863,24 @@
                            name="password" 
                            required 
                            class="form-control" 
-                           placeholder="Create a secure password"
-                           minlength="6"
+                           placeholder="Create a strong password"
+                           minlength="8"
                            autocomplete="new-password">
                     <button type="button" class="password-toggle" onclick="togglePassword('password')">
-                        <svg class="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                        <svg class="eye-off-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
-                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-                            <line x1="1" y1="1" x2="23" y2="23"></line>
-                        </svg>
+                        👁️
                     </button>
                     <div class="input-border"></div>
+                    <div class="input-feedback" id="passwordFeedback"></div>
                 </div>
-                <div class="password-strength" id="passwordStrength">
-                    <div class="strength-bar">
-                        <div class="strength-fill"></div>
-                    </div>
-                    <div class="strength-text">Password strength: <span id="strengthText">Weak</span></div>
-                </div>
+                <small class="form-hint">
+                    <span class="hint-icon">🛡️</span>
+                    At least 8 characters long
+                </small>
             </div>
 
             <div class="form-group">
                 <label for="confirm_password" class="form-label">
-                    <span class="label-icon">🔐</span>
+                    <span class="label-icon">🔒</span>
                     Confirm Password
                     <span class="required">*</span>
                 </label>
@@ -133,14 +893,7 @@
                            placeholder="Confirm your password"
                            autocomplete="new-password">
                     <button type="button" class="password-toggle" onclick="togglePassword('confirm_password')">
-                        <svg class="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                        <svg class="eye-off-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
-                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-                            <line x1="1" y1="1" x2="23" y2="23"></line>
-                        </svg>
+                        👁️
                     </button>
                     <div class="input-border"></div>
                     <div class="input-feedback" id="confirmFeedback"></div>
@@ -182,18 +935,9 @@
         </form>
 
         <div class="auth-footer">
-            <p>Already have an account? 
-                <a href="/login" class="auth-link">
-                    <span>Sign in here</span>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="7" y1="17" x2="17" y2="7"></line>
-                        <polyline points="7,7 17,7 17,17"></polyline>
-                    </svg>
-                </a>
-            </p>
+            <p>Already have an account?</p>
+            <a href="/login" class="auth-link">Sign In</a>
         </div>
-
-        <div id="authMessage" class="auth-message"></div>
     </div>
 </div>
 
@@ -202,16 +946,15 @@
     <div class="modal-content">
         <div class="modal-header">
             <h3>Terms of Service</h3>
-            <button class="modal-close" onclick="closeModal('termsModal')">&times;</button>
         </div>
         <div class="modal-body">
-            <p>By using Movie Hub, you agree to:</p>
+            <p>Welcome to Movie Review Hub. By creating an account, you agree to:</p>
             <ul>
-                <li>Use the service respectfully and lawfully</li>
-                <li>Provide accurate information in your reviews</li>
-                <li>Respect other users' opinions and reviews</li>
-                <li>Not spam or abuse the rating system</li>
-                <li>Keep your account credentials secure</li>
+                <li><strong>Account Security:</strong> Keep your password secure and don't share your account</li>
+                <li><strong>Content Guidelines:</strong> Write honest, respectful reviews and ratings</li>
+                <li><strong>Community Standards:</strong> Be respectful to other users and their opinions</li>
+                <li><strong>Service Usage:</strong> Use our platform for personal, non-commercial purposes</li>
+                <li><strong>Data Accuracy:</strong> Provide accurate information for your profile</li>
             </ul>
             <p>We reserve the right to suspend accounts that violate these terms.</p>
         </div>
@@ -226,10 +969,9 @@
     <div class="modal-content">
         <div class="modal-header">
             <h3>Privacy Policy</h3>
-            <button class="modal-close" onclick="closeModal('privacyModal')">&times;</button>
         </div>
         <div class="modal-body">
-            <p>Your privacy is important to us. We collect:</p>
+            <p>Your privacy is important to us. Here's what you should know:</p>
             <ul>
                 <li><strong>Account Information:</strong> Username and password</li>
                 <li><strong>Usage Data:</strong> Movies you rate and review</li>
@@ -244,6 +986,169 @@
 </div>
 
 <script>
+// Password toggle functionality
+function togglePassword(fieldId) {
+    const field = document.getElementById(fieldId);
+    const toggle = field.nextElementSibling;
+
+    if (field.type === 'password') {
+        field.type = 'text';
+        toggle.textContent = '🙈';
+    } else {
+        field.type = 'password';
+        toggle.textContent = '👁️';
+    }
+}
+
+// Show/hide modals
+function showTerms() {
+    document.getElementById('termsModal').style.display = 'block';
+}
+
+function showPrivacy() {
+    document.getElementById('privacyModal').style.display = 'block';
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(modal => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+};
+
+// Message handling
+function showMessage(element, message, type) {
+    element.textContent = message;
+    element.className = `message ${type} show`;
+}
+
+function clearMessage(element) {
+    element.className = 'message';
+}
+
+// Button loading state
+function setButtonLoading(button, loading) {
+    if (loading) {
+        button.classList.add('loading');
+        button.disabled = true;
+    } else {
+        button.classList.remove('loading');
+        button.disabled = false;
+    }
+}
+
+// Field validation feedback
+function highlightField(fieldId, isValid) {
+    const field = document.getElementById(fieldId);
+    const feedback = document.getElementById(fieldId + 'Feedback');
+
+    field.classList.remove('valid', 'invalid');
+    field.classList.add(isValid ? 'valid' : 'invalid');
+}
+
+// Real-time password confirmation validation
+document.getElementById('confirm_password').addEventListener('input', function() {
+    const password = document.getElementById('password').value;
+    const confirmPassword = this.value;
+    const feedback = document.getElementById('confirmFeedback');
+
+    if (confirmPassword === '') {
+        feedback.textContent = '';
+        this.classList.remove('valid', 'invalid');
+        return;
+    }
+
+    if (password === confirmPassword) {
+        feedback.textContent = '✓ Passwords match';
+        feedback.className = 'input-feedback success';
+        this.classList.remove('invalid');
+        this.classList.add('valid');
+    } else {
+        feedback.textContent = '✗ Passwords do not match';
+        feedback.className = 'input-feedback error';
+        this.classList.remove('valid');
+        this.classList.add('invalid');
+    }
+});
+
+// Real-time username validation
+document.getElementById('username').addEventListener('input', function() {
+    const username = this.value;
+    const feedback = document.getElementById('usernameFeedback');
+    const pattern = /^[a-zA-Z0-9_]{3,20}$/;
+
+    if (username === '') {
+        feedback.textContent = '';
+        this.classList.remove('valid', 'invalid');
+        return;
+    }
+
+    if (pattern.test(username)) {
+        feedback.textContent = '✓ Valid username';
+        feedback.className = 'input-feedback success';
+        this.classList.remove('invalid');
+        this.classList.add('valid');
+    } else {
+        feedback.textContent = '✗ Username must be 3-20 characters, letters, numbers, and underscores only';
+        feedback.className = 'input-feedback error';
+        this.classList.remove('valid');
+        this.classList.add('invalid');
+    }
+});
+
+// Real-time password strength validation
+document.getElementById('password').addEventListener('input', function() {
+    const password = this.value;
+    const feedback = document.getElementById('passwordFeedback');
+
+    if (password === '') {
+        feedback.textContent = '';
+        this.classList.remove('valid', 'invalid');
+        return;
+    }
+
+    if (password.length >= 8) {
+        feedback.textContent = '✓ Password meets minimum length';
+        feedback.className = 'input-feedback success';
+        this.classList.remove('invalid');
+        this.classList.add('valid');
+    } else {
+        feedback.textContent = '✗ Password must be at least 8 characters';
+        feedback.className = 'input-feedback error';
+        this.classList.remove('valid');
+        this.classList.add('invalid');
+    }
+});
+
+// Confetti animation
+function createConfetti() {
+    const colors = ['#6366f1', '#8b5cf6', '#ec4899', '#ef4444', '#f59e0b', '#10b981'];
+
+    for (let i = 0; i < 50; i++) {
+        setTimeout(() => {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.animationDelay = Math.random() * 3 + 's';
+            confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            document.body.appendChild(confetti);
+
+            // Remove confetti after animation
+            setTimeout(() => {
+                confetti.remove();
+            }, 5000);
+        }, i * 50);
+    }
+}
+
 // Enhanced registration functionality
 document.getElementById('registerForm').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -301,564 +1206,9 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
         }
     } catch (error) {
         showMessage(messageDiv, 'Registration failed. Please check your connection and try again.', 'error');
+        console.error('Registration error:', error);
     } finally {
         setButtonLoading(submitBtn, false);
     }
 });
-
-// Password strength checker
-document.getElementById('password').addEventListener('input', (e) => {
-    const password = e.target.value;
-    const strength = calculatePasswordStrength(password);
-    updatePasswordStrength(strength);
-});
-
-// Real-time password confirmation validation
-document.getElementById('confirm_password').addEventListener('input', (e) => {
-    const password = document.getElementById('password').value;
-    const confirmPassword = e.target.value;
-
-    if (confirmPassword) {
-        const isMatch = password === confirmPassword;
-        highlightField('confirm_password', isMatch);
-        updateConfirmFeedback(isMatch);
-    }
-});
-
-// Username availability check (simulation)
-let usernameTimeout;
-document.getElementById('username').addEventListener('input', (e) => {
-    clearTimeout(usernameTimeout);
-    const username = e.target.value;
-
-    if (username.length >= 3) {
-        usernameTimeout = setTimeout(() => {
-            checkUsernameAvailability(username);
-        }, 500);
-    } else {
-        document.getElementById('usernameFeedback').innerHTML = '';
-    }
-});
-
-function calculatePasswordStrength(password) {
-    let score = 0;
-    const checks = {
-        length: password.length >= 8,
-        lowercase: /[a-z]/.test(password),
-        uppercase: /[A-Z]/.test(password),
-        numbers: /\d/.test(password),
-        symbols: /[^A-Za-z0-9]/.test(password)
-    };
-
-    score = Object.values(checks).filter(Boolean).length;
-
-    if (password.length >= 12) score += 1;
-    if (password.length >= 16) score += 1;
-
-    return Math.min(score, 5);
-}
-
-function updatePasswordStrength(score) {
-    const strengthBar = document.querySelector('.strength-fill');
-    const strengthText = document.getElementById('strengthText');
-
-    const levels = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
-    const colors = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#16a34a', '#15803d'];
-
-    const level = Math.min(score, 5);
-    const percentage = (level / 5) * 100;
-
-    strengthBar.style.width = `${percentage}%`;
-    strengthBar.style.backgroundColor = colors[level];
-    strengthText.textContent = levels[level];
-    strengthText.style.color = colors[level];
-}
-
-function highlightField(fieldId, isValid) {
-    const field = document.getElementById(fieldId);
-    const wrapper = field.parentElement;
-
-    wrapper.classList.remove('valid', 'invalid');
-    wrapper.classList.add(isValid ? 'valid' : 'invalid');
-}
-
-function updateConfirmFeedback(isMatch) {
-    const feedback = document.getElementById('confirmFeedback');
-
-    if (isMatch) {
-        feedback.innerHTML = '<span class="feedback-success">✓ Passwords match</span>';
-    } else {
-        feedback.innerHTML = '<span class="feedback-error">✗ Passwords do not match</span>';
-    }
-}
-
-function checkUsernameAvailability(username) {
-    const feedback = document.getElementById('usernameFeedback');
-
-    // Simulate availability check
-    const isAvailable = !['admin', 'user', 'test', 'demo', 'root', 'administrator'].includes(username.toLowerCase());
-
-    if (isAvailable) {
-        feedback.innerHTML = '<span class="feedback-success">✓ Username available</span>';
-        highlightField('username', true);
-    } else {
-        feedback.innerHTML = '<span class="feedback-error">✗ Username not available</span>';
-        highlightField('username', false);
-    }
-}
-
-function togglePassword(inputId) {
-    const input = document.getElementById(inputId);
-    const button = input.nextElementSibling;
-    const eyeIcon = button.querySelector('.eye-icon');
-    const eyeOffIcon = button.querySelector('.eye-off-icon');
-
-    if (input.type === 'password') {
-        input.type = 'text';
-        eyeIcon.style.display = 'none';
-        eyeOffIcon.style.display = 'block';
-    } else {
-        input.type = 'password';
-        eyeIcon.style.display = 'block';
-        eyeOffIcon.style.display = 'none';
-    }
-}
-
-function setButtonLoading(button, loading) {
-    const text = button.querySelector('.btn-text');
-    const loader = button.querySelector('.btn-loader');
-
-    if (loading) {
-        button.disabled = true;
-        button.classList.add('loading');
-        text.style.opacity = '0';
-        loader.style.opacity = '1';
-    } else {
-        button.disabled = false;
-        button.classList.remove('loading');
-        text.style.opacity = '1';
-        loader.style.opacity = '0';
-    }
-}
-
-function showMessage(element, message, type) {
-    element.innerHTML = `<div class="message message-${type}">${message}</div>`;
-    element.querySelector('.message').classList.add('show');
-}
-
-function clearMessage(element) {
-    element.innerHTML = '';
-}
-
-function showTerms() {
-    document.getElementById('termsModal').style.display = 'block';
-}
-
-function showPrivacy() {
-    document.getElementById('privacyModal').style.display = 'block';
-}
-
-function closeModal(modalId) {
-    document.getElementById(modalId).style.display = 'none';
-}
-
-function createConfetti() {
-    const colors = ['#6366f1', '#ec4899', '#10b981', '#f59e0b', '#ef4444'];
-
-    for (let i = 0; i < 50; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.position = 'fixed';
-        confetti.style.width = '10px';
-        confetti.style.height = '10px';
-        confetti.style.top = '-10px';
-        confetti.style.left = Math.random() * 100 + '%';
-        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.animation = 'confetti-fall 3s linear forwards';
-        confetti.style.zIndex = '10001';
-        document.body.appendChild(confetti);
-
-        setTimeout(() => confetti.remove(), 3000);
-    }
-}
-
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    // Add animation delays
-    document.querySelectorAll('.animate-in').forEach((el, index) => {
-        el.style.animationDelay = `${index * 0.3}s`;
-    });
-
-    // Enhanced input interactions
-    document.querySelectorAll('.form-control').forEach(input => {
-        input.addEventListener('focus', () => {
-            input.parentElement.classList.add('focused');
-        });
-
-        input.addEventListener('blur', () => {
-            if (!input.value) {
-                input.parentElement.classList.remove('focused');
-            }
-        });
-
-        input.addEventListener('input', () => {
-            if (input.value) {
-                input.parentElement.classList.add('has-value');
-            } else {
-                input.parentElement.classList.remove('has-value');
-            }
-        });
-    });
-});
-
-// Close modals when clicking outside
-window.onclick = function(event) {
-    const modals = document.querySelectorAll('.modal');
-    modals.forEach(modal => {
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
-}
 </script>
-
-<style>
-/* Enhanced Registration Styles - Same as login but with additional features */
-.welcome-section {
-    max-width: 500px;
-    color: white;
-    animation: slideInLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.welcome-content h2 {
-    font-size: var(--font-size-4xl);
-    font-weight: 900;
-    margin-bottom: var(--space-4);
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-}
-
-.welcome-content p {
-    font-size: var(--font-size-lg);
-    margin-bottom: var(--space-8);
-    opacity: 0.9;
-    line-height: 1.6;
-}
-
-.community-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-4);
-    margin-bottom: var(--space-8);
-}
-
-.stat-item {
-    text-align: center;
-    padding: var(--space-4);
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(10px);
-    border-radius: var(--radius-xl);
-    border: 1px solid rgba(255,255,255,0.2);
-}
-
-.stat-number {
-    font-size: var(--font-size-2xl);
-    font-weight: 900;
-    color: white;
-    margin-bottom: var(--space-1);
-}
-
-.stat-label {
-    font-size: var(--font-size-sm);
-    opacity: 0.8;
-}
-
-.testimonial {
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(10px);
-    border-radius: var(--radius-xl);
-    padding: var(--space-6);
-    border: 1px solid rgba(255,255,255,0.2);
-    text-align: center;
-}
-
-.testimonial blockquote {
-    font-size: var(--font-size-lg);
-    font-style: italic;
-    margin-bottom: var(--space-3);
-    line-height: 1.6;
-}
-
-.testimonial cite {
-    font-size: var(--font-size-sm);
-    opacity: 0.8;
-}
-
-.required {
-    color: var(--error-500);
-    margin-left: var(--space-1);
-}
-
-.form-hint {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-size: var(--font-size-xs);
-    color: var(--neutral-500);
-    margin-top: var(--space-1);
-}
-
-.hint-icon {
-    font-size: var(--font-size-sm);
-}
-
-.input-feedback {
-    position: absolute;
-    bottom: -20px;
-    left: 0;
-    font-size: var(--font-size-xs);
-    font-weight: 600;
-}
-
-.feedback-success {
-    color: var(--success-600);
-}
-
-.feedback-error {
-    color: var(--error-600);
-}
-
-.input-wrapper.valid .form-control {
-    border-color: var(--success-500);
-    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
-}
-
-.input-wrapper.invalid .form-control {
-    border-color: var(--error-500);
-    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
-}
-
-.password-strength {
-    margin-top: var(--space-3);
-}
-
-.strength-bar {
-    width: 100%;
-    height: 4px;
-    background: var(--neutral-200);
-    border-radius: var(--radius-full);
-    overflow: hidden;
-    margin-bottom: var(--space-2);
-}
-
-.strength-fill {
-    height: 100%;
-    width: 0%;
-    background: var(--error-500);
-    border-radius: var(--radius-full);
-    transition: all 0.3s ease;
-}
-
-.strength-text {
-    font-size: var(--font-size-xs);
-    color: var(--neutral-600);
-    font-weight: 600;
-}
-
-.agreement-checkbox {
-    margin-bottom: var(--space-4);
-}
-
-.agreement-checkbox .checkbox-label {
-    line-height: 1.5;
-}
-
-.terms-link {
-    color: var(--primary-600);
-    text-decoration: none;
-    font-weight: 600;
-    transition: var(--transition-base);
-}
-
-.terms-link:hover {
-    color: var(--primary-700);
-    text-decoration: underline;
-}
-
-.btn-register.success {
-    background: var(--success-500);
-    transform: scale(1.02);
-}
-
-/* Modal Styles */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 10000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.6);
-    backdrop-filter: blur(8px);
-    animation: fadeIn 0.3s ease;
-}
-
-.modal-content {
-    background: white;
-    margin: 10% auto;
-    border-radius: var(--radius-2xl);
-    width: 90%;
-    max-width: 500px;
-    box-shadow: var(--shadow-2xl);
-    animation: slideIn 0.3s ease;
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--space-6);
-    border-bottom: 1px solid var(--neutral-200);
-}
-
-.modal-header h3 {
-    color: var(--neutral-800);
-    font-weight: 700;
-    margin: 0;
-}
-
-.modal-close {
-    background: none;
-    border: none;
-    font-size: 2rem;
-    cursor: pointer;
-    color: var(--neutral-500);
-    transition: var(--transition-base);
-}
-
-.modal-close:hover {
-    color: var(--neutral-800);
-}
-
-.modal-body {
-    padding: var(--space-6);
-    line-height: 1.6;
-}
-
-.modal-body ul {
-    margin: var(--space-4) 0;
-    padding-left: var(--space-5);
-}
-
-.modal-body li {
-    margin-bottom: var(--space-2);
-}
-
-.modal-footer {
-    padding: var(--space-6);
-    border-top: 1px solid var(--neutral-200);
-    text-align: right;
-}
-
-/* Confetti Animation */
-@keyframes confetti-fall {
-    0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(100vh) rotate(720deg);
-        opacity: 0;
-    }
-}
-
-/* Inherit all other styles from login page */
-.auth-container,
-.auth-background,
-.floating-shapes,
-.shape,
-.auth-card,
-.auth-brand,
-.brand-logo,
-.logo-icon,
-.logo-text,
-.brand-tagline,
-.auth-header,
-.form-label,
-.label-icon,
-.input-wrapper,
-.form-control,
-.input-border,
-.password-toggle,
-.form-options,
-.checkbox-wrapper,
-.checkmark,
-.btn-login,
-.btn-text,
-.btn-loader,
-.spinner,
-.auth-footer,
-.auth-link,
-.message {
-    /* All styles inherited from login page */
-}
-
-@media (max-width: 1024px) {
-    .auth-container {
-        grid-template-columns: 1fr;
-        gap: var(--space-8);
-    }
-
-    .welcome-section {
-        order: -1;
-        text-align: center;
-    }
-
-    .community-stats {
-        grid-template-columns: repeat(3, 1fr);
-        gap: var(--space-3);
-    }
-}
-
-@media (max-width: 768px) {
-    .welcome-content h2 {
-        font-size: var(--font-size-3xl);
-    }
-
-    .community-stats {
-        grid-template-columns: 1fr;
-        gap: var(--space-3);
-    }
-
-    .modal-content {
-        margin: 5% auto;
-        width: 95%;
-    }
-
-    .auth-container {
-        min-height: calc(100vh - 100px);
-    }
-}
-
-@media (max-width: 480px) {
-    .auth-card {
-        padding: var(--space-6) var(--space-4);
-    }
-
-    .welcome-content h2 {
-        font-size: var(--font-size-2xl);
-    }
-
-    .stat-item {
-        padding: var(--space-3);
-    }
-
-    .stat-number {
-        font-size: var(--font-size-xl);
-    }
-
-    .auth-container {
-        min-height: calc(100vh - 80px);
-    }
-}
-</style>
