@@ -25,25 +25,19 @@ abstract class BaseController {
 
         extract($data);
 
-        // Start output buffering
+        // Start output buffering for the view content
         ob_start();
-
-        // Include the view file
         $viewFile = APP_PATH . '/views/' . $viewPath . '.php';
         if (file_exists($viewFile)) {
             include $viewFile;
         } else {
             throw new \Exception("View file not found: {$viewFile}");
         }
-
-        // Get the content
         $content = ob_get_clean();
 
-        // Include layout if it's not an AJAX request
+        // Use a single layout file for all pages
         if (!$this->isAjaxRequest()) {
-            include APP_PATH . '/views/layout/header.php';
-            echo $content;
-            include APP_PATH . '/views/layout/footer.php';
+            include APP_PATH . '/views/layout/layout.php';
         } else {
             echo $content;
         }
