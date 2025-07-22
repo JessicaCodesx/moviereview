@@ -2,6 +2,7 @@
 $config = require CONFIG_PATH . '/app.php';
 $isLoggedIn = isset($_SESSION['user']) && !empty($_SESSION['user']['id']);
 $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
+$isAuthPage = in_array($currentPath, ['/login', '/register']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,9 +11,8 @@ $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $config['app_name']; ?><?php echo $currentPath !== '/' ? ' - ' . ucfirst(trim($currentPath, '/')) : ''; ?></title>
 
-    <!-- CRITICAL FIX: Inline styles to make content visible immediately -->
+    <!-- Critical styles for immediate visibility -->
     <style>
-        /* Emergency visibility fix */
         * {
             box-sizing: border-box;
         }
@@ -50,6 +50,25 @@ $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
             color: #333 !important;
             opacity: 1 !important;
             visibility: visible !important;
+            position: sticky !important;
+            top: 20px !important;
+            z-index: 1000 !important;
+        }
+
+        .nav-bar.auth-page {
+            background: rgba(255, 255, 255, 0.1) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            color: white !important;
+        }
+
+        .nav-bar.auth-page .nav-link,
+        .nav-bar.auth-page .user-name-display {
+            color: rgba(255, 255, 255, 0.9) !important;
+        }
+
+        .nav-bar.auth-page .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1) !important;
+            color: white !important;
         }
 
         .nav-brand a {
@@ -60,6 +79,10 @@ $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
             color: #6366f1 !important;
             font-size: 1.25rem !important;
             font-weight: 800 !important;
+        }
+
+        .nav-bar.auth-page .nav-brand a {
+            color: white !important;
         }
 
         .brand-icon {
@@ -87,6 +110,12 @@ $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
         .nav-link:hover,
         .nav-link.active {
             background: #6366f1 !important;
+            color: white !important;
+        }
+
+        .nav-bar.auth-page .nav-link:hover,
+        .nav-bar.auth-page .nav-link.active {
+            background: rgba(255, 255, 255, 0.2) !important;
             color: white !important;
         }
 
@@ -133,181 +162,47 @@ $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
             font-size: 0.9rem !important;
         }
 
-        .header {
-            text-align: center !important;
-            padding: 60px 20px !important;
-            margin-bottom: 40px !important;
-            color: white !important;
-            opacity: 1 !important;
-            visibility: visible !important;
-        }
-
-        .header-title {
-            font-size: 3.5rem !important;
-            font-weight: 900 !important;
-            margin-bottom: 20px !important;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3) !important;
-            color: white !important;
-        }
-
-        .header-subtitle {
-            font-size: 1.25rem !important;
-            opacity: 0.9 !important;
-            margin-bottom: 30px !important;
-            color: white !important;
-        }
-
-        .header-features {
-            display: flex !important;
-            justify-content: center !important;
-            gap: 30px !important;
-            flex-wrap: wrap !important;
-        }
-
-        .feature-item {
-            display: flex !important;
-            align-items: center !important;
-            gap: 8px !important;
-            color: rgba(255,255,255,0.9) !important;
-            font-weight: 500 !important;
-        }
-
-        .feature-icon {
-            font-size: 1.25rem !important;
-        }
-
-        .user-menu-toggle {
-            display: flex !important;
-            align-items: center !important;
-            gap: 10px !important;
-            background: none !important;
-            border: none !important;
-            cursor: pointer !important;
-            padding: 8px !important;
-            border-radius: 10px !important;
-            color: #374151 !important;
-        }
-
-        .user-avatar {
-            width: 40px !important;
-            height: 40px !important;
-            background: linear-gradient(135deg, #6366f1, #ec4899) !important;
-            border-radius: 50% !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            color: white !important;
-            font-weight: 700 !important;
+        .auth-page-indicator {
+            background: rgba(255, 255, 255, 0.1) !important;
+            padding: 8px 16px !important;
+            border-radius: 20px !important;
             font-size: 0.875rem !important;
-        }
-
-        .user-name-display {
-            font-weight: 600 !important;
-            color: #374151 !important;
-        }
-
-        .user-dropdown {
-            position: absolute !important;
-            top: 100% !important;
-            right: 0 !important;
-            margin-top: 8px !important;
-            background: white !important;
-            border-radius: 10px !important;
-            box-shadow: 0 20px 30px rgba(0,0,0,0.2) !important;
-            min-width: 200px !important;
-            opacity: 0 !important;
-            visibility: hidden !important;
-            transform: translateY(-10px) !important;
-            transition: all 0.2s ease !important;
-            z-index: 1000 !important;
-        }
-
-        .user-dropdown.show {
-            opacity: 1 !important;
-            visibility: visible !important;
-            transform: translateY(0) !important;
-        }
-
-        .dropdown-item {
-            display: flex !important;
-            align-items: center !important;
-            gap: 10px !important;
-            padding: 12px 16px !important;
-            color: #374151 !important;
-            text-decoration: none !important;
-            transition: all 0.2s ease !important;
-        }
-
-        .dropdown-item:hover {
-            background: #f3f4f6 !important;
-            color: #6366f1 !important;
-        }
-
-        .dropdown-divider {
-            height: 1px !important;
-            background: #e5e7eb !important;
-            margin: 8px 0 !important;
-        }
-
-        /* Hide page loader immediately */
-        .page-loader,
-        #pageLoader {
-            display: none !important;
-        }
-
-        .mobile-menu-toggle {
-            display: none !important;
-            flex-direction: column !important;
-            gap: 4px !important;
-            background: none !important;
-            border: none !important;
-            cursor: pointer !important;
-            padding: 8px !important;
-        }
-
-        .hamburger-line {
-            width: 24px !important;
-            height: 2px !important;
-            background: #374151 !important;
-            transition: all 0.3s ease !important;
+            color: rgba(255, 255, 255, 0.8) !important;
         }
 
         /* Mobile responsive */
         @media (max-width: 768px) {
-            .mobile-menu-toggle {
-                display: flex !important;
+            .nav-bar {
+                padding: 15px 20px !important;
+                flex-wrap: wrap !important;
+                gap: 10px !important;
             }
 
-            .nav-links,
-            .user-menu {
+            .nav-links {
                 display: none !important;
             }
 
-            .header-title {
-                font-size: 2.5rem !important;
+            .mobile-nav-toggle {
+                display: block !important;
+                background: none !important;
+                border: none !important;
+                color: inherit !important;
+                font-size: 1.25rem !important;
+                cursor: pointer !important;
             }
 
-            .header-features {
-                flex-direction: column !important;
-                gap: 15px !important;
-            }
-
-            .nav-bar {
-                padding: 15px 20px !important;
+            .container {
+                padding: 15px !important;
             }
         }
 
         @media (max-width: 480px) {
-            .container {
-                padding: 15px !important;
+            .nav-brand a {
+                font-size: 1.1rem !important;
             }
 
-            .header {
-                padding: 40px 15px !important;
-            }
-
-            .header-title {
-                font-size: 2rem !important;
+            .brand-icon {
+                font-size: 1.25rem !important;
             }
         }
     </style>
@@ -322,7 +217,7 @@ $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
     <!-- Main Stylesheet -->
     <link rel="stylesheet" href="/public/css/style.css">
 
-    <!-- Meta tags for better SEO and social sharing -->
+    <!-- Meta tags -->
     <meta name="description" content="Discover, rate, and review your favorite movies. Track your watchlist and get personalized recommendations.">
     <meta name="keywords" content="movies, reviews, ratings, watchlist, cinema, films">
     <meta name="author" content="<?php echo $config['app_name']; ?>">
@@ -331,26 +226,17 @@ $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
     <meta property="og:title" content="<?php echo $config['app_name']; ?>">
     <meta property="og:description" content="Your ultimate movie discovery and rating platform">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="/public/assets/images/og-image.jpg">
-
-    <!-- Twitter Card tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="<?php echo $config['app_name']; ?>">
-    <meta name="twitter:description" content="Discover, rate, and review your favorite movies">
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/public/assets/images/favicon.ico">
-    <link rel="apple-touch-icon" href="/public/assets/images/apple-touch-icon.png">
 
-    <!-- Theme color for mobile browsers -->
+    <!-- Theme color -->
     <meta name="theme-color" content="#6366f1">
-    <meta name="msapplication-TileColor" content="#6366f1">
 </head>
 <body class="loaded">
     <div class="container">
-        <?php if (!in_array($currentPath, ['/login', '/register'])): ?>
-        <!-- Enhanced Navigation Bar -->
-        <nav class="nav-bar" role="navigation" aria-label="Main navigation">
+        <!-- Always-visible Navigation Bar -->
+        <nav class="nav-bar <?php echo $isAuthPage ? 'auth-page' : ''; ?>" role="navigation" aria-label="Main navigation">
             <div class="nav-brand">
                 <a href="/" class="nav-link brand-link" aria-label="Home">
                     <span class="brand-icon">🎬</span>
@@ -359,131 +245,124 @@ $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
             </div>
 
             <div class="nav-links" role="menubar">
-                <a href="/" class="nav-link <?php echo $currentPath === '/' ? 'active' : ''; ?>" 
-                   role="menuitem" aria-current="<?php echo $currentPath === '/' ? 'page' : 'false'; ?>">
-                    <span class="nav-icon">🔍</span>
-                    <span class="nav-text">Search</span>
-                </a>
+                <?php if (!$isAuthPage): ?>
+                    <a href="/" class="nav-link <?php echo $currentPath === '/' ? 'active' : ''; ?>" 
+                       role="menuitem">
+                        <span class="nav-icon">🔍</span>
+                        <span class="nav-text">Search</span>
+                    </a>
 
-                <?php if ($isLoggedIn): ?>
-                    <a href="/dashboard" class="nav-link <?php echo strpos($currentPath, '/dashboard') === 0 ? 'active' : ''; ?>" 
-                       role="menuitem" aria-current="<?php echo strpos($currentPath, '/dashboard') === 0 ? 'page' : 'false'; ?>">
-                        <span class="nav-icon">📊</span>
-                        <span class="nav-text">Dashboard</span>
-                    </a>
-                    <a href="/watchlist" class="nav-link <?php echo strpos($currentPath, '/watchlist') === 0 ? 'active' : ''; ?>" 
-                       role="menuitem" aria-current="<?php echo strpos($currentPath, '/watchlist') === 0 ? 'page' : 'false'; ?>">
-                        <span class="nav-icon">📝</span>
-                        <span class="nav-text">Watchlist</span>
-                        <?php if (isset($_SESSION['watchlist_count']) && $_SESSION['watchlist_count'] > 0): ?>
-                            <span class="nav-badge" style="background: #ef4444; color: white; font-size: 0.75rem; padding: 2px 6px; border-radius: 999px; margin-left: 8px;"><?php echo $_SESSION['watchlist_count']; ?></span>
-                        <?php endif; ?>
-                    </a>
-                    <a href="/watched" class="nav-link <?php echo strpos($currentPath, '/watched') === 0 ? 'active' : ''; ?>" 
-                       role="menuitem" aria-current="<?php echo strpos($currentPath, '/watched') === 0 ? 'page' : 'false'; ?>">
-                        <span class="nav-icon">✅</span>
-                        <span class="nav-text">Watched</span>
-                    </a>
+                    <?php if ($isLoggedIn): ?>
+                        <a href="/dashboard" class="nav-link <?php echo strpos($currentPath, '/dashboard') === 0 ? 'active' : ''; ?>" 
+                           role="menuitem">
+                            <span class="nav-icon">📊</span>
+                            <span class="nav-text">Dashboard</span>
+                        </a>
+                        <a href="/watchlist" class="nav-link <?php echo strpos($currentPath, '/watchlist') === 0 ? 'active' : ''; ?>" 
+                           role="menuitem">
+                            <span class="nav-icon">📝</span>
+                            <span class="nav-text">Watchlist</span>
+                        </a>
+                        <a href="/watched" class="nav-link <?php echo strpos($currentPath, '/watched') === 0 ? 'active' : ''; ?>" 
+                           role="menuitem">
+                            <span class="nav-icon">✅</span>
+                            <span class="nav-text">Watched</span>
+                        </a>
+                    <?php endif; ?>
+                <?php else: ?>
+                    <!-- Show simplified nav for auth pages -->
+                    <div class="auth-page-indicator">
+                        <?php echo $currentPath === '/login' ? 'Sign In' : 'Create Account'; ?>
+                    </div>
                 <?php endif; ?>
             </div>
 
             <div class="user-menu">
-                <?php if ($isLoggedIn): ?>
+                <?php if ($isLoggedIn && !$isAuthPage): ?>
                     <div class="user-profile" style="position: relative;">
-                        <button class="user-menu-toggle" onclick="toggleUserMenu()" aria-expanded="false" aria-haspopup="true">
-                            <div class="user-avatar">
+                        <button class="user-menu-toggle" onclick="toggleUserMenu()" aria-expanded="false" aria-haspopup="true"
+                                style="display: flex; align-items: center; gap: 10px; background: none; border: none; cursor: pointer; padding: 8px; border-radius: 10px; color: inherit;">
+                            <div class="user-avatar" style="width: 40px; height: 40px; background: linear-gradient(135deg, #6366f1, #ec4899); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.875rem;">
                                 <span class="user-initial"><?php echo strtoupper(substr($_SESSION['user']['username'], 0, 1)); ?></span>
                             </div>
-                            <span class="user-name-display">
+                            <span class="user-name-display" style="font-weight: 600;">
                                 <?php echo htmlspecialchars($_SESSION['user']['username']); ?>
                             </span>
-                            <svg class="user-menu-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none" style="transition: transform 0.2s ease;">
-                                <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
                         </button>
 
-                        <div class="user-dropdown" id="userDropdown">
-                            <div class="dropdown-header" style="padding: 16px;">
+                        <div class="user-dropdown" id="userDropdown" style="position: absolute; top: 100%; right: 0; margin-top: 8px; background: white; border-radius: 10px; box-shadow: 0 20px 30px rgba(0,0,0,0.2); min-width: 200px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.2s ease; z-index: 1000;">
+                            <div class="dropdown-header" style="padding: 16px; border-bottom: 1px solid #e5e7eb;">
                                 <div class="user-info">
-                                    <strong><?php echo htmlspecialchars($_SESSION['user']['username']); ?></strong>
-                                    <small style="display: block; opacity: 0.7;">Member since <?php echo date('M Y', strtotime($_SESSION['user']['created_at'])); ?></small>
+                                    <strong style="color: #374151;"><?php echo htmlspecialchars($_SESSION['user']['username']); ?></strong>
+                                    <small style="display: block; opacity: 0.7; color: #6b7280;">Member since <?php echo date('M Y', strtotime($_SESSION['user']['created_at'])); ?></small>
                                 </div>
                             </div>
-                            <div class="dropdown-divider"></div>
-                            <a href="/profile" class="dropdown-item <?php echo strpos($currentPath, '/profile') === 0 ? 'active' : ''; ?>">
+                            <a href="/profile" class="dropdown-item" style="display: flex; align-items: center; gap: 10px; padding: 12px 16px; color: #374151; text-decoration: none; transition: all 0.2s ease;">
                                 <span class="dropdown-icon">👤</span>
                                 Profile
                             </a>
-                            <a href="/dashboard" class="dropdown-item">
+                            <a href="/dashboard" class="dropdown-item" style="display: flex; align-items: center; gap: 10px; padding: 12px 16px; color: #374151; text-decoration: none; transition: all 0.2s ease;">
                                 <span class="dropdown-icon">📊</span>
                                 Dashboard
                             </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="/logout" class="dropdown-item logout-item" onclick="return confirmLogout()" style="color: #dc2626;">
+                            <div style="height: 1px; background: #e5e7eb; margin: 8px 0;"></div>
+                            <a href="/logout" class="dropdown-item logout-item" onclick="return confirmLogout()" style="display: flex; align-items: center; gap: 10px; padding: 12px 16px; color: #dc2626; text-decoration: none; transition: all 0.2s ease;">
                                 <span class="dropdown-icon">🚪</span>
                                 Logout
                             </a>
                         </div>
                     </div>
-                <?php else: ?>
+                <?php elseif (!$isLoggedIn): ?>
                     <div class="auth-buttons">
-                        <a href="/login" class="nav-link login-link">
-                            <span class="nav-icon">🔑</span>
-                            <span class="nav-text">Login</span>
-                        </a>
-                        <a href="/register" class="btn btn-primary btn-small signup-btn">
-                            <span>Sign Up Free</span>
-                        </a>
+                        <?php if ($currentPath !== '/login'): ?>
+                            <a href="/login" class="nav-link login-link">
+                                <span class="nav-icon">🔑</span>
+                                <span class="nav-text">Login</span>
+                            </a>
+                        <?php endif; ?>
+                        <?php if ($currentPath !== '/register'): ?>
+                            <a href="/register" class="btn btn-primary btn-small signup-btn">
+                                <span>Sign Up Free</span>
+                            </a>
+                        <?php endif; ?>
                     </div>
                 <?php endif; ?>
+
+                <!-- Mobile menu toggle -->
+                <button class="mobile-nav-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu" style="display: none;">
+                    <span>☰</span>
+                </button>
             </div>
-
-            <!-- Mobile menu toggle -->
-            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
         </nav>
-        <?php endif; ?>
 
-        <!-- Enhanced Header Section -->
-        <?php if (in_array($currentPath, ['/', '/dashboard'])): ?>
-        <div class="header">
+        <!-- Enhanced Header Section for non-auth pages -->
+        <?php if (!$isAuthPage && in_array($currentPath, ['/', '/dashboard'])): ?>
+        <div class="header" style="text-align: center; padding: 60px 20px; margin-bottom: 40px;">
             <div class="header-content">
                 <?php if ($currentPath === '/'): ?>
-                    <h1 class="header-title">
-                        <span class="title-icon">🎬</span>
+                    <h1 style="font-size: 3.5rem; font-weight: 900; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); color: white;">
+                        <span style="font-size: 1.2em;">🎬</span>
                         <?php echo $config['app_name']; ?>
                     </h1>
-                    <p class="header-subtitle">Discover, Rate & Review Your Favorite Movies</p>
-                    <div class="header-features">
-                        <div class="feature-item">
-                            <span class="feature-icon">🔍</span>
+                    <p style="font-size: 1.25rem; opacity: 0.9; margin-bottom: 30px; color: white;">Discover, Rate & Review Your Favorite Movies</p>
+                    <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+                        <div style="display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.9); font-weight: 500;">
+                            <span style="font-size: 1.25rem;">🔍</span>
                             <span>Search Movies</span>
                         </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">⭐</span>
+                        <div style="display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.9); font-weight: 500;">
+                            <span style="font-size: 1.25rem;">⭐</span>
                             <span>Rate & Review</span>
                         </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">📝</span>
+                        <div style="display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.9); font-weight: 500;">
+                            <span style="font-size: 1.25rem;">📝</span>
                             <span>Track Watchlist</span>
                         </div>
                     </div>
                 <?php elseif ($currentPath === '/dashboard'): ?>
-                    <h1 class="header-title">Your Movie Dashboard</h1>
-                    <p class="header-subtitle">Track your watchlist, ratings, and discover new favorites</p>
+                    <h1 style="font-size: 3.5rem; font-weight: 900; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); color: white;">Your Movie Dashboard</h1>
+                    <p style="font-size: 1.25rem; opacity: 0.9; color: white;">Track your watchlist, ratings, and discover new favorites</p>
                 <?php endif; ?>
-            </div>
-
-            <!-- Animated background elements -->
-            <div class="header-bg-animation" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; z-index: 1;">
-                <div class="floating-element floating-element-1" style="position: absolute; top: 20%; left: 10%; font-size: 2rem; opacity: 0.1; animation: float 20s ease-in-out infinite;">🎭</div>
-                <div class="floating-element floating-element-2" style="position: absolute; top: 60%; left: 80%; font-size: 2rem; opacity: 0.1; animation: float 20s ease-in-out infinite; animation-delay: 4s;">🍿</div>
-                <div class="floating-element floating-element-3" style="position: absolute; top: 40%; left: 70%; font-size: 2rem; opacity: 0.1; animation: float 20s ease-in-out infinite; animation-delay: 8s;">🎪</div>
-                <div class="floating-element floating-element-4" style="position: absolute; top: 80%; left: 20%; font-size: 2rem; opacity: 0.1; animation: float 20s ease-in-out infinite; animation-delay: 12s;">🎨</div>
-                <div class="floating-element floating-element-5" style="position: absolute; top: 30%; left: 30%; font-size: 2rem; opacity: 0.1; animation: float 20s ease-in-out infinite; animation-delay: 16s;">🎵</div>
             </div>
         </div>
         <?php endif; ?>
@@ -498,20 +377,25 @@ $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
         // Enhanced UI functionality
         function toggleUserMenu() {
             const dropdown = document.getElementById('userDropdown');
-            const toggle = document.querySelector('.user-menu-toggle');
-            const isOpen = dropdown.classList.contains('show');
+            const isOpen = dropdown.style.opacity === '1';
 
             if (isOpen) {
-                dropdown.classList.remove('show');
-                toggle.setAttribute('aria-expanded', 'false');
+                dropdown.style.opacity = '0';
+                dropdown.style.visibility = 'hidden';
+                dropdown.style.transform = 'translateY(-10px)';
             } else {
-                dropdown.classList.add('show');
-                toggle.setAttribute('aria-expanded', 'true');
+                dropdown.style.opacity = '1';
+                dropdown.style.visibility = 'visible';
+                dropdown.style.transform = 'translateY(0)';
             }
         }
 
         function toggleMobileMenu() {
-            alert('Mobile menu feature - coming soon!');
+            // Simple mobile menu toggle - could be enhanced
+            const navLinks = document.querySelector('.nav-links');
+            if (navLinks) {
+                navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            }
         }
 
         function confirmLogout() {
@@ -524,24 +408,25 @@ $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
             const dropdown = document.getElementById('userDropdown');
 
             if (userMenu && dropdown && !userMenu.contains(e.target)) {
-                dropdown.classList.remove('show');
-                document.querySelector('.user-menu-toggle').setAttribute('aria-expanded', 'false');
+                dropdown.style.opacity = '0';
+                dropdown.style.visibility = 'hidden';
+                dropdown.style.transform = 'translateY(-10px)';
             }
         });
 
-        // Show that app is working
-        console.log('🎬 Movie Review Hub - Header loaded and working!');
-        console.log('Auth state:', window.authState);
+        // Add hover effects to dropdown items
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.dropdown-item').forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    item.style.background = '#f3f4f6';
+                });
+                item.addEventListener('mouseleave', () => {
+                    item.style.background = 'transparent';
+                });
+            });
+        });
 
-        // Add floating animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes float {
-                0%, 100% { transform: translateY(0px) rotate(0deg); }
-                25% { transform: translateY(-20px) rotate(5deg); }
-                50% { transform: translateY(-10px) rotate(-5deg); }
-                75% { transform: translateY(-30px) rotate(3deg); }
-            }
-        `;
-        document.head.appendChild(style);
+        console.log('🎬 Movie Review Hub - Header loaded successfully!');
+        console.log('Auth state:', window.authState);
+        console.log('Current path:', '<?php echo $currentPath; ?>');
         </script>
