@@ -91,32 +91,6 @@
             </div>
         </div>
 
-        <div class="stats-section">
-            <h3>Platform Statistics</h3>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">🎬</div>
-                    <div class="stat-number">10M+</div>
-                    <div class="stat-label">Movies in Database</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">⭐</div>
-                    <div class="stat-number">2M+</div>
-                    <div class="stat-label">User Ratings</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">📝</div>
-                    <div class="stat-number">500K+</div>
-                    <div class="stat-label">AI Reviews Generated</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">👥</div>
-                    <div class="stat-number">50K+</div>
-                    <div class="stat-label">Active Users</div>
-                </div>
-            </div>
-        </div>
-
         <div class="project-info">
             <h3>Project Information</h3>
             <div class="info-card">
