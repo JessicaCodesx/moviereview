@@ -1,8 +1,6 @@
 <?php
 $config = require CONFIG_PATH . '/app.php';
-$isLoggedIn = isset($_SESSION['user']) && !empty($_SESSION['user']['id']);
 $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
-$isAuthPage = in_array($currentPath, ['/login', '/register']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,59 +16,48 @@ $isAuthPage = in_array($currentPath, ['/login', '/register']);
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif !important;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%) !important;
             background-attachment: fixed !important;
             min-height: 100vh !important;
             margin: 0 !important;
             padding: 0 !important;
             color: white !important;
-            opacity: 1 !important;
-            visibility: visible !important;
+            line-height: 1.6 !important;
         }
 
         .container {
             max-width: 1400px !important;
             margin: 0 auto !important;
             padding: 20px !important;
-            opacity: 1 !important;
-            visibility: visible !important;
         }
 
-        /* Base Header Styles */
-        .header-nav {
-            display: flex !important;
-            justify-content: space-between !important;
-            align-items: center !important;
+        /* Modern Header for Authenticated Users */
+        .auth-header {
             background: rgba(255, 255, 255, 0.95) !important;
-            backdrop-filter: blur(20px) saturate(180%) !important;
-            border-radius: 20px !important;
-            padding: 15px 30px !important;
-            margin-bottom: 30px !important;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
-            color: #333 !important;
-            opacity: 1 !important;
-            visibility: visible !important;
+            backdrop-filter: blur(25px) saturate(180%) !important;
+            border-radius: 24px !important;
+            padding: 16px 32px !important;
+            margin-bottom: 32px !important;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.08), 0 8px 16px rgba(0,0,0,0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
             position: sticky !important;
             top: 20px !important;
             z-index: 1000 !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-        }
-
-        .header-nav.auth-page {
-            background: rgba(255, 255, 255, 0.1) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            color: white !important;
+            display: grid !important;
+            grid-template-columns: auto 1fr auto !important;
+            gap: 24px !important;
+            align-items: center !important;
         }
 
         /* Brand Section */
-        .nav-brand {
+        .header-brand {
             display: flex !important;
             align-items: center !important;
             gap: 12px !important;
         }
 
-        .nav-brand a {
+        .brand-link {
             display: flex !important;
             align-items: center !important;
             gap: 10px !important;
@@ -78,32 +65,91 @@ $isAuthPage = in_array($currentPath, ['/login', '/register']);
             color: #6366f1 !important;
             font-size: 1.5rem !important;
             font-weight: 900 !important;
-            transition: all 0.3s ease !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
 
-        .header-nav.auth-page .nav-brand a {
-            color: white !important;
-        }
-
-        .nav-brand a:hover {
-            transform: scale(1.05) !important;
-            text-shadow: 0 4px 8px rgba(99, 102, 241, 0.3) !important;
+        .brand-link:hover {
+            transform: scale(1.02) !important;
+            color: #4f46e5 !important;
         }
 
         .brand-icon {
-            font-size: 1.75rem !important;
-            animation: float 3s ease-in-out infinite !important;
+            font-size: 2rem !important;
+            animation: brandFloat 4s ease-in-out infinite !important;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-4px); }
+        @keyframes brandFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-3px) rotate(2deg); }
         }
 
-        /* Navigation Links */
+        /* Search Section */
+        .header-search {
+            display: flex !important;
+            align-items: center !important;
+            background: rgba(255, 255, 255, 0.7) !important;
+            border: 2px solid rgba(99, 102, 241, 0.1) !important;
+            border-radius: 50px !important;
+            padding: 12px 20px !important;
+            gap: 12px !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            min-width: 320px !important;
+            max-width: 500px !important;
+            width: 100% !important;
+        }
+
+        .header-search:focus-within {
+            background: white !important;
+            border-color: #6366f1 !important;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1), 0 8px 25px rgba(99, 102, 241, 0.15) !important;
+            transform: translateY(-2px) !important;
+        }
+
+        .search-input {
+            background: none !important;
+            border: none !important;
+            outline: none !important;
+            flex: 1 !important;
+            font-size: 1rem !important;
+            color: #374151 !important;
+            font-weight: 500 !important;
+        }
+
+        .search-input::placeholder {
+            color: #9ca3af !important;
+            font-weight: 400 !important;
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+            border: none !important;
+            border-radius: 50% !important;
+            width: 40px !important;
+            height: 40px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            color: white !important;
+            cursor: pointer !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            font-size: 1.1rem !important;
+        }
+
+        .search-btn:hover {
+            transform: scale(1.1) !important;
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4) !important;
+        }
+
+        /* Navigation & User Section */
+        .header-actions {
+            display: flex !important;
+            align-items: center !important;
+            gap: 20px !important;
+        }
+
         .nav-links {
             display: flex !important;
-            gap: 8px !important;
+            gap: 4px !important;
             align-items: center !important;
         }
 
@@ -111,13 +157,13 @@ $isAuthPage = in_array($currentPath, ['/login', '/register']);
             display: flex !important;
             align-items: center !important;
             gap: 8px !important;
-            padding: 12px 18px !important;
-            border-radius: 12px !important;
+            padding: 10px 16px !important;
+            border-radius: 14px !important;
             text-decoration: none !important;
             color: #374151 !important;
             font-weight: 600 !important;
             font-size: 0.95rem !important;
-            transition: all 0.3s ease !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
             position: relative !important;
             overflow: hidden !important;
         }
@@ -129,8 +175,8 @@ $isAuthPage = in_array($currentPath, ['/login', '/register']);
             left: -100% !important;
             width: 100% !important;
             height: 100% !important;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent) !important;
-            transition: left 0.5s ease !important;
+            background: linear-gradient(90deg, transparent, rgba(99,102,241,0.1), transparent) !important;
+            transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
 
         .nav-link:hover::before {
@@ -139,20 +185,10 @@ $isAuthPage = in_array($currentPath, ['/login', '/register']);
 
         .nav-link:hover,
         .nav-link.active {
-            background: linear-gradient(135deg, #6366f1, #ec4899) !important;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
             color: white !important;
             transform: translateY(-2px) !important;
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3) !important;
-        }
-
-        .header-nav.auth-page .nav-link {
-            color: rgba(255, 255, 255, 0.9) !important;
-        }
-
-        .header-nav.auth-page .nav-link:hover,
-        .header-nav.auth-page .nav-link.active {
-            background: rgba(255, 255, 255, 0.2) !important;
-            color: white !important;
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3) !important;
         }
 
         .nav-icon {
@@ -160,163 +196,83 @@ $isAuthPage = in_array($currentPath, ['/login', '/register']);
         }
 
         /* User Menu */
-        .user-menu {
-            display: flex !important;
-            align-items: center !important;
-            gap: 15px !important;
-        }
-
-        .user-profile {
+        .user-section {
             position: relative !important;
         }
 
-        .user-menu-toggle {
+        .user-trigger {
             display: flex !important;
             align-items: center !important;
             gap: 12px !important;
-            background: none !important;
-            border: none !important;
-            cursor: pointer !important;
+            background: rgba(99, 102, 241, 0.1) !important;
+            border: 2px solid rgba(99, 102, 241, 0.15) !important;
+            border-radius: 50px !important;
             padding: 8px 16px !important;
-            border-radius: 12px !important;
-            color: inherit !important;
-            transition: all 0.3s ease !important;
+            cursor: pointer !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            text-decoration: none !important;
+            color: #374151 !important;
         }
 
-        .user-menu-toggle:hover {
-            background: rgba(99, 102, 241, 0.1) !important;
+        .user-trigger:hover {
+            background: rgba(99, 102, 241, 0.15) !important;
+            border-color: rgba(99, 102, 241, 0.25) !important;
             transform: translateY(-2px) !important;
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.15) !important;
         }
 
         .user-avatar {
-            width: 45px !important;
-            height: 45px !important;
-            background: linear-gradient(135deg, #6366f1, #ec4899) !important;
+            width: 42px !important;
+            height: 42px !important;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
             border-radius: 50% !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             color: white !important;
             font-weight: 800 !important;
-            font-size: 1rem !important;
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3) !important;
+            font-size: 1.1rem !important;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3) !important;
         }
 
-        .user-name-display {
-            font-weight: 700 !important;
-            font-size: 1rem !important;
-        }
-
-        /* Search Bar */
-        .header-search {
-            display: flex !important;
-            align-items: center !important;
-            gap: 8px !important;
-            background: rgba(255, 255, 255, 0.9) !important;
-            border: 2px solid transparent !important;
-            border-radius: 25px !important;
-            padding: 8px 16px !important;
-            min-width: 300px !important;
-            transition: all 0.3s ease !important;
-        }
-
-        .header-search:focus-within {
-            background: white !important;
-            border-color: #6366f1 !important;
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1) !important;
-            transform: translateY(-2px) !important;
-        }
-
-        .header-search input {
-            background: none !important;
-            border: none !important;
-            outline: none !important;
-            flex: 1 !important;
+        .user-info h4 {
+            margin: 0 !important;
             font-size: 0.95rem !important;
+            font-weight: 700 !important;
             color: #374151 !important;
         }
 
-        .header-search input::placeholder {
-            color: #9ca3af !important;
+        .user-info span {
+            font-size: 0.8rem !important;
+            color: #6b7280 !important;
+            font-weight: 500 !important;
         }
 
-        .search-btn {
-            background: linear-gradient(135deg, #6366f1, #ec4899) !important;
-            border: none !important;
-            border-radius: 50% !important;
-            width: 35px !important;
-            height: 35px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            color: white !important;
-            cursor: pointer !important;
-            transition: all 0.3s ease !important;
+        .dropdown-icon {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            color: #6b7280 !important;
         }
 
-        .search-btn:hover {
-            transform: scale(1.1) !important;
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4) !important;
+        .user-trigger:hover .dropdown-icon {
+            transform: rotate(180deg) !important;
         }
 
-        /* Auth Buttons */
-        .auth-buttons {
-            display: flex !important;
-            gap: 12px !important;
-            align-items: center !important;
-        }
-
-        .btn {
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 8px !important;
-            padding: 12px 24px !important;
-            border-radius: 12px !important;
-            text-decoration: none !important;
-            font-weight: 700 !important;
-            border: none !important;
-            cursor: pointer !important;
-            transition: all 0.3s ease !important;
-            font-size: 0.95rem !important;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #6366f1, #ec4899) !important;
-            color: white !important;
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.9) !important;
-            color: #374151 !important;
-            border: 2px solid rgba(99, 102, 241, 0.2) !important;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px) !important;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2) !important;
-        }
-
-        .btn-primary:hover {
-            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.4) !important;
-        }
-
-        /* Dropdown */
+        /* Dropdown Menu */
         .user-dropdown {
             position: absolute !important;
-            top: 100% !important;
+            top: calc(100% + 12px) !important;
             right: 0 !important;
-            margin-top: 12px !important;
             background: white !important;
-            border-radius: 16px !important;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15) !important;
-            border: 1px solid rgba(0,0,0,0.05) !important;
-            min-width: 220px !important;
+            border-radius: 20px !important;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05) !important;
+            min-width: 280px !important;
             opacity: 0 !important;
             visibility: hidden !important;
             transform: translateY(-10px) scale(0.95) !important;
-            transition: all 0.3s ease !important;
-            z-index: 1000 !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            z-index: 1001 !important;
             backdrop-filter: blur(20px) !important;
+            overflow: hidden !important;
         }
 
         .user-dropdown.show {
@@ -326,20 +282,38 @@ $isAuthPage = in_array($currentPath, ['/login', '/register']);
         }
 
         .dropdown-header {
-            padding: 20px !important;
-            border-bottom: 1px solid #f3f4f6 !important;
+            padding: 24px !important;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9) !important;
+            border-bottom: 1px solid #e2e8f0 !important;
             text-align: center !important;
+        }
+
+        .dropdown-header h4 {
+            margin: 0 0 4px 0 !important;
+            font-size: 1.1rem !important;
+            font-weight: 800 !important;
+            color: #1f2937 !important;
+        }
+
+        .dropdown-header span {
+            font-size: 0.85rem !important;
+            color: #6b7280 !important;
+            font-weight: 500 !important;
         }
 
         .dropdown-item {
             display: flex !important;
             align-items: center !important;
-            gap: 12px !important;
-            padding: 14px 20px !important;
+            gap: 14px !important;
+            padding: 16px 24px !important;
             color: #374151 !important;
             text-decoration: none !important;
-            transition: all 0.2s ease !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
             font-weight: 500 !important;
+            border: none !important;
+            background: none !important;
+            width: 100% !important;
+            cursor: pointer !important;
         }
 
         .dropdown-item:hover {
@@ -348,13 +322,19 @@ $isAuthPage = in_array($currentPath, ['/login', '/register']);
             transform: translateX(4px) !important;
         }
 
-        .dropdown-item.danger:hover {
-            background: #fef2f2 !important;
+        .dropdown-item.logout:hover {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2) !important;
             color: #ef4444 !important;
         }
 
-        /* Mobile Menu */
-        .mobile-menu-toggle {
+        .dropdown-divider {
+            height: 1px !important;
+            background: #e2e8f0 !important;
+            margin: 8px 0 !important;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-toggle {
             display: none !important;
             flex-direction: column !important;
             gap: 4px !important;
@@ -363,59 +343,85 @@ $isAuthPage = in_array($currentPath, ['/login', '/register']);
             cursor: pointer !important;
             padding: 8px !important;
             border-radius: 8px !important;
-            transition: all 0.3s ease !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
 
-        .mobile-menu-toggle:hover {
+        .mobile-toggle:hover {
             background: rgba(99, 102, 241, 0.1) !important;
         }
 
         .hamburger-line {
-            width: 25px !important;
+            width: 24px !important;
             height: 3px !important;
             background: #374151 !important;
             border-radius: 2px !important;
-            transition: all 0.3s ease !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
 
-        .header-nav.auth-page .hamburger-line {
-            background: white !important;
-        }
-
-        .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+        .mobile-toggle.active .hamburger-line:nth-child(1) {
             transform: rotate(45deg) translate(6px, 6px) !important;
         }
 
-        .mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+        .mobile-toggle.active .hamburger-line:nth-child(2) {
             opacity: 0 !important;
         }
 
-        .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+        .mobile-toggle.active .hamburger-line:nth-child(3) {
             transform: rotate(-45deg) translate(6px, -6px) !important;
         }
 
-        .mobile-nav {
+        /* Mobile Menu */
+        .mobile-menu {
             display: none !important;
             position: absolute !important;
-            top: 100% !important;
+            top: calc(100% + 8px) !important;
             left: 0 !important;
             right: 0 !important;
             background: white !important;
-            border-radius: 16px !important;
-            margin-top: 8px !important;
-            padding: 20px !important;
+            border-radius: 20px !important;
+            padding: 24px !important;
             box-shadow: 0 25px 50px rgba(0,0,0,0.15) !important;
             backdrop-filter: blur(20px) !important;
+            z-index: 1001 !important;
         }
 
-        .mobile-nav.show {
+        .mobile-menu.show {
             display: block !important;
+            animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
 
-        .mobile-nav .nav-link {
-            width: 100% !important;
-            justify-content: flex-start !important;
-            margin-bottom: 8px !important;
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-search {
+            margin-bottom: 20px !important;
+        }
+
+        .mobile-nav-link {
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            padding: 14px 16px !important;
+            color: #374151 !important;
+            text-decoration: none !important;
+            border-radius: 12px !important;
+            margin-bottom: 4px !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            font-weight: 600 !important;
+        }
+
+        .mobile-nav-link:hover {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9) !important;
+            color: #6366f1 !important;
+            transform: translateX(4px) !important;
         }
 
         /* Responsive Design */
@@ -424,34 +430,51 @@ $isAuthPage = in_array($currentPath, ['/login', '/register']);
                 min-width: 250px !important;
             }
 
-            .container {
-                padding: 15px !important;
+            .nav-links {
+                gap: 2px !important;
+            }
+
+            .nav-link {
+                padding: 8px 12px !important;
+                font-size: 0.9rem !important;
             }
         }
 
         @media (max-width: 768px) {
-            .header-nav {
+            .auth-header {
+                grid-template-columns: auto 1fr auto !important;
+                gap: 16px !important;
                 padding: 12px 20px !important;
-                position: relative !important;
-            }
-
-            .nav-links {
-                display: none !important;
             }
 
             .header-search {
                 display: none !important;
             }
 
-            .mobile-menu-toggle {
+            .nav-links {
+                display: none !important;
+            }
+
+            .mobile-toggle {
                 display: flex !important;
             }
 
-            .user-menu {
-                gap: 10px !important;
+            .user-trigger {
+                padding: 6px 12px !important;
             }
 
-            .nav-brand a {
+            .user-info {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .auth-header {
+                padding: 10px 16px !important;
+                border-radius: 16px !important;
+            }
+
+            .brand-link {
                 font-size: 1.25rem !important;
             }
 
@@ -459,40 +482,14 @@ $isAuthPage = in_array($currentPath, ['/login', '/register']);
                 font-size: 1.5rem !important;
             }
 
-            .mobile-nav .header-search {
-                display: flex !important;
-                min-width: auto !important;
-                width: 100% !important;
-                margin-bottom: 15px !important;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header-nav {
-                padding: 10px 15px !important;
-            }
-
-            .nav-brand a {
-                font-size: 1.1rem !important;
-            }
-
-            .brand-icon {
-                font-size: 1.3rem !important;
-            }
-
             .user-avatar {
-                width: 40px !important;
-                height: 40px !important;
-                font-size: 0.9rem !important;
+                width: 36px !important;
+                height: 36px !important;
+                font-size: 1rem !important;
             }
 
-            .btn {
-                padding: 10px 16px !important;
-                font-size: 0.875rem !important;
-            }
-
-            .auth-buttons {
-                gap: 8px !important;
+            .user-dropdown {
+                min-width: 250px !important;
             }
         }
     </style>
@@ -515,279 +512,176 @@ $isAuthPage = in_array($currentPath, ['/login', '/register']);
 </head>
 <body class="loaded">
     <div class="container">
-        <!-- Enhanced Navigation Header -->
-        <nav class="header-nav <?php echo $isAuthPage ? 'auth-page' : ''; ?>" role="navigation" aria-label="Main navigation">
-            <!-- Brand -->
-            <div class="nav-brand">
-                <a href="/" aria-label="Movie Review Hub - Home">
+        <!-- Authenticated User Header -->
+        <header class="auth-header" role="banner">
+            <!-- Brand Section -->
+            <div class="header-brand">
+                <a href="/" class="brand-link" aria-label="Movie Review Hub - Home">
                     <span class="brand-icon">🎬</span>
                     <strong><?php echo $config['app_name']; ?></strong>
                 </a>
             </div>
 
-            <?php if ($isLoggedIn && !$isAuthPage): ?>
-                <!-- AUTHENTICATED USER HEADER -->
+            <!-- Search Section -->
+            <div class="header-search">
+                <input type="text" 
+                       id="headerSearchInput" 
+                       class="search-input"
+                       placeholder="Search movies..." 
+                       onkeypress="if(event.key==='Enter') headerSearchMovies()"
+                       aria-label="Search movies">
+                <button class="search-btn" 
+                        onclick="headerSearchMovies()" 
+                        aria-label="Search">
+                    🔍
+                </button>
+            </div>
 
-                <!-- Search Bar -->
-                <div class="header-search">
-                    <input type="text" id="headerSearchInput" placeholder="Search movies..." 
-                           onkeypress="if(event.key==='Enter') headerSearchMovies()">
-                    <button class="search-btn" onclick="headerSearchMovies()" aria-label="Search">
-                        <span class="nav-icon">🔍</span>
-                    </button>
-                </div>
-
+            <!-- Actions Section -->
+            <div class="header-actions">
                 <!-- Navigation Links -->
-                <div class="nav-links" role="menubar">
-                    <a href="/dashboard" class="nav-link <?php echo strpos($currentPath, '/dashboard') === 0 ? 'active' : ''; ?>" role="menuitem">
+                <nav class="nav-links" role="navigation" aria-label="Main navigation">
+                    <a href="/dashboard" 
+                       class="nav-link <?php echo strpos($currentPath, '/dashboard') === 0 ? 'active' : ''; ?>" 
+                       role="menuitem">
                         <span class="nav-icon">📊</span>
                         <span>Dashboard</span>
                     </a>
-                    <a href="/watchlist" class="nav-link <?php echo strpos($currentPath, '/watchlist') === 0 ? 'active' : ''; ?>" role="menuitem">
+                    <a href="/watchlist" 
+                       class="nav-link <?php echo strpos($currentPath, '/watchlist') === 0 ? 'active' : ''; ?>" 
+                       role="menuitem">
                         <span class="nav-icon">📝</span>
                         <span>Watchlist</span>
                     </a>
-                    <a href="/watched" class="nav-link <?php echo strpos($currentPath, '/watched') === 0 ? 'active' : ''; ?>" role="menuitem">
+                    <a href="/watched" 
+                       class="nav-link <?php echo strpos($currentPath, '/watched') === 0 ? 'active' : ''; ?>" 
+                       role="menuitem">
                         <span class="nav-icon">✅</span>
                         <span>Watched</span>
                     </a>
-                    <a href="/profile" class="nav-link <?php echo strpos($currentPath, '/profile') === 0 ? 'active' : ''; ?>" role="menuitem">
-                        <span class="nav-icon">👤</span>
-                        <span>Profile</span>
-                    </a>
-                </div>
+                </nav>
 
                 <!-- User Menu -->
-                <div class="user-menu">
-                    <div class="user-profile">
-                        <button class="user-menu-toggle" onclick="toggleUserMenu()" aria-expanded="false" aria-haspopup="true">
-                            <div class="user-avatar">
-                                <span><?php echo strtoupper(substr($_SESSION['user']['username'], 0, 1)); ?></span>
-                            </div>
-                            <span class="user-name-display"><?php echo htmlspecialchars($_SESSION['user']['username']); ?></span>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="6,9 12,15 18,9"></polyline>
-                            </svg>
-                        </button>
-
-                        <div class="user-dropdown" id="userDropdown">
-                            <div class="dropdown-header">
-                                <strong><?php echo htmlspecialchars($_SESSION['user']['username']); ?></strong>
-                                <small style="display: block; opacity: 0.7; color: #6b7280; margin-top: 4px;">
-                                    Member since <?php echo date('M Y', strtotime($_SESSION['user']['created_at'])); ?>
-                                </small>
-                            </div>
-                            <a href="/profile" class="dropdown-item">
-                                <span>👤</span>My Profile
-                            </a>
-                            <a href="/dashboard" class="dropdown-item">
-                                <span>📊</span>Dashboard
-                            </a>
-                            <a href="/watchlist" class="dropdown-item">
-                                <span>📝</span>My Watchlist
-                            </a>
-                            <a href="/watched" class="dropdown-item">
-                                <span>✅</span>Watched Movies
-                            </a>
-                            <div style="height: 1px; background: #e5e7eb; margin: 8px 0;"></div>
-                            <a href="/logout" class="dropdown-item danger" onclick="return confirmLogout()">
-                                <span>🚪</span>Sign Out
-                            </a>
+                <div class="user-section">
+                    <button class="user-trigger" 
+                            onclick="toggleUserMenu()" 
+                            aria-expanded="false" 
+                            aria-haspopup="true"
+                            aria-label="User menu">
+                        <div class="user-avatar">
+                            <span><?php echo strtoupper(substr($_SESSION['user']['username'], 0, 1)); ?></span>
                         </div>
-                    </div>
-
-                    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
-                        <span class="hamburger-line"></span>
-                        <span class="hamburger-line"></span>
-                        <span class="hamburger-line"></span>
+                        <div class="user-info">
+                            <h4><?php echo htmlspecialchars($_SESSION['user']['username']); ?></h4>
+                            <span>Member since <?php echo date('M Y', strtotime($_SESSION['user']['created_at'])); ?></span>
+                        </div>
+                        <svg class="dropdown-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6,9 12,15 18,9"></polyline>
+                        </svg>
                     </button>
-                </div>
 
-            <?php elseif (!$isLoggedIn && !$isAuthPage): ?>
-                <!-- PUBLIC USER HEADER -->
-
-                <!-- Search Bar -->
-                <div class="header-search">
-                    <input type="text" id="headerSearchInput" placeholder="Search movies..." 
-                           onkeypress="if(event.key==='Enter') headerSearchMovies()">
-                    <button class="search-btn" onclick="headerSearchMovies()" aria-label="Search">
-                        <span class="nav-icon">🔍</span>
-                    </button>
-                </div>
-
-                <!-- Navigation Links -->
-                <div class="nav-links" role="menubar">
-                    <a href="/" class="nav-link <?php echo $currentPath === '/' ? 'active' : ''; ?>" role="menuitem">
-                        <span class="nav-icon">🏠</span>
-                        <span>Home</span>
-                    </a>
-                    <a href="/features" class="nav-link <?php echo $currentPath === '/features' ? 'active' : ''; ?>" role="menuitem">
-                        <span class="nav-icon">⭐</span>
-                        <span>Features</span>
-                    </a>
-                    <a href="/about" class="nav-link <?php echo $currentPath === '/about' ? 'active' : ''; ?>" role="menuitem">
-                        <span class="nav-icon">ℹ️</span>
-                        <span>About</span>
-                    </a>
-                    <a href="/contact" class="nav-link <?php echo $currentPath === '/contact' ? 'active' : ''; ?>" role="menuitem">
-                        <span class="nav-icon">✉️</span>
-                        <span>Contact</span>
-                    </a>
-                </div>
-
-                <!-- Auth Buttons -->
-                <div class="user-menu">
-                    <div class="auth-buttons">
-                        <a href="/login" class="btn btn-secondary">
-                            <span class="nav-icon">🔑</span>
-                            <span>Sign In</span>
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="dropdown-header">
+                            <h4><?php echo htmlspecialchars($_SESSION['user']['username']); ?></h4>
+                            <span>Welcome back! 👋</span>
+                        </div>
+                        <a href="/profile" class="dropdown-item">
+                            <span>👤</span>My Profile
                         </a>
-                        <a href="/register" class="btn btn-primary">
-                            <span class="nav-icon">✨</span>
-                            <span>Get Started</span>
+                        <a href="/dashboard" class="dropdown-item">
+                            <span>📊</span>Dashboard
+                        </a>
+                        <a href="/watchlist" class="dropdown-item">
+                            <span>📝</span>My Watchlist
+                        </a>
+                        <a href="/watched" class="dropdown-item">
+                            <span>✅</span>Watched Movies
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="/logout" class="dropdown-item logout" onclick="return confirmLogout()">
+                            <span>🚪</span>Sign Out
                         </a>
                     </div>
-
-                    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
-                        <span class="hamburger-line"></span>
-                        <span class="hamburger-line"></span>
-                        <span class="hamburger-line"></span>
-                    </button>
                 </div>
 
-            <?php else: ?>
-                <!-- AUTH PAGE HEADER (Login/Register) -->
-                <div style="display: flex; align-items: center; gap: 20px; color: rgba(255, 255, 255, 0.8);">
-                    <span style="font-size: 1.1rem; font-weight: 600;">
-                        <?php echo $currentPath === '/login' ? '🔑 Sign In' : '✨ Create Account'; ?>
-                    </span>
-                </div>
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </div>
 
-                <div class="auth-buttons">
-                    <?php if ($currentPath !== '/login'): ?>
-                        <a href="/login" class="btn btn-secondary">
-                            <span>🔑</span>Sign In
-                        </a>
-                    <?php endif; ?>
-                    <?php if ($currentPath !== '/register'): ?>
-                        <a href="/register" class="btn btn-primary">
-                            <span>✨</span>Get Started
-                        </a>
-                    <?php endif; ?>
-                </div>
-            <?php endif; ?>
-
-            <!-- Mobile Navigation Menu -->
-            <div class="mobile-nav" id="mobileNav">
-                <?php if (!$isAuthPage): ?>
-                    <!-- Mobile Search -->
+            <!-- Mobile Menu -->
+            <div class="mobile-menu" id="mobileMenu">
+                <!-- Mobile Search -->
+                <div class="mobile-search">
                     <div class="header-search">
-                        <input type="text" id="mobileSearchInput" placeholder="Search movies..." 
+                        <input type="text" 
+                               id="mobileSearchInput" 
+                               class="search-input"
+                               placeholder="Search movies..." 
                                onkeypress="if(event.key==='Enter') headerSearchMovies(true)">
                         <button class="search-btn" onclick="headerSearchMovies(true)" aria-label="Search">
-                            <span class="nav-icon">🔍</span>
+                            🔍
                         </button>
                     </div>
-
-                    <!-- Mobile Links -->
-                    <?php if ($isLoggedIn): ?>
-                        <a href="/dashboard" class="nav-link"><span class="nav-icon">📊</span>Dashboard</a>
-                        <a href="/watchlist" class="nav-link"><span class="nav-icon">📝</span>Watchlist</a>
-                        <a href="/watched" class="nav-link"><span class="nav-icon">✅</span>Watched</a>
-                        <a href="/profile" class="nav-link"><span class="nav-icon">👤</span>Profile</a>
-                        <div style="height: 1px; background: #e5e7eb; margin: 15px 0;"></div>
-                        <a href="/logout" class="nav-link" onclick="return confirmLogout()"><span class="nav-icon">🚪</span>Sign Out</a>
-                    <?php else: ?>
-                        <a href="/" class="nav-link"><span class="nav-icon">🏠</span>Home</a>
-                        <a href="/features" class="nav-link"><span class="nav-icon">⭐</span>Features</a>
-                        <a href="/about" class="nav-link"><span class="nav-icon">ℹ️</span>About</a>
-                        <a href="/contact" class="nav-link"><span class="nav-icon">✉️</span>Contact</a>
-                        <div style="height: 1px; background: #e5e7eb; margin: 15px 0;"></div>
-                        <div style="display: flex; gap: 10px;">
-                            <a href="/login" class="btn btn-secondary" style="flex: 1; justify-content: center;"><span>🔑</span>Sign In</a>
-                            <a href="/register" class="btn btn-primary" style="flex: 1; justify-content: center;"><span>✨</span>Get Started</a>
-                        </div>
-                    <?php endif; ?>
-                <?php endif; ?>
-            </div>
-        </nav>
-
-        <!-- Enhanced Header Section for homepage -->
-        <?php if (!$isAuthPage && $currentPath === '/'): ?>
-        <div class="hero-header" style="text-align: center; padding: 80px 20px; margin-bottom: 50px; position: relative;">
-            <!-- Animated background elements -->
-            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; z-index: 1;">
-                <div style="position: absolute; top: 20%; left: 10%; font-size: 3rem; opacity: 0.1; animation: float 15s ease-in-out infinite;">🎭</div>
-                <div style="position: absolute; top: 60%; right: 15%; font-size: 2.5rem; opacity: 0.1; animation: float 20s ease-in-out infinite; animation-delay: 5s;">🍿</div>
-                <div style="position: absolute; top: 40%; left: 75%; font-size: 2rem; opacity: 0.1; animation: float 18s ease-in-out infinite; animation-delay: 10s;">🎪</div>
-                <div style="position: absolute; bottom: 30%; left: 20%; font-size: 2.5rem; opacity: 0.1; animation: float 22s ease-in-out infinite; animation-delay: 3s;">🎨</div>
-            </div>
-
-            <div style="position: relative; z-index: 2;">
-                <h1 style="font-size: clamp(3rem, 8vw, 5.5rem); font-weight: 900; margin-bottom: 24px; text-shadow: 2px 2px 8px rgba(0,0,0,0.3); color: white; line-height: 1.1;">
-                    <span style="font-size: 1.2em; display: inline-block; animation: float 3s ease-in-out infinite;">🎬</span><br>
-                    Discover Amazing Movies
-                </h1>
-                <p style="font-size: 1.5rem; opacity: 0.95; margin-bottom: 40px; color: white; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.4;">
-                    Rate, review, and track your favorite films with our intelligent movie platform
-                </p>
-                <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 30px;">
-                    <div style="display: flex; align-items: center; gap: 12px; color: rgba(255,255,255,0.9); font-weight: 600; font-size: 1.1rem;">
-                        <span style="font-size: 1.5rem;">🔍</span>
-                        <span>Smart Search</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 12px; color: rgba(255,255,255,0.9); font-weight: 600; font-size: 1.1rem;">
-                        <span style="font-size: 1.5rem;">⭐</span>
-                        <span>Rate & Review</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 12px; color: rgba(255,255,255,0.9); font-weight: 600; font-size: 1.1rem;">
-                        <span style="font-size: 1.5rem;">🤖</span>
-                        <span>AI Reviews</span>
-                    </div>
                 </div>
-                <?php if (!$isLoggedIn): ?>
-                <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-                    <a href="/register" class="btn btn-primary" style="padding: 18px 36px; font-size: 1.1rem; font-weight: 800;">
-                        <span>✨</span>Get Started Free
+
+                <!-- Mobile Navigation -->
+                <nav role="navigation" aria-label="Mobile navigation">
+                    <a href="/dashboard" class="mobile-nav-link">
+                        <span>📊</span>Dashboard
                     </a>
-                    <a href="/features" class="btn btn-secondary" style="padding: 18px 36px; font-size: 1.1rem; font-weight: 800;">
-                        <span>⭐</span>Learn More
+                    <a href="/watchlist" class="mobile-nav-link">
+                        <span>📝</span>Watchlist
                     </a>
-                </div>
-                <?php endif; ?>
+                    <a href="/watched" class="mobile-nav-link">
+                        <span>✅</span>Watched Movies
+                    </a>
+                    <a href="/profile" class="mobile-nav-link">
+                        <span>👤</span>Profile
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="/logout" class="mobile-nav-link logout" onclick="return confirmLogout()">
+                        <span>🚪</span>Sign Out
+                    </a>
+                </nav>
             </div>
-        </div>
-        <?php endif; ?>
+        </header>
 
         <script>
         // Global auth state management
         window.authState = {
-            isLoggedIn: <?php echo $isLoggedIn ? 'true' : 'false'; ?>,
-            user: <?php echo $isLoggedIn ? json_encode($_SESSION['user']) : 'null'; ?>
+            isLoggedIn: true,
+            user: <?php echo json_encode($_SESSION['user']); ?>
         };
 
         // Enhanced UI functionality
         function toggleUserMenu() {
             const dropdown = document.getElementById('userDropdown');
+            const trigger = document.querySelector('.user-trigger');
             const isOpen = dropdown.classList.contains('show');
 
             if (isOpen) {
                 dropdown.classList.remove('show');
+                trigger.setAttribute('aria-expanded', 'false');
             } else {
                 dropdown.classList.add('show');
+                trigger.setAttribute('aria-expanded', 'true');
             }
         }
 
         function toggleMobileMenu() {
-            const mobileNav = document.getElementById('mobileNav');
-            const toggle = document.querySelector('.mobile-menu-toggle');
-            const isOpen = mobileNav.classList.contains('show');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const toggle = document.querySelector('.mobile-toggle');
+            const isOpen = mobileMenu.classList.contains('show');
 
             if (isOpen) {
-                mobileNav.classList.remove('show');
+                mobileMenu.classList.remove('show');
                 toggle.classList.remove('active');
             } else {
-                mobileNav.classList.add('show');
+                mobileMenu.classList.add('show');
                 toggle.classList.add('active');
             }
         }
@@ -801,8 +695,11 @@ $isAuthPage = in_array($currentPath, ['/login', '/register']);
             // Redirect to search page or trigger search
             if (typeof movieAppInstance !== 'undefined' && movieAppInstance.searchMovies) {
                 // If on main page, use existing search functionality
-                document.getElementById('searchInput').value = query;
-                movieAppInstance.searchMovies();
+                const mainSearchInput = document.getElementById('searchInput');
+                if (mainSearchInput) {
+                    mainSearchInput.value = query;
+                    movieAppInstance.searchMovies();
+                }
             } else {
                 // Redirect to home page with search
                 window.location.href = '/?search=' + encodeURIComponent(query);
@@ -820,18 +717,19 @@ $isAuthPage = in_array($currentPath, ['/login', '/register']);
 
         // Close dropdowns when clicking outside
         document.addEventListener('click', (e) => {
-            const userMenu = document.querySelector('.user-profile');
-            const mobileToggle = document.querySelector('.mobile-menu-toggle');
-            const mobileNav = document.getElementById('mobileNav');
+            const userSection = document.querySelector('.user-section');
+            const mobileToggle = document.querySelector('.mobile-toggle');
+            const mobileMenu = document.getElementById('mobileMenu');
 
             // Close user dropdown
-            if (userMenu && !userMenu.contains(e.target)) {
+            if (userSection && !userSection.contains(e.target)) {
                 document.getElementById('userDropdown')?.classList.remove('show');
+                document.querySelector('.user-trigger')?.setAttribute('aria-expanded', 'false');
             }
 
             // Close mobile menu
-            if (mobileNav && !mobileToggle?.contains(e.target) && !mobileNav.contains(e.target)) {
-                mobileNav.classList.remove('show');
+            if (mobileMenu && !mobileToggle?.contains(e.target) && !mobileMenu.contains(e.target)) {
+                mobileMenu.classList.remove('show');
                 mobileToggle?.classList.remove('active');
             }
         });
@@ -848,21 +746,5 @@ $isAuthPage = in_array($currentPath, ['/login', '/register']);
             }
         });
 
-        // Initialize URL search parameter
-        document.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const searchQuery = urlParams.get('search');
-            if (searchQuery) {
-                const searchInput = document.getElementById('searchInput');
-                if (searchInput) {
-                    searchInput.value = searchQuery;
-                    if (typeof movieAppInstance !== 'undefined') {
-                        movieAppInstance.searchMovies();
-                    }
-                }
-            }
-        });
-
-        console.log(' Movie Review Hub - Enhanced Header System Loaded');
-        console.log('Auth state:', window.authState);
+        console.log('🎬 Movie Review Hub - Authenticated Header Loaded');
         </script>
