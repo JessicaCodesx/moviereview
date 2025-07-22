@@ -181,28 +181,6 @@
             </button>
         </form>
 
-        <div class="auth-divider">
-            <span>or continue with</span>
-        </div>
-
-        <div class="social-login">
-            <button class="social-btn" onclick="showComingSoon('Google')">
-                <svg width="20" height="20" viewBox="0 0 24 24">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                </svg>
-                Google
-            </button>
-            <button class="social-btn" onclick="showComingSoon('Apple')">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-                </svg>
-                Apple
-            </button>
-        </div>
-
         <div class="auth-footer">
             <p>Already have an account? 
                 <a href="/login" class="auth-link">
@@ -309,7 +287,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
             // Celebrate with confetti effect
             createConfetti();
 
-            // Update global auth state and redirect
+            // Redirect to dashboard
             setTimeout(() => {
                 window.location.href = '/dashboard';
             }, 2000);
@@ -347,7 +325,7 @@ document.getElementById('confirm_password').addEventListener('input', (e) => {
     }
 });
 
-// Username availability check (debounced)
+// Username availability check (simulation)
 let usernameTimeout;
 document.getElementById('username').addEventListener('input', (e) => {
     clearTimeout(usernameTimeout);
@@ -414,23 +392,18 @@ function updateConfirmFeedback(isMatch) {
     }
 }
 
-async function checkUsernameAvailability(username) {
+function checkUsernameAvailability(username) {
     const feedback = document.getElementById('usernameFeedback');
 
-    try {
-        // This would be a real API call
-        // For now, simulate availability check
-        const isAvailable = !['admin', 'user', 'test', 'demo'].includes(username.toLowerCase());
+    // Simulate availability check
+    const isAvailable = !['admin', 'user', 'test', 'demo', 'root', 'administrator'].includes(username.toLowerCase());
 
-        if (isAvailable) {
-            feedback.innerHTML = '<span class="feedback-success">✓ Username available</span>';
-            highlightField('username', true);
-        } else {
-            feedback.innerHTML = '<span class="feedback-error">✗ Username not available</span>';
-            highlightField('username', false);
-        }
-    } catch (error) {
-        feedback.innerHTML = '<span class="feedback-error">Unable to check availability</span>';
+    if (isAvailable) {
+        feedback.innerHTML = '<span class="feedback-success">✓ Username available</span>';
+        highlightField('username', true);
+    } else {
+        feedback.innerHTML = '<span class="feedback-error">✗ Username not available</span>';
+        highlightField('username', false);
     }
 }
 
@@ -489,19 +462,20 @@ function closeModal(modalId) {
     document.getElementById(modalId).style.display = 'none';
 }
 
-function showComingSoon(provider) {
-    alert(`${provider} registration coming soon! Please use email/password for now.`);
-}
-
 function createConfetti() {
     const colors = ['#6366f1', '#ec4899', '#10b981', '#f59e0b', '#ef4444'];
 
     for (let i = 0; i < 50; i++) {
         const confetti = document.createElement('div');
         confetti.className = 'confetti';
+        confetti.style.position = 'fixed';
+        confetti.style.width = '10px';
+        confetti.style.height = '10px';
+        confetti.style.top = '-10px';
         confetti.style.left = Math.random() * 100 + '%';
         confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.animationDelay = Math.random() * 3 + 's';
+        confetti.style.animation = 'confetti-fall 3s linear forwards';
+        confetti.style.zIndex = '10001';
         document.body.appendChild(confetti);
 
         setTimeout(() => confetti.remove(), 3000);
@@ -549,7 +523,7 @@ window.onclick = function(event) {
 </script>
 
 <style>
-/* Enhanced Registration Styles */
+/* Enhanced Registration Styles - Same as login but with additional features */
 .welcome-section {
     max-width: 500px;
     color: white;
@@ -787,15 +761,6 @@ window.onclick = function(event) {
 }
 
 /* Confetti Animation */
-.confetti {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    top: -10px;
-    z-index: 10001;
-    animation: confetti-fall 3s linear forwards;
-}
-
 @keyframes confetti-fall {
     0% {
         transform: translateY(0) rotate(0deg);
@@ -807,31 +772,35 @@ window.onclick = function(event) {
     }
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes slideIn {
-    from {
-        transform: translateY(-50px) scale(0.9);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-    }
-}
-
-@keyframes slideInLeft {
-    from {
-        transform: translateX(-50px);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
+/* Inherit all other styles from login page */
+.auth-container,
+.auth-background,
+.floating-shapes,
+.shape,
+.auth-card,
+.auth-brand,
+.brand-logo,
+.logo-icon,
+.logo-text,
+.brand-tagline,
+.auth-header,
+.form-label,
+.label-icon,
+.input-wrapper,
+.form-control,
+.input-border,
+.password-toggle,
+.form-options,
+.checkbox-wrapper,
+.checkmark,
+.btn-login,
+.btn-text,
+.btn-loader,
+.spinner,
+.auth-footer,
+.auth-link,
+.message {
+    /* All styles inherited from login page */
 }
 
 @media (max-width: 1024px) {
@@ -861,13 +830,13 @@ window.onclick = function(event) {
         gap: var(--space-3);
     }
 
-    .social-login {
-        grid-template-columns: 1fr;
-    }
-
     .modal-content {
         margin: 5% auto;
         width: 95%;
+    }
+
+    .auth-container {
+        min-height: calc(100vh - 100px);
     }
 }
 
@@ -886,6 +855,10 @@ window.onclick = function(event) {
 
     .stat-number {
         font-size: var(--font-size-xl);
+    }
+
+    .auth-container {
+        min-height: calc(100vh - 80px);
     }
 }
 </style>
