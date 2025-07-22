@@ -1,5 +1,10 @@
 <?php
-// Start session
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
+
+// Start session FIRST before any output
 session_start();
 
 // Define root path
@@ -7,58 +12,77 @@ define('ROOT_PATH', __DIR__);
 define('APP_PATH', ROOT_PATH . '/app');
 define('CONFIG_PATH', ROOT_PATH . '/config');
 
-// Load environment validator first
-require_once CONFIG_PATH . '/env.php';
+try {
+    // Load environment validator first
+    require_once CONFIG_PATH . '/env.php';
 
-// Check if we're accessing the setup page
-$requestUri = $_SERVER['REQUEST_URI'] ?? '/';
-$isSetupPage = strpos($requestUri, '/setup') !== false;
+    // Check if we're accessing the setup page
+    $requestUri = $_SERVER['REQUEST_URI'] ?? '/';
+    $isSetupPage = strpos($requestUri, '/setup') !== false;
 
-// Validate environment variables
-$envValidation = EnvValidator::validate();
+    // Validate environment variables
+    $envValidation = EnvValidator::validate();
 
-// If environment is invalid and we're not on setup page, show setup
-if (!$envValidation['is_valid'] && !$isSetupPage) {
-    showSetupPage($envValidation);
-    exit;
-}
+    // If environment is invalid and we're not on setup page, show setup
+    if (!$envValidation['is_valid'] && !$isSetupPage) {
+        showSetupPage($envValidation);
+        exit;
+    }
 
-// If accessing setup page directly and env is valid, redirect to home
-if ($isSetupPage && $envValidation['is_valid']) {
-    header('Location: /');
-    exit;
-}
+    // If accessing setup page directly and env is valid, redirect to home
+    if ($isSetupPage && $envValidation['is_valid']) {
+        header('Location: /');
+        exit;
+    }
 
-// If on setup page, show it
-if ($isSetupPage) {
-    showSetupPage($envValidation);
-    exit;
-}
+    // If on setup page, show it
+    if ($isSetupPage) {
+        showSetupPage($envValidation);
+        exit;
+    }
 
-// Autoloader
-spl_autoload_register(function ($class) {
-    $classPath = str_replace('\\', '/', $class);
-    $file = APP_PATH . '/' . strtolower($classPath) . '.php';
+    // Autoloader with better error handling
+    spl_autoload_register(function ($class) {
+        $classPath = str_replace('\\', '/', $class);
+        $file = APP_PATH . '/' . strtolower($classPath) . '.php';
 
-    if (file_exists($file)) {
+        if (file_exists($file)) {
+            require_once $file;
+            return true;
+        }
+
+        // Log missing class files
+        error_log("Autoloader: Could not find class file: $file for class: $class");
+        return false;
+    });
+
+    // Load configuration files
+    if (!file_exists(CONFIG_PATH . '/app.php')) {
+        throw new Exception('App configuration file missing: ' . CONFIG_PATH . '/app.php');
+    }
+    if (!file_exists(CONFIG_PATH . '/database.php')) {
+        throw new Exception('Database configuration file missing: ' . CONFIG_PATH . '/database.php');
+    }
+
+    require_once CONFIG_PATH . '/app.php';
+    require_once CONFIG_PATH . '/database.php';
+
+    // Load core classes with error checking
+    $coreFiles = [
+        APP_PATH . '/core/database.php',
+        APP_PATH . '/core/router.php',
+        APP_PATH . '/core/apiclient.php',
+        APP_PATH . '/models/basemodel.php',
+        APP_PATH . '/controllers/basecontroller.php'
+    ];
+
+    foreach ($coreFiles as $file) {
+        if (!file_exists($file)) {
+            throw new Exception("Core file missing: $file");
+        }
         require_once $file;
     }
-});
 
-// Load configuration
-require_once CONFIG_PATH . '/app.php';
-require_once CONFIG_PATH . '/database.php';
-
-// Load core classes
-require_once APP_PATH . '/core/database.php';
-require_once APP_PATH . '/core/router.php';
-require_once APP_PATH . '/core/apiclient.php';
-
-// Load base classes
-require_once APP_PATH . '/models/basemodel.php';
-require_once APP_PATH . '/controllers/basecontroller.php';
-
-try {
     // Initialize database
     $database = new Core\Database();
     $database->initializeTables();
@@ -66,6 +90,7 @@ try {
     // Initialize router
     $router = new Core\Router();
 
+    // Register routes
     // Public routes
     $router->get('/', 'Controllers\MovieController@index');
     $router->get('/health', 'Controllers\HealthController@check');
@@ -82,6 +107,7 @@ try {
     $router->post('/api/auth/delete-account', 'Controllers\AuthController@deleteAccount');
     $router->get('/api/auth/stats', 'Controllers\AuthController@getUserStats');
 
+    // Rating routes
     $router->get('/api/ratings/user', 'Controllers\RatingController@getUserRatings');
     $router->put('/api/ratings/update', 'Controllers\RatingController@updateRating');
     $router->delete('/api/ratings/delete', 'Controllers\RatingController@deleteRating');
@@ -112,49 +138,119 @@ try {
     $router->post('/api/movie/unwatch', 'Controllers\UserController@unmarkWatched');
     $router->post('/api/movie/status', 'Controllers\UserController@getMovieStatus');
 
-    // Process request
+    // Process the request
     $router->dispatch();
 
 } catch (Exception $e) {
-    // Log error and show user-friendly message
-    error_log($e->getMessage());
+    // Enhanced error logging and display
+    error_log("Application Fatal Error: " . $e->getMessage());
+    error_log("File: " . $e->getFile() . " Line: " . $e->getLine());
+    error_log("Stack trace: " . $e->getTraceAsString());
 
-    if (getenv('APP_DEBUG')) {
-        echo '<pre>Debug Error: ' . $e->getMessage() . "\n" . $e->getTraceAsString() . '</pre>';
+    // Display detailed error information
+    http_response_code(500);
+
+    // Check if it's an AJAX request
+    $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
+              strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+
+    if ($isAjax) {
+        header('Content-Type: application/json');
+        echo json_encode([
+            'error' => 'Internal server error',
+            'debug' => [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ]
+        ]);
     } else {
-        http_response_code(500);
-
-        // Check if it's an AJAX request
-        $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
-                  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
-
-        if ($isAjax) {
-            header('Content-Type: application/json');
-            echo json_encode(['error' => 'Internal server error']);
-        } else {
-            echo '<!DOCTYPE html>
-            <html>
-            <head>
-                <title>Error - Movie Review Hub</title>
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <style>
-                    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
-                    .error-container { max-width: 600px; margin: 0 auto; }
-                    h1 { color: #e53e3e; }
-                    p { color: #666; margin-bottom: 20px; }
-                    a { color: #667eea; text-decoration: none; }
-                    a:hover { text-decoration: underline; }
-                </style>
-            </head>
-            <body>
-                <div class="error-container">
-                    <h1>🎬 Oops! Something went wrong</h1>
-                    <p>We\'re experiencing some technical difficulties. Please try again later.</p>
-                    <a href="/">← Back to Home</a>
+        // Show detailed error page for debugging
+        ?>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Application Error - Movie Review Hub</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                body { 
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+                    margin: 0; 
+                    padding: 20px; 
+                    background: #f8f9fa; 
+                    color: #333;
+                }
+                .error-container { 
+                    max-width: 800px; 
+                    margin: 0 auto; 
+                    background: white; 
+                    border-radius: 8px; 
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                    overflow: hidden;
+                }
+                .error-header {
+                    background: #dc3545;
+                    color: white;
+                    padding: 20px;
+                }
+                .error-body {
+                    padding: 20px;
+                }
+                .error-details {
+                    background: #f8f9fa;
+                    border: 1px solid #dee2e6;
+                    border-radius: 4px;
+                    padding: 15px;
+                    margin: 15px 0;
+                    font-family: monospace;
+                    white-space: pre-wrap;
+                }
+                .btn {
+                    display: inline-block;
+                    padding: 10px 20px;
+                    background: #007bff;
+                    color: white;
+                    text-decoration: none;
+                    border-radius: 4px;
+                    margin-top: 15px;
+                }
+                .btn:hover { background: #0056b3; }
+            </style>
+        </head>
+        <body>
+            <div class="error-container">
+                <div class="error-header">
+                    <h1>🚨 Application Error</h1>
+                    <p>Something went wrong while processing your request.</p>
                 </div>
-            </body>
-            </html>';
-        }
+                <div class="error-body">
+                    <h3>Error Details:</h3>
+                    <div class="error-details">
+                        <strong>Message:</strong> <?php echo htmlspecialchars($e->getMessage()); ?>
+
+                        <strong>File:</strong> <?php echo htmlspecialchars($e->getFile()); ?>
+
+                        <strong>Line:</strong> <?php echo $e->getLine(); ?>
+
+                        <strong>Stack Trace:</strong>
+                        <?php echo htmlspecialchars($e->getTraceAsString()); ?>
+                    </div>
+
+                    <h3>Possible Solutions:</h3>
+                    <ul>
+                        <li>Check that all required files exist in the correct directories</li>
+                        <li>Verify your environment variables are set correctly</li>
+                        <li>Ensure your database connection details are correct</li>
+                        <li>Check file permissions (especially for logs directory)</li>
+                    </ul>
+
+                    <a href="/debug.php" class="btn">Run Debug Check</a>
+                    <a href="/" class="btn">Try Again</a>
+                </div>
+            </div>
+        </body>
+        </html>
+        <?php
     }
 }
 
@@ -307,50 +403,6 @@ function showSetupPage($envValidation) {
                         <li><?php echo htmlspecialchars($step); ?></li>
                     <?php endforeach; ?>
                 </ol>
-            </div>
-
-            <div class="instructions">
-                <h3>📋 Required Environment Variables</h3>
-
-                <div class="env-var required">
-                    <h4><span class="code">DB_HOST</span></h4>
-                    <p>Your filess.io database host (e.g., db-mysql-fra1-12345-do-user-123456-0.db.ondigitalocean.com)</p>
-                </div>
-
-                <div class="env-var required">
-                    <h4><span class="code">DB_DATABASE</span></h4>
-                    <p>Your database name: <code>moviereview</code></p>
-                </div>
-
-                <div class="env-var required">
-                    <h4><span class="code">DB_USERNAME</span></h4>
-                    <p>Your database username</p>
-                </div>
-
-                <div class="env-var required">
-                    <h4><span class="code">DB_PASSWORD</span></h4>
-                    <p>Your database password</p>
-                </div>
-
-                <div class="env-var required">
-                    <h4><span class="code">OMDB_API_KEY</span></h4>
-                    <p>Get your free API key from: <a href="http://www.omdbapi.com/apikey.aspx" target="_blank">http://www.omdbapi.com/apikey.aspx</a></p>
-                </div>
-
-                <div class="env-var required">
-                    <h4><span class="code">GEMINI_API_KEY</span></h4>
-                    <p>Get your free API key from: <a href="https://aistudio.google.com/app/apikey" target="_blank">https://aistudio.google.com/app/apikey</a></p>
-                </div>
-            </div>
-
-            <div class="instructions">
-                <h3>🔍 Optional Environment Variables</h3>
-                <?php foreach ($envValidation['optional_vars'] as $varName => $description): ?>
-                    <div class="env-var">
-                        <h4><span class="code"><?php echo $varName; ?></span></h4>
-                        <p><?php echo htmlspecialchars($description); ?></p>
-                    </div>
-                <?php endforeach; ?>
             </div>
 
             <button class="refresh-btn" onclick="window.location.reload()">

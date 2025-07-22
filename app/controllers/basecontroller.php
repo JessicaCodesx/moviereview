@@ -238,34 +238,6 @@ abstract class BaseController {
         }
     }
 
-    protected function paginate($query, $page = 1, $perPage = 20) {
-        $offset = ($page - 1) * $perPage;
-
-        // Count total records
-        $countQuery = preg_replace('/SELECT .+ FROM/i', 'SELECT COUNT(*) as total FROM', $query);
-        // Remove ORDER BY for count query
-        $countQuery = preg_replace('/ORDER BY .+$/i', '', $countQuery);
-
-        $stmt = $this->db->query($countQuery);
-        $total = $stmt->fetchColumn();
-
-        // Get paginated results
-        $query .= " LIMIT {$perPage} OFFSET {$offset}";
-        $stmt = $this->db->query($query);
-        $results = $stmt->fetchAll();
-
-        return [
-            'data' => $results,
-            'pagination' => [
-                'current_page' => $page,
-                'per_page' => $perPage,
-                'total' => $total,
-                'total_pages' => ceil($total / $perPage),
-                'has_more' => ($page * $perPage) < $total
-            ]
-        ];
-    }
-
     protected function sendEmail($to, $subject, $message, $headers = []) {
         // Basic email sending - you might want to use a proper email library
         $defaultHeaders = [
@@ -308,5 +280,17 @@ abstract class BaseController {
         }
 
         return '/public/uploads/' . $filename;
+    }
+
+    // Helper method for time ago functionality
+    protected function timeAgo($datetime) {
+        $time = time() - strtotime($datetime);
+
+        if ($time < 60) return 'just now';
+        if ($time < 3600) return floor($time/60) . 'm ago';
+        if ($time < 86400) return floor($time/3600) . 'h ago';
+        if ($time < 2592000) return floor($time/86400) . 'd ago';
+
+        return date('M j', strtotime($datetime));
     }
 }
