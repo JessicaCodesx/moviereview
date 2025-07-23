@@ -1,4 +1,3 @@
-// Fixed Movie Search Functionality
 class MovieSearchApp {
     constructor() {
         this.isLoading = false;
@@ -243,8 +242,8 @@ class MovieSearchApp {
         const detailsContainer = document.getElementById('movieDetails');
         if (!detailsContainer) return;
 
-        const poster = movie.Poster !== 'N/A' ? movie.Poster : '/public/assets/images/no-image.png';
-        const rating = movie.ratings?.average || 0;
+ const poster = movie.poster !== 'N/A' ? movie.poster : '/public/assets/images/no-image.png';
+        const rating = movie.rating || 0;
         const ratingCount = movie.ratings?.count || 0;
 
         detailsContainer.innerHTML = `
@@ -254,33 +253,33 @@ class MovieSearchApp {
                 <div class="movie-detail-content">
                     <div class="movie-detail-poster">
                         <img src="${poster}" 
-                             alt="${this.escapeHtml(movie.Title)}"
+                             alt="${this.escapeHtml(movie.title || movie.Title)}"
                              onerror="this.src='/public/assets/images/no-image.png'">
                     </div>
 
                     <div class="movie-detail-info">
-                        <h2>${this.escapeHtml(movie.Title)} (${movie.Year})</h2>
+                        <h2>${this.escapeHtml(movie.title || movie.Title)} (${movie.year || movie.Year})</h2>
 
                         <div class="movie-meta">
-                            <span class="meta-badge">${movie.Rated}</span>
-                            <span class="meta-badge">${movie.Runtime}</span>
-                            <span class="meta-badge">⭐ ${movie.imdbRating}/10</span>
+                            <span class="meta-badge">Rated: ${movie.rated || 'NR'}</span>
+                            <span class="meta-badge">${movie.runtime || 'Unknown'}</span>
+                            <span class="meta-badge">⭐ ${movie.rating || 'N/A'}/10</span>
                         </div>
 
                         <div class="movie-genres">
-                            ${movie.Genre ? movie.Genre.split(',').map(genre => 
+                            ${movie.genre ? movie.genre.split(',').map(genre => 
                                 `<span class="genre-tag">${genre.trim()}</span>`
                             ).join('') : ''}
                         </div>
 
                         <div class="plot-section">
                             <h4>Plot</h4>
-                            <p>${movie.Plot !== 'N/A' ? movie.Plot : 'No plot available.'}</p>
+                            <p>${movie.plot && movie.plot !== 'N/A' ? movie.plot : 'No plot available.'}</p>
                         </div>
 
                         <div class="cast-crew">
-                            ${movie.Director !== 'N/A' ? `<p><strong>Director:</strong> ${movie.Director}</p>` : ''}
-                            ${movie.Actors !== 'N/A' ? `<p><strong>Cast:</strong> ${movie.Actors}</p>` : ''}
+                            ${movie.director && movie.director !== 'N/A' ? `<p><strong>Director:</strong> ${movie.director}</p>` : ''}
+                            ${movie.actors && movie.actors !== 'N/A' ? `<p><strong>Cast:</strong> ${movie.actors}</p>` : ''}
                         </div>
 
                         <div class="rating-section">
