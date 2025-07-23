@@ -37,34 +37,85 @@ class MovieController extends BaseController {
     }
 
     public function search() {
+        // Enhanced error logging for debugging
+        error_log("MovieController::search() called");
+        error_log("Request method: " . $_SERVER['REQUEST_METHOD']);
+        error_log("POST data: " . print_r($_POST, true));
+        error_log("Raw input: " . file_get_contents('php://input'));
+
         try {
+            // Get query from POST data
             $query = $_POST['query'] ?? '';
 
+            // Also check for JSON input (in case frontend sends JSON)
             if (empty($query)) {
-                $this->jsonResponse(['error' => 'Search query is required'], 400);
+                $jsonInput = json_decode(file_get_contents('php://input'), true);
+                $query = $jsonInput['query'] ?? '';
+            }
+
+            error_log("Search query: " . $query);
+
+            if (empty($query)) {
+                error_log("Search failed: Empty query");
+                $this->jsonResponse(['Response' => 'False', 'Error' => 'Search query is required'], 400);
                 return;
             }
 
+            // Validate query length
+            if (strlen(trim($query)) < 2) {
+                error_log("Search failed: Query too short");
+                $this->jsonResponse(['Response' => 'False', 'Error' => 'Query must be at least 2 characters long'], 400);
+                return;
+            }
+
+            // Call OMDB API
+            error_log("Calling OMDB API for query: " . $query);
             $results = $this->apiClient->searchOMDB($query);
 
+            error_log("OMDB API response: " . print_r($results, true));
+
             if (!$results) {
-                $this->jsonResponse(['error' => 'Failed to search movies'], 500);
+                error_log("Search failed: No results from OMDB API");
+                $this->jsonResponse(['Response' => 'False', 'Error' => 'Failed to search movies'], 500);
                 return;
             }
 
+            // Check if OMDB returned an error
+            if (isset($results['Response']) && $results['Response'] === 'False') {
+                error_log("OMDB API error: " . ($results['Error'] ?? 'Unknown error'));
+                $this->jsonResponse($results);
+                return;
+            }
+
+            // Success - return the results
+            error_log("Search successful, returning " . count($results['Search'] ?? []) . " results");
             $this->jsonResponse($results);
 
         } catch (\Exception $e) {
-            $this->jsonResponse(['error' => 'Search failed: ' . $e->getMessage()], 500);
+            error_log("MovieController::search() exception: " . $e->getMessage());
+            error_log("Stack trace: " . $e->getTraceAsString());
+            $this->jsonResponse(['Response' => 'False', 'Error' => 'Search failed: ' . $e->getMessage()], 500);
         }
     }
 
     public function getMovie() {
+        error_log("MovieController::getMovie() called");
+        error_log("POST data: " . print_r($_POST, true));
+
         try {
             $imdbId = $_POST['imdbId'] ?? '';
 
+            // Also check for JSON input
             if (empty($imdbId)) {
-                $this->jsonResponse(['error' => 'IMDb ID is required'], 400);
+                $jsonInput = json_decode(file_get_contents('php://input'), true);
+                $imdbId = $jsonInput['imdbId'] ?? '';
+            }
+
+            error_log("Movie IMDB ID: " . $imdbId);
+
+            if (empty($imdbId)) {
+                error_log("getMovie failed: Empty IMDB ID");
+                $this->jsonResponse(['Response' => 'False', 'Error' => 'IMDb ID is required'], 400);
                 return;
             }
 
@@ -72,18 +123,23 @@ class MovieController extends BaseController {
             $movie = $this->movieModel->findByImdbId($imdbId);
 
             if (!$movie) {
+                error_log("Movie not found in database, fetching from OMDB API");
                 // Fetch from OMDB API
                 $movieData = $this->apiClient->getMovieDetails($imdbId);
+                error_log("OMDB movie data: " . print_r($movieData, true));
 
                 if (!$movieData || $movieData['Response'] === 'False') {
-                    $this->jsonResponse(['error' => 'Movie not found'], 404);
+                    error_log("OMDB API error: " . ($movieData['Error'] ?? 'Movie not found'));
+                    $this->jsonResponse(['Response' => 'False', 'Error' => 'Movie not found'], 404);
                     return;
                 }
 
                 // Save to database
                 $movieId = $this->movieModel->saveFromOMDB($movieData);
                 $movie = $this->movieModel->getWithRatings($movieId);
+                error_log("Movie saved to database with ID: " . $movieId);
             } else {
+                error_log("Movie found in database with ID: " . $movie['id']);
                 $movie = $this->movieModel->getWithRatings($movie['id']);
             }
 
@@ -93,8 +149,10 @@ class MovieController extends BaseController {
             if ($this->isLoggedIn()) {
                 $userId = $_SESSION['user']['id'];
                 $userRating = $ratingModel->getUserRating($movie['id'], $this->getUserIP(), $userId);
+                error_log("User rating: " . ($userRating ?? 'none'));
             } else {
                 $userRating = $ratingModel->getUserRating($movie['id'], $this->getUserIP());
+                error_log("Anonymous user rating: " . ($userRating ?? 'none'));
             }
 
             $movie['user_rating'] = $userRating;
@@ -102,10 +160,13 @@ class MovieController extends BaseController {
             // Add additional movie data for better display
             $movie = $this->enhanceMovieData($movie);
 
+            error_log("Returning enhanced movie data");
             $this->jsonResponse($movie);
 
         } catch (\Exception $e) {
-            $this->jsonResponse(['error' => 'Failed to get movie: ' . $e->getMessage()], 500);
+            error_log("MovieController::getMovie() exception: " . $e->getMessage());
+            error_log("Stack trace: " . $e->getTraceAsString());
+            $this->jsonResponse(['Response' => 'False', 'Error' => 'Failed to get movie: ' . $e->getMessage()], 500);
         }
     }
 
@@ -121,103 +182,141 @@ class MovieController extends BaseController {
             ]);
 
         } catch (\Exception $e) {
+            error_log("MovieController::trending() exception: " . $e->getMessage());
             $this->jsonResponse(['error' => 'Failed to get trending movies: ' . $e->getMessage()], 500);
         }
     }
 
-    public function recommendations() {
-        if (!$this->isLoggedIn()) {
-            $this->jsonResponse(['error' => 'Login required for recommendations'], 401);
-            return;
-        }
-
+    public function popular() {
         try {
-            $userId = $_SESSION['user']['id'];
-
-            // Get user's rating history to generate recommendations
+            // Get popular movies (highest rated with most ratings)
             $ratingModel = new Rating();
-            $userRatings = $ratingModel->getUserRatings($userId, 50);
-
-            if (empty($userRatings)) {
-                // If user has no ratings, return popular movies
-                $recommendations = $ratingModel->getTopRatedMovies(10);
-            } else {
-                // Simple recommendation based on user's highly rated movies
-                $recommendations = $this->generateRecommendations($userId, $userRatings);
-            }
+            $popular = $ratingModel->getTopRatedMovies(20, 5); // At least 5 ratings
 
             $this->jsonResponse([
                 'success' => true,
-                'recommendations' => $recommendations,
-                'count' => count($recommendations)
+                'movies' => $popular
             ]);
 
         } catch (\Exception $e) {
-            $this->jsonResponse(['error' => 'Failed to get recommendations: ' . $e->getMessage()], 500);
+            error_log("MovieController::popular() exception: " . $e->getMessage());
+            $this->jsonResponse(['error' => 'Failed to get popular movies: ' . $e->getMessage()], 500);
         }
     }
 
-    private function generateRecommendations($userId, $userRatings) {
-        // Simple recommendation algorithm:
-        // 1. Find genres of highly rated movies (4+ stars)
-        // 2. Find other movies in those genres that user hasn't rated
+    public function recentlyAdded() {
+        try {
+            // Get recently added movies
+            $stmt = $this->movieModel->getDB()->prepare("
+                SELECT *, AVG(r.rating) as avg_rating, COUNT(r.rating) as rating_count
+                FROM movies m
+                LEFT JOIN ratings r ON m.id = r.movie_id
+                GROUP BY m.id
+                ORDER BY m.created_at DESC
+                LIMIT 20
+            ");
+            $stmt->execute();
+            $recent = $stmt->fetchAll();
 
-        $highlyRated = array_filter($userRatings, function($rating) {
-            return $rating['rating'] >= 4;
-        });
+            $this->jsonResponse([
+                'success' => true,
+                'movies' => $recent
+            ]);
 
-        if (empty($highlyRated)) {
-            // Fall back to popular movies
-            $ratingModel = new Rating();
-            return $ratingModel->getTopRatedMovies(10);
+        } catch (\Exception $e) {
+            error_log("MovieController::recentlyAdded() exception: " . $e->getMessage());
+            $this->jsonResponse(['error' => 'Failed to get recent movies: ' . $e->getMessage()], 500);
         }
+    }
 
-        // Extract preferred genres
-        $preferredGenres = [];
-        foreach ($highlyRated as $rating) {
-            $genres = explode(',', $rating['genre'] ?? '');
-            foreach ($genres as $genre) {
-                $genre = trim($genre);
-                if (!empty($genre)) {
-                    $preferredGenres[$genre] = ($preferredGenres[$genre] ?? 0) + 1;
-                }
+    public function byGenre() {
+        try {
+            $genre = $_GET['genre'] ?? '';
+            if (empty($genre)) {
+                $this->jsonResponse(['error' => 'Genre parameter is required'], 400);
+                return;
             }
+
+            $stmt = $this->movieModel->getDB()->prepare("
+                SELECT *, AVG(r.rating) as avg_rating, COUNT(r.rating) as rating_count
+                FROM movies m
+                LEFT JOIN ratings r ON m.id = r.movie_id
+                WHERE m.genre LIKE ?
+                GROUP BY m.id
+                HAVING rating_count >= 1
+                ORDER BY avg_rating DESC, rating_count DESC
+                LIMIT 20
+            ");
+            $stmt->execute(['%' . $genre . '%']);
+            $movies = $stmt->fetchAll();
+
+            $this->jsonResponse([
+                'success' => true,
+                'movies' => $movies,
+                'genre' => $genre
+            ]);
+
+        } catch (\Exception $e) {
+            error_log("MovieController::byGenre() exception: " . $e->getMessage());
+            $this->jsonResponse(['error' => 'Failed to get movies by genre: ' . $e->getMessage()], 500);
         }
+    }
 
-        // Sort genres by preference
-        arsort($preferredGenres);
-        $topGenres = array_slice(array_keys($preferredGenres), 0, 3);
+    public function searchAdvanced() {
+        try {
+            $params = json_decode(file_get_contents('php://input'), true) ?: $_POST;
 
-        if (empty($topGenres)) {
-            $ratingModel = new Rating();
-            return $ratingModel->getTopRatedMovies(10);
+            $title = $params['title'] ?? '';
+            $year = $params['year'] ?? '';
+            $genre = $params['genre'] ?? '';
+            $minRating = $params['min_rating'] ?? '';
+
+            $sql = "
+                SELECT m.*, AVG(r.rating) as avg_rating, COUNT(r.rating) as rating_count
+                FROM movies m
+                LEFT JOIN ratings r ON m.id = r.movie_id
+                WHERE 1=1
+            ";
+            $sqlParams = [];
+
+            if (!empty($title)) {
+                $sql .= " AND m.title LIKE ?";
+                $sqlParams[] = '%' . $title . '%';
+            }
+
+            if (!empty($year)) {
+                $sql .= " AND m.year = ?";
+                $sqlParams[] = $year;
+            }
+
+            if (!empty($genre)) {
+                $sql .= " AND m.genre LIKE ?";
+                $sqlParams[] = '%' . $genre . '%';
+            }
+
+            $sql .= " GROUP BY m.id";
+
+            if (!empty($minRating)) {
+                $sql .= " HAVING avg_rating >= ?";
+                $sqlParams[] = $minRating;
+            }
+
+            $sql .= " ORDER BY avg_rating DESC, rating_count DESC LIMIT 50";
+
+            $stmt = $this->movieModel->getDB()->prepare($sql);
+            $stmt->execute($sqlParams);
+            $movies = $stmt->fetchAll();
+
+            $this->jsonResponse([
+                'success' => true,
+                'movies' => $movies,
+                'count' => count($movies)
+            ]);
+
+        } catch (\Exception $e) {
+            error_log("MovieController::searchAdvanced() exception: " . $e->getMessage());
+            $this->jsonResponse(['error' => 'Advanced search failed: ' . $e->getMessage()], 500);
         }
-
-        // Find movies in preferred genres that user hasn't rated
-        $genreCondition = implode("' OR genre LIKE '%", $topGenres);
-        $genreCondition = "genre LIKE '%" . $genreCondition . "%'";
-
-        $userRatedIds = array_column($userRatings, 'movie_id');
-        $userRatedIdsStr = implode(',', array_map('intval', $userRatedIds));
-
-        $sql = "SELECT DISTINCT m.*, AVG(r.rating) as avg_rating, COUNT(r.id) as rating_count
-                FROM movies m 
-                LEFT JOIN ratings r ON m.id = r.movie_id 
-                WHERE ({$genreCondition})";
-
-        if (!empty($userRatedIds)) {
-            $sql .= " AND m.id NOT IN ({$userRatedIdsStr})";
-        }
-
-        $sql .= " GROUP BY m.id
-                  HAVING rating_count >= 2
-                  ORDER BY avg_rating DESC, rating_count DESC 
-                  LIMIT 10";
-
-        $stmt = $this->movieModel->getDB()->prepare($sql);
-        $stmt->execute();
-
-        return $stmt->fetchAll();
     }
 
     private function enhanceMovieData($movie) {
@@ -235,6 +334,45 @@ class MovieController extends BaseController {
             $movie['rating'] = 'N/A';
         }
 
+        // Add additional fields that might be missing
+        $movie['Response'] = 'True'; // Mark as successful response
+
         return $movie;
+    }
+
+    // Helper method to check database connection
+    private function testDatabaseConnection() {
+        try {
+            $stmt = $this->movieModel->getDB()->query('SELECT 1');
+            return $stmt !== false;
+        } catch (\Exception $e) {
+            error_log("Database connection test failed: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    // Debug endpoint (remove in production)
+    public function debug() {
+        if (!getenv('APP_DEBUG')) {
+            $this->jsonResponse(['error' => 'Debug mode disabled'], 403);
+            return;
+        }
+
+        $debug = [
+            'controller' => 'MovieController',
+            'timestamp' => date('Y-m-d H:i:s'),
+            'request_method' => $_SERVER['REQUEST_METHOD'],
+            'request_uri' => $_SERVER['REQUEST_URI'],
+            'post_data' => $_POST,
+            'session_user' => $_SESSION['user'] ?? null,
+            'database_connected' => $this->testDatabaseConnection(),
+            'api_client_loaded' => class_exists('Core\APIClient'),
+            'movie_model_loaded' => class_exists('Models\Movie'),
+            'rating_model_loaded' => class_exists('Models\Rating'),
+            'omdb_api_key_set' => !empty(getenv('OMDB_API_KEY')),
+            'gemini_api_key_set' => !empty(getenv('GEMINI_API_KEY'))
+        ];
+
+        $this->jsonResponse($debug);
     }
 }
