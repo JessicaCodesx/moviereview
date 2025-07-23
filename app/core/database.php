@@ -82,6 +82,7 @@ class Database {
             $this->createReviewsTable();
             $this->createWatchlistTable();
             $this->createUserMoviesTable();
+            $this->createUserPreferencesTable();
             $this->createIndexes();
         } catch (\PDOException $e) {
             throw new \Exception("Failed to initialize database tables: " . $e->getMessage());
@@ -92,12 +93,23 @@ class Database {
         $sql = "CREATE TABLE IF NOT EXISTS users (
             id INT AUTO_INCREMENT PRIMARY KEY,
             username VARCHAR(50) UNIQUE NOT NULL,
+            email VARCHAR(255) NULL,
             password VARCHAR(255) NOT NULL,
+            bio TEXT NULL,
+            status ENUM('active', 'deactivated') DEFAULT 'active',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             last_login TIMESTAMP NULL,
-            INDEX idx_username (username)
+            deactivated_at TIMESTAMP NULL,
+            INDEX idx_username (username),
+            INDEX idx_email (email)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
         $this->connection->exec($sql);
+
+        // Add columns to existing table if they don't exist
+        $this->addColumnIfNotExists('users', 'email', 'VARCHAR(255) NULL AFTER username');
+        $this->addColumnIfNotExists('users', 'bio', 'TEXT NULL AFTER password');
+        $this->addColumnIfNotExists('users', 'status', 'ENUM(\'active\', \'deactivated\') DEFAULT \'active\' AFTER bio');
+        $this->addColumnIfNotExists('users', 'deactivated_at', 'TIMESTAMP NULL AFTER last_login');
     }
 
     private function createMoviesTable() {
@@ -173,6 +185,36 @@ class Database {
             UNIQUE KEY unique_user_movie_status (user_id, movie_id, status)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
         $this->connection->exec($sql);
+    }
+
+    private function createUserPreferencesTable() {
+        $sql = "CREATE TABLE IF NOT EXISTS user_preferences (
+            user_id INT PRIMARY KEY,
+            email_notifications BOOLEAN DEFAULT TRUE,
+            movie_recommendations BOOLEAN DEFAULT TRUE,
+            rating_privacy ENUM('public', 'private') DEFAULT 'public',
+            watchlist_privacy ENUM('public', 'private') DEFAULT 'public',
+            theme_preference ENUM('auto', 'light', 'dark') DEFAULT 'auto',
+            language VARCHAR(10) DEFAULT 'en',
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        $this->connection->exec($sql);
+    }
+
+    private function addColumnIfNotExists($table, $column, $definition) {
+        try {
+            $stmt = $this->connection->prepare("SHOW COLUMNS FROM `{$table}` LIKE ?");
+            $stmt->execute([$column]);
+            if ($stmt->rowCount() == 0) {
+                $sql = "ALTER TABLE `{$table}` ADD COLUMN `{$column}` {$definition}";
+                $this->connection->exec($sql);
+            }
+        } catch (\PDOException $e) {
+            // Column might already exist or other issue, log but continue
+            error_log("Error adding column {$column} to {$table}: " . $e->getMessage());
+        }
     }
 
     private function createIndexes() {
