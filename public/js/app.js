@@ -223,6 +223,9 @@ class MovieSearchApp {
 
             const movie = await response.json();
 
+            // Debug: Log the actual movie data structure
+            console.log('Movie data received:', movie);
+
             if (movie && movie.Response !== 'False') {
                 this.displayMovieDetails(movie);
                 this.scrollToMovieDetails();
@@ -543,18 +546,191 @@ class MovieSearchApp {
 
     // Additional methods for user actions
     async addToWatchlist(movieId) {
+        if (!movieId) return;
+
         this.showToast('Adding to watchlist...', 'info');
-        // Implementation would go here
+
+        try {
+            const formData = new FormData();
+            formData.append('movieId', movieId);
+
+            const response = await fetch('/api/watchlist/add', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                this.showToast('Movie added to watchlist! 📝', 'success');
+            } else {
+                this.showToast(data.error || 'Failed to add to watchlist', 'error');
+            }
+
+        } catch (error) {
+            console.error('Watchlist error:', error);
+            this.showToast('Failed to add to watchlist', 'error');
+        }
     }
 
     async markAsWatched(movieId) {
+        if (!movieId) return;
+
         this.showToast('Marking as watched...', 'info');
-        // Implementation would go here
+
+        try {
+            const formData = new FormData();
+            formData.append('movieId', movieId);
+
+            const response = await fetch('/api/movie/watch', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                this.showToast('Movie marked as watched! ✅', 'success');
+            } else {
+                this.showToast(data.error || 'Failed to mark as watched', 'error');
+            }
+
+        } catch (error) {
+            console.error('Mark watched error:', error);
+            this.showToast('Failed to mark as watched', 'error');
+        }
     }
 
     async generateReview(movieId) {
+        if (!movieId) return;
+
         this.showToast('Generating AI review...', 'info');
-        // Implementation would go here
+
+        try {
+            const formData = new FormData();
+            formData.append('movieId', movieId);
+
+            const response = await fetch('/api/review', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+
+            const data = await response.json();
+
+            if (data.success && data.review) {
+                this.showReviewModal(data.review);
+                this.showToast('AI review generated! 🤖', 'success');
+            } else {
+                this.showToast(data.error || 'Failed to generate review', 'error');
+            }
+
+        } catch (error) {
+            console.error('Review generation error:', error);
+            this.showToast('Failed to generate review', 'error');
+        }
+    }
+
+    showReviewModal(review) {
+        // Create modal for displaying the AI review
+        const modal = document.createElement('div');
+        modal.className = 'review-modal';
+        modal.innerHTML = `
+            <div class="review-modal-content">
+                <div class="review-modal-header">
+                    <h3>🤖 AI Movie Review</h3>
+                    <button class="review-close-btn" onclick="this.parentElement.parentElement.parentElement.remove()">✖️</button>
+                </div>
+                <div class="review-modal-body">
+                    <div class="review-text">${this.escapeHtml(review).replace(/\n/g, '<br>')}</div>
+                </div>
+            </div>
+        `;
+
+        // Add modal styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .review-modal {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+                animation: fadeIn 0.3s ease;
+            }
+            .review-modal-content {
+                background: white;
+                border-radius: 20px;
+                max-width: 600px;
+                width: 90%;
+                max-height: 80vh;
+                overflow-y: auto;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            }
+            .review-modal-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1.5rem;
+                border-bottom: 1px solid #e5e7eb;
+                background: linear-gradient(135deg, #6366f1, #8b5cf6);
+                color: white;
+                border-radius: 20px 20px 0 0;
+            }
+            .review-modal-header h3 {
+                margin: 0;
+                font-size: 1.25rem;
+                font-weight: 700;
+            }
+            .review-close-btn {
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+                padding: 0.5rem;
+                border-radius: 50%;
+                transition: background 0.2s ease;
+            }
+            .review-close-btn:hover {
+                background: rgba(255, 255, 255, 0.2);
+            }
+            .review-modal-body {
+                padding: 2rem;
+            }
+            .review-text {
+                line-height: 1.6;
+                color: #374151;
+                font-size: 1rem;
+            }
+        `;
+
+        if (!document.querySelector('style[data-review-modal]')) {
+            style.setAttribute('data-review-modal', 'true');
+            document.head.appendChild(style);
+        }
+
+        document.body.appendChild(modal);
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.remove();
+            }
+        });
     }
 }
 
