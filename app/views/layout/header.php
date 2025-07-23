@@ -1,5 +1,5 @@
 <?php
-// PERFORMANCE-OPTIMIZED header.php for authenticated users
+// Professional Authenticated User Header - Full Width Design
 $config = require CONFIG_PATH . '/app.php';
 $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
 
@@ -24,7 +24,7 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
     <link rel="icon" type="image/x-icon" href="/public/assets/images/favicon.ico">
     <meta name="theme-color" content="#6366f1">
 
-    <!-- PERFORMANCE-OPTIMIZED Critical CSS -->
+    <!-- Professional Full-Width Header CSS -->
     <style>
         /* CRITICAL: Inline essential styles for immediate rendering */
         * {
@@ -34,13 +34,12 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif !important;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%) !important;
-            /* REMOVED: background-attachment: fixed - Major performance issue */
             min-height: 100vh !important;
             margin: 0 !important;
             padding: 0 !important;
+            padding-top: 86px !important; /* Account for fixed header */
             color: white !important;
             line-height: 1.6 !important;
-            /* ADD: Hardware acceleration */
             transform: translate3d(0, 0, 0) !important;
         }
 
@@ -50,25 +49,30 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
             padding: 20px !important;
         }
 
+        /* Professional Full-Width Header Wrapper */
+        .auth-header-wrapper {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            z-index: 1000 !important;
+            background: rgba(255, 255, 255, 0.98) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
         /* OPTIMIZED: Modern Header for Authenticated Users */
         .auth-header {
-            background: rgba(255, 255, 255, 0.95) !important;
-            /* REMOVED: backdrop-filter - Very expensive on mobile */
-            border-radius: 24px !important;
-            padding: 16px 32px !important;
-            margin-bottom: 32px !important;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.08), 0 8px 16px rgba(0,0,0,0.05) !important;
-            border: 1px solid rgba(255, 255, 255, 0.3) !important;
-            position: sticky !important;
-            top: 20px !important;
-            z-index: 1000 !important;
+            max-width: 1400px !important;
+            margin: 0 auto !important;
             display: grid !important;
             grid-template-columns: auto 1fr auto !important;
-            gap: 24px !important;
+            gap: 32px !important;
             align-items: center !important;
-            /* FASTER: Reduced animation time */
-            animation: slideIn 0.3s ease-out !important;
-            /* ADD: Hardware acceleration */
+            padding: 16px 24px !important;
+            min-height: 70px !important;
             transform: translate3d(0, 0, 0) !important;
         }
 
@@ -345,8 +349,7 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
     </style>
 </head>
 <body class="loaded">
-    <div class="container">
-        <!-- OPTIMIZED: Authenticated User Header -->
+    <div class="auth-header-wrapper">
         <header class="auth-header" role="banner">
             <!-- Brand Section -->
             <div class="header-brand">
@@ -420,7 +423,9 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
                 </div>
             </div>
         </header>
+    </div>
 
+    <div class="container">
         <!-- OPTIMIZED: Search Functionality -->
         <script>
             // Performance-optimized search functions

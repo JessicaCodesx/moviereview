@@ -366,7 +366,8 @@ body {
 }
 </style>
 
-<header class="public-header">
+<div class="public-header-wrapper">
+    <header class="public-header">
     <!-- Brand Section -->
     <div class="header-brand">
         <a href="/" class="brand-link">
@@ -497,7 +498,8 @@ body {
             </div>
         </div>
     <?php endif; ?>
-</header>
+    </header>
+</div>
 
 <script>
 // Mobile menu toggle
