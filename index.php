@@ -1,5 +1,4 @@
 <?php
-// FIXED index.php
 // Enable error reporting for debugging
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -130,6 +129,7 @@ try {
 
     // User dashboard routes
     $router->get('/dashboard', 'Controllers\UserController@dashboard');
+    $router->get('/settings', 'Controllers\SettingsController@index');
     $router->get('/profile', 'Controllers\AuthController@profile');
     $router->get('/watchlist', 'Controllers\UserController@watchlist');
     $router->get('/watched', 'Controllers\UserController@watchedMovies');
@@ -145,8 +145,11 @@ try {
     $router->get('/api/movies/genre', 'Controllers\MovieController@byGenre');
     $router->post('/api/movies/search-advanced', 'Controllers\MovieController@searchAdvanced');
 
-    // User functionality API routes
+// User functionality API routes
     $router->post('/api/watchlist/add', 'Controllers\UserController@addToWatchlist');
+    $router->post('/api/user/update-profile', 'Controllers\SettingsController@updateProfile');
+    $router->post('/api/user/update-preferences', 'Controllers\SettingsController@updatePreferences');
+    $router->post('/api/user/deactivate', 'Controllers\SettingsController@deactivateAccount');
     $router->post('/api/watchlist/remove', 'Controllers\UserController@removeFromWatchlist');
     $router->post('/api/movie/watch', 'Controllers\UserController@markWatched');
     $router->post('/api/movie/unwatch', 'Controllers\UserController@unmarkWatched');
