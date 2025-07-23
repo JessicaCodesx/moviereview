@@ -400,6 +400,12 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
                         <span class="nav-icon">👤</span>
                         <span>Profile</span>
                     </a>
+                    <a href="/settings" 
+                       class="nav-link <?php echo strpos($currentPath, '/settings') === 0 ? 'active' : ''; ?>" 
+                       role="menuitem">
+                        <span class="nav-icon">⚙️</span>
+                        <span>Settings</span>
+                    </a>
                 </nav>
 
                 <!-- User Menu -->
