@@ -90,4 +90,154 @@ class User extends BaseModel {
         $stmt->execute([$userId, $limit, $offset]);
         return $stmt->fetchAll();
     }
+
+     public function getUserById($userId) {
+            return $this->find($userId);
+        }
+
+        public function usernameExists($username, $excludeUserId = null) {
+            $sql = "SELECT id FROM users WHERE username = ?";
+            $params = [$username];
+
+            if ($excludeUserId) {
+                $sql .= " AND id != ?";
+                $params[] = $excludeUserId;
+            }
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+            return $stmt->fetch() !== false;
+        }
+
+        public function emailExists($email, $excludeUserId = null) {
+            $sql = "SELECT id FROM users WHERE email = ?";
+            $params = [$email];
+
+            if ($excludeUserId) {
+                $sql .= " AND id != ?";
+                $params[] = $excludeUserId;
+            }
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+            return $stmt->fetch() !== false;
+        }
+
+        public function updateProfile($userId, $data) {
+            $allowedFields = ['username', 'email', 'bio'];
+            $updateData = [];
+
+            foreach ($allowedFields as $field) {
+                if (isset($data[$field])) {
+                    $updateData[$field] = $data[$field];
+                }
+            }
+
+            if (empty($updateData)) {
+                return false;
+            }
+
+            return $this->update($userId, $updateData);
+        }
+
+        public function getUserPreferences($userId) {
+            $stmt = $this->db->prepare("SELECT * FROM user_preferences WHERE user_id = ?");
+            $stmt->execute([$userId]);
+            $preferences = $stmt->fetch();
+
+            // Return defaults if no preferences found
+            if (!$preferences) {
+                return [
+                    'email_notifications' => 1,
+                    'movie_recommendations' => 1,
+                    'rating_privacy' => 'public',
+                    'watchlist_privacy' => 'public',
+                    'theme_preference' => 'auto',
+                    'language' => 'en'
+                ];
+            }
+
+            return $preferences;
+        }
+
+        public function updatePreferences($userId, $preferences) {
+            // Check if preferences exist
+            $stmt = $this->db->prepare("SELECT user_id FROM user_preferences WHERE user_id = ?");
+            $stmt->execute([$userId]);
+            $exists = $stmt->fetch();
+
+            $fields = array_keys($preferences);
+            $values = array_values($preferences);
+
+            if ($exists) {
+                // Update existing preferences
+                $setClause = implode(' = ?, ', $fields) . ' = ?';
+                $sql = "UPDATE user_preferences SET {$setClause} WHERE user_id = ?";
+                $values[] = $userId;
+            } else {
+                // Insert new preferences
+                $fieldsStr = 'user_id, ' . implode(', ', $fields);
+                $placeholders = '?, ' . str_repeat('?, ', count($fields) - 1) . '?';
+                $sql = "INSERT INTO user_preferences ({$fieldsStr}) VALUES ({$placeholders})";
+                array_unshift($values, $userId);
+            }
+
+            $stmt = $this->db->prepare($sql);
+            return $stmt->execute($values);
+        }
+
+        public function exportUserData($userId) {
+            $data = [];
+
+            // User profile
+            $data['profile'] = $this->find($userId);
+            unset($data['profile']['password']); // Don't include password
+
+            // User preferences
+            $data['preferences'] = $this->getUserPreferences($userId);
+
+            // User ratings
+            $stmt = $this->db->prepare("
+                SELECT r.rating, r.created_at, m.title, m.year, m.imdb_id
+                FROM ratings r
+                JOIN movies m ON r.movie_id = m.id
+                WHERE r.user_id = ?
+                ORDER BY r.created_at DESC
+            ");
+            $stmt->execute([$userId]);
+            $data['ratings'] = $stmt->fetchAll();
+
+            // Watchlist
+            $stmt = $this->db->prepare("
+                SELECT w.created_at, m.title, m.year, m.imdb_id
+                FROM watchlist w
+                JOIN movies m ON w.movie_id = m.id
+                WHERE w.user_id = ?
+                ORDER BY w.created_at DESC
+            ");
+            $stmt->execute([$userId]);
+            $data['watchlist'] = $stmt->fetchAll();
+
+            // Watched movies
+            $stmt = $this->db->prepare("
+                SELECT um.watched_at, m.title, m.year, m.imdb_id
+                FROM user_movies um
+                JOIN movies m ON um.movie_id = m.id
+                WHERE um.user_id = ? AND um.status = 'watched'
+                ORDER BY um.watched_at DESC
+            ");
+            $stmt->execute([$userId]);
+            $data['watched_movies'] = $stmt->fetchAll();
+
+            return $data;
+        }
+
+        public function deactivateAccount($userId) {
+            // Mark account as deactivated instead of deleting
+            return $this->update($userId, [
+                'status' => 'deactivated',
+                'deactivated_at' => date('Y-m-d H:i:s')
+            ]);
+        }
+    }
 }
