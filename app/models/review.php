@@ -79,7 +79,7 @@ class Review extends BaseModel {
         $plot = $movie['plot'] !== 'N/A' ? $movie['plot'] : 'Plot details not available';
         $rating = $movie['rating'] !== 'N/A' ? $movie['rating'] : 'No rating available';
 
-        $prompt = "Write a professional movie review for '{$title}' ({$year}). ";
+        $prompt = "Write a professional, NON-SPOILER movie review for '{$title}' ({$year}). ";
 
         if ($director !== 'Unknown Director') {
             $prompt .= "The movie is directed by {$director}";
@@ -97,11 +97,13 @@ class Review extends BaseModel {
             $prompt .= "IMDb Rating: {$rating}. ";
         }
 
-        $prompt .= "Plot: {$plot} ";
+        $prompt .= "Plot summary: {$plot} ";
 
-        $prompt .= "Write a balanced, engaging review discussing the plot (without major spoilers), performances, direction, cinematography, and overall quality. ";
-        $prompt .= "Keep it around 200-300 words and make it interesting for movie enthusiasts. ";
-        $prompt .= "Be honest about both strengths and weaknesses. Use a professional but accessible tone.";
+        $prompt .= "IMPORTANT: Write a completely SPOILER-FREE review that discusses the general premise, performances, direction, cinematography, and overall quality WITHOUT revealing plot twists, endings, or major story developments. ";
+        $prompt .= "Focus on the filmmaking craft, acting performances, visual style, and general tone rather than specific plot details. ";
+        $prompt .= "Keep it around 200-300 words and make it interesting for movie enthusiasts who haven't seen the film yet. ";
+        $prompt .= "Be honest about both strengths and weaknesses while maintaining a professional but accessible tone. ";
+        $prompt .= "Do not reveal any surprises, twists, or specific plot points beyond what would be in a trailer.";
 
         return $prompt;
     }
