@@ -1,6 +1,11 @@
 <?php
+// PERFORMANCE-OPTIMIZED header.php for authenticated users
 $config = require CONFIG_PATH . '/app.php';
 $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
+
+// Get user info if available
+$user = $_SESSION['user'] ?? null;
+$userName = $user['username'] ?? $user['email'] ?? 'User';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,8 +14,19 @@ $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $config['app_name']; ?><?php echo $currentPath !== '/' ? ' - ' . ucfirst(trim($currentPath, '/')) : ''; ?></title>
 
-    <!-- Critical styles for immediate visibility -->
+    <!-- Essential Meta Tags -->
+    <meta name="description" content="Discover, rate, and review your favorite movies. Track your watchlist and get personalized recommendations.">
+    <meta name="keywords" content="movies, reviews, ratings, watchlist, cinema, films">
+    <meta name="author" content="<?php echo $config['app_name']; ?>">
+    <meta property="og:title" content="<?php echo $config['app_name']; ?>">
+    <meta property="og:description" content="Your ultimate movie discovery and rating platform">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/x-icon" href="/public/assets/images/favicon.ico">
+    <meta name="theme-color" content="#6366f1">
+
+    <!-- PERFORMANCE-OPTIMIZED Critical CSS -->
     <style>
+        /* CRITICAL: Inline essential styles for immediate rendering */
         * {
             box-sizing: border-box;
         }
@@ -18,12 +34,14 @@ $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif !important;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%) !important;
-            background-attachment: fixed !important;
+            /* REMOVED: background-attachment: fixed - Major performance issue */
             min-height: 100vh !important;
             margin: 0 !important;
             padding: 0 !important;
             color: white !important;
             line-height: 1.6 !important;
+            /* ADD: Hardware acceleration */
+            transform: translate3d(0, 0, 0) !important;
         }
 
         .container {
@@ -32,10 +50,10 @@ $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
             padding: 20px !important;
         }
 
-        /* Modern Header for Authenticated Users */
+        /* OPTIMIZED: Modern Header for Authenticated Users */
         .auth-header {
             background: rgba(255, 255, 255, 0.95) !important;
-            backdrop-filter: blur(25px) saturate(180%) !important;
+            /* REMOVED: backdrop-filter - Very expensive on mobile */
             border-radius: 24px !important;
             padding: 16px 32px !important;
             margin-bottom: 32px !important;
@@ -48,9 +66,25 @@ $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
             grid-template-columns: auto 1fr auto !important;
             gap: 24px !important;
             align-items: center !important;
+            /* FASTER: Reduced animation time */
+            animation: slideIn 0.3s ease-out !important;
+            /* ADD: Hardware acceleration */
+            transform: translate3d(0, 0, 0) !important;
         }
 
-        /* Brand Section */
+        /* SIMPLIFIED: Faster slide animation */
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px) !important;
+                opacity: 0 !important;
+            }
+            to {
+                transform: translateY(0) !important;
+                opacity: 1 !important;
+            }
+        }
+
+        /* Brand Section - optimized */
         .header-brand {
             display: flex !important;
             align-items: center !important;
@@ -65,79 +99,82 @@ $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
             color: #6366f1 !important;
             font-size: 1.5rem !important;
             font-weight: 900 !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            /* FASTER: Reduced transition time */
+            transition: all 0.2s ease !important;
+            /* ADD: Hardware acceleration */
+            transform: translate3d(0, 0, 0) !important;
         }
 
         .brand-link:hover {
-            transform: scale(1.02) !important;
             color: #4f46e5 !important;
+            /* REMOVED: transform: scale() - can cause layout shifts */
         }
 
         .brand-icon {
             font-size: 2rem !important;
+            /* SIMPLIFIED: Reduced animation complexity */
             animation: brandFloat 4s ease-in-out infinite !important;
         }
 
         @keyframes brandFloat {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-3px) rotate(2deg); }
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-2px); }
         }
 
-        /* Search Section */
+        /* Search Section - optimized */
         .header-search {
             display: flex !important;
             align-items: center !important;
-            background: rgba(255, 255, 255, 0.7) !important;
-            border: 2px solid rgba(99, 102, 241, 0.1) !important;
-            border-radius: 50px !important;
-            padding: 12px 20px !important;
-            gap: 12px !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            min-width: 320px !important;
-            max-width: 500px !important;
-            width: 100% !important;
+            background: rgba(248, 250, 252, 0.8) !important;
+            border: 2px solid rgba(226, 232, 240, 0.6) !important;
+            border-radius: 14px !important;
+            padding: 4px !important;
+            /* FASTER: Reduced transition */
+            transition: all 0.2s ease !important;
+            min-width: 280px !important;
+            max-width: 400px !important;
         }
 
         .header-search:focus-within {
             background: white !important;
             border-color: #6366f1 !important;
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1), 0 8px 25px rgba(99, 102, 241, 0.15) !important;
-            transform: translateY(-2px) !important;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1) !important;
         }
 
         .search-input {
-            background: none !important;
             border: none !important;
+            background: transparent !important;
+            padding: 10px 16px !important;
+            font-size: 0.95rem !important;
+            color: #334155 !important;
+            width: 100% !important;
+            /* FASTER: Reduced transition */
+            transition: all 0.2s ease !important;
             outline: none !important;
-            flex: 1 !important;
-            font-size: 1rem !important;
-            color: #374151 !important;
-            font-weight: 500 !important;
         }
 
         .search-input::placeholder {
-            color: #9ca3af !important;
-            font-weight: 400 !important;
+            color: #94a3b8 !important;
         }
 
         .search-btn {
             background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
             border: none !important;
-            border-radius: 50% !important;
-            width: 40px !important;
-            height: 40px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
+            border-radius: 10px !important;
+            padding: 10px 12px !important;
             color: white !important;
             cursor: pointer !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            font-size: 1.1rem !important;
+            font-size: 1rem !important;
+            /* FASTER: Reduced transition */
+            transition: all 0.2s ease !important;
+            /* ADD: Hardware acceleration */
+            transform: translate3d(0, 0, 0) !important;
         }
 
         .search-btn:hover {
-            transform: scale(1.1) !important;
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4) !important;
+            /* SIMPLIFIED: Remove complex transforms */
+            background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
+            transform: translate3d(0, -1px, 0) !important;
         }
 
         /* Navigation & User Section */
@@ -163,39 +200,27 @@ $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
             color: #374151 !important;
             font-weight: 600 !important;
             font-size: 0.95rem !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            position: relative !important;
-            overflow: hidden !important;
+            /* FASTER: Simplified transition */
+            transition: all 0.2s ease !important;
+            /* ADD: Hardware acceleration */
+            transform: translate3d(0, 0, 0) !important;
         }
 
-        .nav-link::before {
-            content: '' !important;
-            position: absolute !important;
-            top: 0 !important;
-            left: -100% !important;
-            width: 100% !important;
-            height: 100% !important;
-            background: linear-gradient(90deg, transparent, rgba(99,102,241,0.1), transparent) !important;
-            transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        }
-
-        .nav-link:hover::before {
-            left: 100% !important;
-        }
+        /* REMOVED: Complex ::before pseudo-element animations */
 
         .nav-link:hover,
         .nav-link.active {
             background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
             color: white !important;
-            transform: translateY(-2px) !important;
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3) !important;
+            /* SIMPLIFIED: Remove translateY transform to avoid reflows */
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3) !important;
         }
 
         .nav-icon {
             font-size: 1.1rem !important;
         }
 
-        /* User Menu */
+        /* User section - optimized */
         .user-section {
             position: relative !important;
         }
@@ -209,314 +234,123 @@ $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
             border-radius: 50px !important;
             padding: 8px 16px !important;
             cursor: pointer !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            /* FASTER: Simplified transition */
+            transition: all 0.2s ease !important;
+            /* ADD: Hardware acceleration */
+            transform: translate3d(0, 0, 0) !important;
             text-decoration: none !important;
-            color: #374151 !important;
         }
 
         .user-trigger:hover {
             background: rgba(99, 102, 241, 0.15) !important;
             border-color: rgba(99, 102, 241, 0.25) !important;
-            transform: translateY(-2px) !important;
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.15) !important;
+            /* SIMPLIFIED: Remove complex transforms */
+            transform: translate3d(0, -1px, 0) !important;
         }
 
         .user-avatar {
-            width: 42px !important;
-            height: 42px !important;
+            width: 32px !important;
+            height: 32px !important;
             background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
             border-radius: 50% !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             color: white !important;
-            font-weight: 800 !important;
-            font-size: 1.1rem !important;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3) !important;
-        }
-
-        .user-info h4 {
-            margin: 0 !important;
-            font-size: 0.95rem !important;
             font-weight: 700 !important;
-            color: #374151 !important;
+            font-size: 0.9rem !important;
         }
 
-        .user-info span {
-            font-size: 0.8rem !important;
-            color: #6b7280 !important;
-            font-weight: 500 !important;
+        .user-name {
+            color: #374151 !important;
+            font-weight: 600 !important;
+            font-size: 0.95rem !important;
         }
 
         .dropdown-icon {
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            color: #6b7280 !important;
+            color: #94a3b8 !important;
+            font-size: 0.8rem !important;
+            /* SIMPLIFIED: Remove rotation animation */
+            transition: color 0.2s ease !important;
         }
 
         .user-trigger:hover .dropdown-icon {
-            transform: rotate(180deg) !important;
-        }
-
-        /* Dropdown Menu */
-        .user-dropdown {
-            position: absolute !important;
-            top: calc(100% + 12px) !important;
-            right: 0 !important;
-            background: white !important;
-            border-radius: 20px !important;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05) !important;
-            min-width: 280px !important;
-            opacity: 0 !important;
-            visibility: hidden !important;
-            transform: translateY(-10px) scale(0.95) !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            z-index: 1001 !important;
-            backdrop-filter: blur(20px) !important;
-            overflow: hidden !important;
-        }
-
-        .user-dropdown.show {
-            opacity: 1 !important;
-            visibility: visible !important;
-            transform: translateY(0) scale(1) !important;
-        }
-
-        .dropdown-header {
-            padding: 24px !important;
-            background: linear-gradient(135deg, #f8fafc, #f1f5f9) !important;
-            border-bottom: 1px solid #e2e8f0 !important;
-            text-align: center !important;
-        }
-
-        .dropdown-header h4 {
-            margin: 0 0 4px 0 !important;
-            font-size: 1.1rem !important;
-            font-weight: 800 !important;
-            color: #1f2937 !important;
-        }
-
-        .dropdown-header span {
-            font-size: 0.85rem !important;
-            color: #6b7280 !important;
-            font-weight: 500 !important;
-        }
-
-        .dropdown-item {
-            display: flex !important;
-            align-items: center !important;
-            gap: 14px !important;
-            padding: 16px 24px !important;
-            color: #374151 !important;
-            text-decoration: none !important;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            font-weight: 500 !important;
-            border: none !important;
-            background: none !important;
-            width: 100% !important;
-            cursor: pointer !important;
-        }
-
-        .dropdown-item:hover {
-            background: linear-gradient(135deg, #f8fafc, #f1f5f9) !important;
             color: #6366f1 !important;
-            transform: translateX(4px) !important;
         }
 
-        .dropdown-item.logout:hover {
-            background: linear-gradient(135deg, #fef2f2, #fee2e2) !important;
-            color: #ef4444 !important;
-        }
-
-        .dropdown-divider {
-            height: 1px !important;
-            background: #e2e8f0 !important;
-            margin: 8px 0 !important;
-        }
-
-        /* Mobile Menu Toggle */
-        .mobile-toggle {
-            display: none !important;
-            flex-direction: column !important;
-            gap: 4px !important;
-            background: none !important;
-            border: none !important;
-            cursor: pointer !important;
-            padding: 8px !important;
-            border-radius: 8px !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        }
-
-        .mobile-toggle:hover {
-            background: rgba(99, 102, 241, 0.1) !important;
-        }
-
-        .hamburger-line {
-            width: 24px !important;
-            height: 3px !important;
-            background: #374151 !important;
-            border-radius: 2px !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        }
-
-        .mobile-toggle.active .hamburger-line:nth-child(1) {
-            transform: rotate(45deg) translate(6px, 6px) !important;
-        }
-
-        .mobile-toggle.active .hamburger-line:nth-child(2) {
-            opacity: 0 !important;
-        }
-
-        .mobile-toggle.active .hamburger-line:nth-child(3) {
-            transform: rotate(-45deg) translate(6px, -6px) !important;
-        }
-
-        /* Mobile Menu */
-        .mobile-menu {
-            display: none !important;
-            position: absolute !important;
-            top: calc(100% + 8px) !important;
-            left: 0 !important;
-            right: 0 !important;
-            background: white !important;
-            border-radius: 20px !important;
-            padding: 24px !important;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15) !important;
-            backdrop-filter: blur(20px) !important;
-            z-index: 1001 !important;
-        }
-
-        .mobile-menu.show {
-            display: block !important;
-            animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
+        /* CRITICAL: Mobile Performance Optimization */
+        @media (max-width: 768px) {
+            /* Disable animations on mobile for better performance */
+            .auth-header {
+                animation: none !important;
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+
+            * {
+                transition-duration: 0.1s !important;
             }
-        }
 
-        .mobile-search {
-            margin-bottom: 20px !important;
-        }
+            .auth-header {
+                grid-template-columns: 1fr !important;
+                gap: 16px !important;
+                padding: 16px !important;
+                text-align: center !important;
+            }
 
-        .mobile-nav-link {
-            display: flex !important;
-            align-items: center !important;
-            gap: 12px !important;
-            padding: 14px 16px !important;
-            color: #374151 !important;
-            text-decoration: none !important;
-            border-radius: 12px !important;
-            margin-bottom: 4px !important;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            font-weight: 600 !important;
-        }
-
-        .mobile-nav-link:hover {
-            background: linear-gradient(135deg, #f8fafc, #f1f5f9) !important;
-            color: #6366f1 !important;
-            transform: translateX(4px) !important;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1024px) {
             .header-search {
-                min-width: 250px !important;
+                order: 3 !important;
+                min-width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .header-actions {
+                order: 2 !important;
+                width: 100% !important;
+                justify-content: space-between !important;
             }
 
             .nav-links {
                 gap: 2px !important;
+                flex-wrap: wrap !important;
+                justify-content: center !important;
             }
 
             .nav-link {
                 padding: 8px 12px !important;
                 font-size: 0.9rem !important;
             }
-        }
 
-        @media (max-width: 768px) {
-            .auth-header {
-                grid-template-columns: auto 1fr auto !important;
-                gap: 16px !important;
-                padding: 12px 20px !important;
+            .container {
+                padding: 16px !important;
             }
 
-            .header-search {
-                display: none !important;
-            }
-
-            .nav-links {
-                display: none !important;
-            }
-
-            .mobile-toggle {
-                display: flex !important;
-            }
-
-            .user-trigger {
-                padding: 6px 12px !important;
-            }
-
-            .user-info {
-                display: none !important;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .auth-header {
-                padding: 10px 16px !important;
-                border-radius: 16px !important;
-            }
-
-            .brand-link {
-                font-size: 1.25rem !important;
-            }
-
+            /* Hide complex elements on mobile */
             .brand-icon {
-                font-size: 1.5rem !important;
+                animation: none !important;
             }
+        }
 
-            .user-avatar {
-                width: 36px !important;
-                height: 36px !important;
-                font-size: 1rem !important;
-            }
+        /* Performance hints */
+        .will-change-transform {
+            will-change: transform !important;
+        }
 
-            .user-dropdown {
-                min-width: 250px !important;
+        /* Reduced motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
-
-    <!-- Preload critical resources -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/public/css/style.css">
-
-    <!-- Meta tags -->
-    <meta name="description" content="Discover, rate, and review your favorite movies. Track your watchlist and get personalized recommendations.">
-    <meta name="keywords" content="movies, reviews, ratings, watchlist, cinema, films">
-    <meta name="author" content="<?php echo $config['app_name']; ?>">
-    <meta property="og:title" content="<?php echo $config['app_name']; ?>">
-    <meta property="og:description" content="Your ultimate movie discovery and rating platform">
-    <meta property="og:type" content="website">
-    <link rel="icon" type="image/x-icon" href="/public/assets/images/favicon.ico">
-    <meta name="theme-color" content="#6366f1">
 </head>
 <body class="loaded">
     <div class="container">
-        <!-- Authenticated User Header -->
+        <!-- OPTIMIZED: Authenticated User Header -->
         <header class="auth-header" role="banner">
             <!-- Brand Section -->
             <div class="header-brand">
-                <a href="/" class="brand-link" aria-label="Movie Review Hub - Home">
+                <a href="/dashboard" class="brand-link" aria-label="<?php echo $config['app_name']; ?> - Dashboard">
                     <span class="brand-icon">🎬</span>
                     <strong><?php echo $config['app_name']; ?></strong>
                 </a>
@@ -529,7 +363,8 @@ $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
                        class="search-input"
                        placeholder="Search movies..." 
                        onkeypress="if(event.key==='Enter') headerSearchMovies()"
-                       aria-label="Search movies">
+                       aria-label="Search movies"
+                       autocomplete="off">
                 <button class="search-btn" 
                         onclick="headerSearchMovies()" 
                         aria-label="Search">
@@ -559,192 +394,101 @@ $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
                         <span class="nav-icon">✅</span>
                         <span>Watched</span>
                     </a>
+                    <a href="/profile" 
+                       class="nav-link <?php echo strpos($currentPath, '/profile') === 0 ? 'active' : ''; ?>" 
+                       role="menuitem">
+                        <span class="nav-icon">👤</span>
+                        <span>Profile</span>
+                    </a>
                 </nav>
 
                 <!-- User Menu -->
                 <div class="user-section">
-                    <button class="user-trigger" 
-                            onclick="toggleUserMenu()" 
-                            aria-expanded="false" 
-                            aria-haspopup="true"
-                            aria-label="User menu">
+                    <a href="/profile" class="user-trigger" aria-label="User menu">
                         <div class="user-avatar">
-                            <span><?php echo strtoupper(substr($_SESSION['user']['username'], 0, 1)); ?></span>
+                            <?php echo strtoupper(substr($userName, 0, 1)); ?>
                         </div>
-                        <div class="user-info">
-                            <h4><?php echo htmlspecialchars($_SESSION['user']['username']); ?></h4>
-                            <span>Member since <?php echo date('M Y', strtotime($_SESSION['user']['created_at'])); ?></span>
-                        </div>
-                        <svg class="dropdown-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="6,9 12,15 18,9"></polyline>
-                        </svg>
-                    </button>
-
-                    <div class="user-dropdown" id="userDropdown">
-                        <div class="dropdown-header">
-                            <h4><?php echo htmlspecialchars($_SESSION['user']['username']); ?></h4>
-                            <span>Welcome back! 👋</span>
-                        </div>
-                        <a href="/profile" class="dropdown-item">
-                            <span>👤</span>My Profile
-                        </a>
-                        <a href="/dashboard" class="dropdown-item">
-                            <span>📊</span>Dashboard
-                        </a>
-                        <a href="/watchlist" class="dropdown-item">
-                            <span>📝</span>My Watchlist
-                        </a>
-                        <a href="/watched" class="dropdown-item">
-                            <span>✅</span>Watched Movies
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="/logout" class="dropdown-item logout" onclick="return confirmLogout()">
-                            <span>🚪</span>Sign Out
-                        </a>
-                    </div>
+                        <span class="user-name"><?php echo htmlspecialchars($userName); ?></span>
+                        <span class="dropdown-icon">▼</span>
+                    </a>
                 </div>
-
-                <!-- Mobile Menu Toggle -->
-                <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
-                    <span class="hamburger-line"></span>
-                    <span class="hamburger-line"></span>
-                    <span class="hamburger-line"></span>
-                </button>
-            </div>
-
-            <!-- Mobile Menu -->
-            <div class="mobile-menu" id="mobileMenu">
-                <!-- Mobile Search -->
-                <div class="mobile-search">
-                    <div class="header-search">
-                        <input type="text" 
-                               id="mobileSearchInput" 
-                               class="search-input"
-                               placeholder="Search movies..." 
-                               onkeypress="if(event.key==='Enter') headerSearchMovies(true)">
-                        <button class="search-btn" onclick="headerSearchMovies(true)" aria-label="Search">
-                            🔍
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Mobile Navigation -->
-                <nav role="navigation" aria-label="Mobile navigation">
-                    <a href="/dashboard" class="mobile-nav-link">
-                        <span>📊</span>Dashboard
-                    </a>
-                    <a href="/watchlist" class="mobile-nav-link">
-                        <span>📝</span>Watchlist
-                    </a>
-                    <a href="/watched" class="mobile-nav-link">
-                        <span>✅</span>Watched Movies
-                    </a>
-                    <a href="/profile" class="mobile-nav-link">
-                        <span>👤</span>Profile
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="/logout" class="mobile-nav-link logout" onclick="return confirmLogout()">
-                        <span>🚪</span>Sign Out
-                    </a>
-                </nav>
             </div>
         </header>
 
+        <!-- OPTIMIZED: Search Functionality -->
         <script>
-        // Global auth state management
-        window.authState = {
-            isLoggedIn: true,
-            user: <?php echo json_encode($_SESSION['user']); ?>
-        };
+            // Performance-optimized search functions
+            let searchTimeout;
 
-        // Enhanced UI functionality
-        function toggleUserMenu() {
-            const dropdown = document.getElementById('userDropdown');
-            const trigger = document.querySelector('.user-trigger');
-            const isOpen = dropdown.classList.contains('show');
+            function headerSearchMovies() {
+                const query = document.getElementById('headerSearchInput').value.trim();
+                if (!query) return;
 
-            if (isOpen) {
-                dropdown.classList.remove('show');
-                trigger.setAttribute('aria-expanded', 'false');
-            } else {
-                dropdown.classList.add('show');
-                trigger.setAttribute('aria-expanded', 'true');
-            }
-        }
-
-        function toggleMobileMenu() {
-            const mobileMenu = document.getElementById('mobileMenu');
-            const toggle = document.querySelector('.mobile-toggle');
-            const isOpen = mobileMenu.classList.contains('show');
-
-            if (isOpen) {
-                mobileMenu.classList.remove('show');
-                toggle.classList.remove('active');
-            } else {
-                mobileMenu.classList.add('show');
-                toggle.classList.add('active');
-            }
-        }
-
-        function headerSearchMovies(isMobile = false) {
-            const inputId = isMobile ? 'mobileSearchInput' : 'headerSearchInput';
-            const query = document.getElementById(inputId).value.trim();
-
-            if (!query) return;
-
-            // Redirect to search page or trigger search
-            if (typeof movieAppInstance !== 'undefined' && movieAppInstance.searchMovies) {
-                // If on main page, use existing search functionality
-                const mainSearchInput = document.getElementById('searchInput');
-                if (mainSearchInput) {
-                    mainSearchInput.value = query;
-                    movieAppInstance.searchMovies();
-                }
-            } else {
-                // Redirect to home page with search
-                window.location.href = '/?search=' + encodeURIComponent(query);
+                // Redirect to search results or trigger search
+                window.location.href = `/search?q=${encodeURIComponent(query)}`;
             }
 
-            // Close mobile menu if open
-            if (isMobile) {
-                toggleMobileMenu();
-            }
-        }
+            // Debounced search suggestions (optional)
+            function setupSearchSuggestions() {
+                const searchInput = document.getElementById('headerSearchInput');
+                if (!searchInput) return;
 
-        function confirmLogout() {
-            return confirm('Are you sure you want to sign out?');
-        }
+                searchInput.addEventListener('input', function(e) {
+                    clearTimeout(searchTimeout);
+                    const query = e.target.value.trim();
 
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', (e) => {
-            const userSection = document.querySelector('.user-section');
-            const mobileToggle = document.querySelector('.mobile-toggle');
-            const mobileMenu = document.getElementById('mobileMenu');
-
-            // Close user dropdown
-            if (userSection && !userSection.contains(e.target)) {
-                document.getElementById('userDropdown')?.classList.remove('show');
-                document.querySelector('.user-trigger')?.setAttribute('aria-expanded', 'false');
-            }
-
-            // Close mobile menu
-            if (mobileMenu && !mobileToggle?.contains(e.target) && !mobileMenu.contains(e.target)) {
-                mobileMenu.classList.remove('show');
-                mobileToggle?.classList.remove('active');
-            }
-        });
-
-        // Handle search on Enter key for both inputs
-        ['headerSearchInput', 'mobileSearchInput'].forEach(id => {
-            const input = document.getElementById(id);
-            if (input) {
-                input.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') {
-                        headerSearchMovies(id === 'mobileSearchInput');
+                    if (query.length >= 2) {
+                        searchTimeout = setTimeout(() => {
+                            // Show search suggestions if implemented
+                            console.log('Search suggestions for:', query);
+                        }, 300);
                     }
                 });
             }
-        });
 
-        console.log('🎬 Movie Review Hub - Authenticated Header Loaded');
+            // Initialize when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', setupSearchSuggestions);
+            } else {
+                setupSearchSuggestions();
+            }
+
+            // Keyboard shortcut for search
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                    e.preventDefault();
+                    const searchInput = document.getElementById('headerSearchInput');
+                    if (searchInput) {
+                        searchInput.focus();
+                        searchInput.select();
+                    }
+                }
+            });
+
+            // Add hardware acceleration class after load
+            window.addEventListener('load', function() {
+                document.querySelectorAll('.nav-link, .user-trigger, .brand-link').forEach(el => {
+                    el.classList.add('will-change-transform');
+                });
+
+                // Remove will-change after transitions complete for better performance
+                setTimeout(() => {
+                    document.querySelectorAll('.will-change-transform').forEach(el => {
+                        el.style.willChange = 'auto';
+                    });
+                }, 1000);
+            });
+
+            // Performance monitoring
+            if ('performance' in window) {
+                window.addEventListener('load', function() {
+                    const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+                    if (loadTime > 2000) {
+                        console.warn('Header load time is high:', loadTime + 'ms');
+                    }
+                });
+            }
         </script>
+    </div>
+</body>
+</html>
