@@ -495,10 +495,14 @@ class MovieSearchApp {
         toast.className = `toast toast-${type}`;
         toast.textContent = message;
 
+        // Calculate position relative to viewport, accounting for fixed header
+        const headerHeight = 86; // Account for fixed header height
+        const topPosition = window.scrollY + headerHeight + 20;
+
         // Styling
         Object.assign(toast.style, {
-            position: 'fixed',
-            top: '20px',
+            position: 'absolute',
+            top: `${topPosition}px`,
             right: '20px',
             padding: '16px 20px',
             borderRadius: '12px',
