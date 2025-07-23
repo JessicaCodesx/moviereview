@@ -407,10 +407,30 @@ class MovieSearchApp {
     scrollToMovieDetails() {
         const detailsContainer = document.getElementById('movieDetails');
         if (detailsContainer) {
-            detailsContainer.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
-            });
+            // Add a small delay to ensure the container is fully rendered
+            setTimeout(() => {
+                // Calculate the offset to account for fixed header and provide some padding
+                const headerHeight = 120; // Approximate height of fixed header + padding
+                const elementTop = detailsContainer.offsetTop;
+                const offsetPosition = elementTop - headerHeight;
+
+                // Smooth scroll to the calculated position
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+
+                // Add a subtle highlight effect to draw attention
+                detailsContainer.style.boxShadow = '0 0 20px rgba(99, 102, 241, 0.3)';
+                detailsContainer.style.transform = 'scale(1.02)';
+                detailsContainer.style.transition = 'all 0.3s ease';
+
+                // Remove the highlight effect after a short duration
+                setTimeout(() => {
+                    detailsContainer.style.boxShadow = '';
+                    detailsContainer.style.transform = '';
+                }, 800);
+            }, 100);
         }
     }
 
