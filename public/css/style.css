@@ -443,29 +443,30 @@ body::after {
     }
 }
 
-/* Button Styles */
+/* Luxurious Button Styles */
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: var(--space-2);
-    padding: var(--space-3) var(--space-6);
+    padding: var(--space-4) var(--space-8);
     border: none;
-    border-radius: var(--radius-lg);
-    font-size: var(--font-size-base);
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-sm);
     font-weight: 600;
     text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     cursor: pointer;
-    transition: var(--transition-fast);
+    transition: all var(--transition-base);
     position: relative;
     overflow: hidden;
     min-height: 48px;
     white-space: nowrap;
-    /* ADD: Hardware acceleration */
     transform: translate3d(0, 0, 0);
 }
 
-/* OPTIMIZED: Simplified button effects */
+/* Gold shimmer effect */
 .btn::before {
     content: '';
     position: absolute;
@@ -473,8 +474,11 @@ body::after {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.3s ease;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(212, 165, 116, 0.4), 
+        transparent);
+    transition: left 0.5s ease;
 }
 
 .btn:hover::before {
@@ -482,78 +486,110 @@ body::after {
 }
 
 .btn-primary {
-    background: var(--gradient-primary);
-    color: white;
-    box-shadow: var(--shadow-md);
+    background: var(--gradient-gold);
+    color: var(--royal-blue-900);
+    box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
 }
 
 .btn-primary:hover {
-    background: var(--gradient-primary-hover);
-    transform: translate3d(0, -1px, 0);
-    box-shadow: var(--shadow-lg);
+    transform: translate3d(0, -2px, 0);
+    box-shadow: var(--shadow-xl), var(--shadow-gold);
 }
 
 .btn-secondary {
-    background: white;
-    color: var(--primary-600);
-    border: 2px solid var(--primary-500);
+    background: transparent;
+    color: var(--gold-400);
+    border: 2px solid var(--gold-500);
+    border-radius: 50px;
 }
 
 .btn-secondary:hover {
-    background: var(--primary-500);
-    color: white;
+    background: var(--gradient-gold);
+    color: var(--royal-blue-900);
+    border-color: transparent;
 }
 
 .btn-danger {
-    background: var(--error-500);
+    background: linear-gradient(135deg, var(--error-500), var(--error-600));
     color: white;
+    border-radius: 50px;
 }
 
 .btn-danger:hover {
-    background: var(--error-600);
+    transform: translate3d(0, -2px, 0);
+    box-shadow: var(--shadow-lg), 0 0 20px rgba(198, 40, 40, 0.3);
 }
 
-/* OPTIMIZED: Movie Cards */
+/* Luxurious Movie Cards */
 .movie-card {
-    background: white;
+    background: linear-gradient(135deg, 
+        rgba(250, 251, 252, 0.98) 0%, 
+        rgba(245, 247, 250, 0.95) 100%);
     border-radius: var(--radius-xl);
     overflow: hidden;
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--neutral-100);
-    transition: var(--transition-fast);
-    /* ADD: Hardware acceleration and containment */
+    box-shadow: var(--shadow-luxury);
+    border: 1px solid rgba(212, 165, 116, 0.2);
+    transition: all var(--transition-base);
     transform: translate3d(0, 0, 0);
     contain: layout style paint;
+    position: relative;
 }
 
-/* SIMPLIFIED: Remove complex transforms */
+.movie-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-gold);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: left;
+}
+
+.movie-card:hover::before {
+    transform: scaleX(1);
+}
+
 .movie-card:hover {
-    box-shadow: var(--shadow-lg);
-    transform: translate3d(0, -2px, 0);
+    box-shadow: var(--shadow-xl), var(--shadow-gold);
+    transform: translate3d(0, -4px, 0);
+    border-color: var(--gold-500);
 }
 
 .movie-poster {
     position: relative;
     height: 400px;
     overflow: hidden;
+    background: var(--royal-blue-900);
 }
 
 .movie-poster img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: var(--transition-base);
+    transition: transform var(--transition-slow);
+}
+
+.movie-card:hover .movie-poster img {
+    transform: scale(1.05);
 }
 
 .movie-content {
     padding: var(--space-6);
+    background: linear-gradient(to bottom, 
+        rgba(255, 255, 255, 0) 0%, 
+        rgba(250, 251, 252, 0.5) 100%);
 }
 
 .movie-title {
+    font-family: var(--font-family-sans);
     font-size: var(--font-size-xl);
     font-weight: 700;
-    color: var(--neutral-800);
-    margin-bottom: var(--space-2);
+    color: var(--royal-blue-800);
+    margin-bottom: var(--space-3);
     line-height: 1.3;
 }
 
@@ -565,85 +601,106 @@ body::after {
 }
 
 .meta-item {
-    background: var(--neutral-100);
-    border: 1px solid var(--neutral-200);
+    background: rgba(212, 165, 116, 0.1);
+    border: 1px solid var(--gold-400);
     padding: var(--space-2) var(--space-4);
     border-radius: var(--radius-full);
     font-size: var(--font-size-sm);
-    color: var(--neutral-700);
+    color: var(--royal-blue-700);
     font-weight: 600;
     transition: var(--transition-fast);
 }
 
 .meta-item:hover {
-    background: var(--primary-50);
-    border-color: var(--primary-200);
+    background: var(--gradient-gold);
+    color: var(--royal-blue-900);
+    transform: translateY(-2px);
 }
 
 
-/* Search Results Container */
+/* Luxurious Search Results Container */
 .search-results {
-    margin-top: 2rem;
-    animation: fadeIn 0.3s ease-out;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border-radius: 24px;
-    padding: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: var(--space-8);
+    animation: luxuryFadeIn 0.5s ease-out;
+    background: linear-gradient(135deg, 
+        rgba(10, 22, 40, 0.95) 0%, 
+        rgba(20, 35, 67, 0.9) 100%);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-10);
+    border: 1px solid rgba(212, 165, 116, 0.3);
+    box-shadow: var(--shadow-luxury);
 }
 
 .results-header {
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-8);
     text-align: center;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: var(--space-6);
+    border-bottom: 2px solid var(--gold-500);
+    position: relative;
+}
+
+.results-header::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 2px;
+    background: var(--gradient-gold);
+    box-shadow: 0 0 20px rgba(212, 165, 116, 0.5);
 }
 
 .results-header h3 {
-    color: white;
-    font-size: 1.75rem;
-    font-weight: 800;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    margin-bottom: 0.5rem;
+    font-family: var(--font-family-sans);
+    color: var(--gold-400);
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    text-shadow: 0 2px 10px rgba(212, 165, 116, 0.3);
+    margin-bottom: var(--space-2);
+    letter-spacing: 1px;
 }
 
 .results-header p {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 1rem;
+    color: var(--gold-300);
+    font-size: var(--font-size-lg);
     margin: 0;
+    font-weight: 300;
 }
 
-/* Movies Grid */
+/* Luxurious Movies Grid */
 .movies-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-8);
     padding: 0;
     justify-items: center;
 }
 
-/* Movie Card Styles */
+/* Luxurious Movie Card Styles */
 .movie-card {
-    background: rgba(255, 255, 255, 0.98);
+    background: linear-gradient(135deg, 
+        rgba(250, 251, 252, 0.98) 0%, 
+        rgba(245, 247, 250, 0.95) 100%);
     backdrop-filter: blur(20px);
-    border-radius: 20px;
+    border-radius: var(--radius-xl);
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-luxury);
+    border: 1px solid rgba(212, 165, 116, 0.2);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     position: relative;
     transform: translateY(0);
     width: 100%;
-    max-width: 320px;
+    max-width: 350px;
     margin: 0 auto;
 }
 
 .movie-card:hover {
-    transform: translateY(-12px);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-    scale: 1.03;
-    border-color: rgba(99, 102, 241, 0.3);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: var(--shadow-2xl), var(--shadow-gold);
+    border-color: var(--gold-500);
 }
 
 /* Movie Poster */
@@ -666,17 +723,19 @@ body::after {
     transform: scale(1.08);
 }
 
-/* Movie Overlay */
+/* Luxurious Movie Overlay */
 .movie-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: linear-gradient(to bottom, 
+        rgba(10, 22, 40, 0.7) 0%, 
+        rgba(10, 22, 40, 0.9) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
-    transition: opacity 0.3s ease;
-    backdrop-filter: blur(5px);
+    transition: opacity 0.4s ease;
+    backdrop-filter: blur(8px);
 }
 
 .movie-card:hover .movie-overlay {
@@ -684,191 +743,247 @@ body::after {
 }
 
 .overlay-btn {
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    color: white;
+    background: var(--gradient-gold);
+    color: var(--royal-blue-900);
     border: none;
-    padding: 14px 28px;
-    border-radius: 30px;
+    padding: var(--space-4) var(--space-8);
+    border-radius: 50px;
     font-weight: 700;
+    font-family: var(--font-family-body);
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
-    gap: 10px;
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
-    font-size: 0.95rem;
+    gap: var(--space-3);
+    box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    font-size: var(--font-size-sm);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
 }
 
 .overlay-btn:hover {
     transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.7);
-    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    box-shadow: var(--shadow-xl), var(--shadow-gold);
 }
 
-/* Movie Card Info */
+/* Luxurious Movie Card Info */
 .movie-card-info {
-    padding: 1.75rem;
+    padding: var(--space-6);
     text-align: center;
-    background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(248,250,252,0.5) 100%);
+    background: linear-gradient(to bottom, 
+        rgba(255,255,255,0) 0%, 
+        rgba(250,251,252,0.8) 100%);
 }
 
 .movie-card-info h4 {
-    font-size: 1.25rem;
-    font-weight: 800;
-    color: #1f2937;
-    margin-bottom: 0.75rem;
-    line-height: 1.2;
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--royal-blue-800);
+    margin-bottom: var(--space-3);
+    line-height: 1.3;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    min-height: 2.4em;
+    min-height: 2.6em;
 }
 
 .movie-card-info p {
-    color: #64748b;
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
+    color: var(--royal-blue-600);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    margin-bottom: var(--space-2);
 }
 
 .movie-card-info .movie-type {
     display: inline-block;
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    color: white;
-    padding: 0.25rem 0.75rem;
-    border-radius: 12px;
-    font-size: 0.75rem;
+    background: var(--gradient-gold);
+    color: var(--royal-blue-900);
+    padding: var(--space-2) var(--space-4);
+    border-radius: 20px;
+    font-size: var(--font-size-xs);
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-top: 0.5rem;
+    letter-spacing: 1px;
+    margin-top: var(--space-2);
+    box-shadow: 0 2px 8px rgba(212, 165, 116, 0.3);
 }
 
-/* Movie Details Modal */
+/* Luxurious Movie Details Modal */
 .movie-details {
     display: none;
-    margin: 2rem 0;
-    padding-top: 1rem;
-    animation: slideInUp 0.4s ease-out;
-    scroll-margin-top: 120px; /* Account for fixed header */
+    margin: var(--space-8) 0;
+    padding-top: var(--space-4);
+    animation: luxurySlideInUp 0.6s ease-out;
+    scroll-margin-top: 120px;
 }
 
 .movie-details.show {
     display: block;
 }
 
-/* Smooth transition for highlight effects */
 .movie-details {
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    transition: all 0.4s ease;
 }
 
 .movie-detail-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(25px);
-    border-radius: 24px;
+    background: linear-gradient(135deg, 
+        rgba(250, 251, 252, 0.98) 0%, 
+        rgba(245, 247, 250, 0.95) 100%);
+    backdrop-filter: blur(30px);
+    border-radius: var(--radius-2xl);
     overflow: hidden;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: var(--shadow-2xl), var(--shadow-luxury);
+    border: 2px solid rgba(212, 165, 116, 0.3);
     position: relative;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
+}
+
+@keyframes luxurySlideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .close-btn {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
+    top: 30px;
+    right: 30px;
+    background: var(--gradient-gold);
+    color: var(--royal-blue-900);
     border: none;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: 700;
     z-index: 10;
     transition: all 0.3s ease;
+    box-shadow: var(--shadow-lg);
 }
 
 .close-btn:hover {
-    background: rgba(0, 0, 0, 0.7);
-    transform: scale(1.1);
+    transform: scale(1.1) rotate(90deg);
+    box-shadow: var(--shadow-xl), var(--shadow-gold);
 }
 
 .movie-detail-content {
     display: grid;
-    grid-template-columns: 300px 1fr;
-    gap: 2rem;
-    padding: 2rem;
+    grid-template-columns: 350px 1fr;
+    gap: var(--space-10);
+    padding: var(--space-10);
 }
 
 .movie-detail-poster img {
     width: 100%;
     height: auto;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-2xl), 0 0 50px rgba(212, 165, 116, 0.2);
+    border: 3px solid var(--gold-500);
 }
 
 .movie-detail-info h2 {
-    font-size: 2rem;
-    font-weight: 800;
-    color: #1f2937;
-    margin-bottom: 1rem;
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+    color: var(--royal-blue-800);
+    margin-bottom: var(--space-6);
     line-height: 1.2;
+    position: relative;
+    padding-bottom: var(--space-4);
 }
 
-/* Movie Meta Badges */
+.movie-detail-info h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 3px;
+    background: var(--gradient-gold);
+}
+
+/* Luxurious Movie Meta Badges */
 .movie-meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
 }
 
 .meta-badge {
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.875rem;
+    background: var(--gradient-gold);
+    color: var(--royal-blue-900);
+    padding: var(--space-3) var(--space-5);
+    border-radius: 30px;
+    font-size: var(--font-size-sm);
     font-weight: 600;
+    box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
+    transition: all 0.3s ease;
 }
 
-/* Genre Tags */
+.meta-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 165, 116, 0.4);
+}
+
+/* Luxurious Genre Tags */
 .movie-genres {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
 }
 
 .genre-tag {
-    background: rgba(99, 102, 241, 0.1);
-    color: #6366f1;
-    padding: 0.25rem 0.75rem;
-    border-radius: 15px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    border: 1px solid rgba(99, 102, 241, 0.2);
+    background: rgba(212, 165, 116, 0.1);
+    color: var(--royal-blue-700);
+    padding: var(--space-2) var(--space-4);
+    border-radius: 20px;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    border: 1px solid var(--gold-400);
+    transition: all 0.3s ease;
+}
+
+.genre-tag:hover {
+    background: var(--gradient-gold);
+    color: var(--royal-blue-900);
+    transform: translateY(-2px);
 }
 
 .plot-section {
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--space-6);
+    padding: var(--space-6);
+    background: linear-gradient(135deg, 
+        rgba(10, 22, 40, 0.05) 0%, 
+        rgba(212, 165, 116, 0.05) 100%);
+    border-radius: var(--radius-lg);
+    border-left: 4px solid var(--gold-500);
 }
 
 .plot-section h4 {
-    font-size: 1.125rem;
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-xl);
     font-weight: 700;
-    color: #1f2937;
-    margin-bottom: 0.5rem;
+    color: var(--royal-blue-800);
+    margin-bottom: var(--space-3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .plot-section p {
-    color: #4b5563;
-    line-height: 1.6;
+    color: var(--royal-blue-700);
+    line-height: 1.8;
+    font-size: var(--font-size-base);
 }
 
 .cast-crew {
@@ -885,21 +1000,27 @@ body::after {
     color: #1f2937;
 }
 
-/* Rating Section */
+/* Luxurious Rating Section */
 .rating-section {
-    margin-bottom: 2rem;
-    background: rgba(248, 250, 252, 0.5);
-    padding: 1.5rem;
-    border-radius: 16px;
-    border: 1px solid rgba(203, 213, 225, 0.3);
+    margin-bottom: var(--space-8);
+    background: linear-gradient(135deg, 
+        rgba(212, 165, 116, 0.1) 0%, 
+        rgba(212, 165, 116, 0.05) 100%);
+    padding: var(--space-8);
+    border-radius: var(--radius-xl);
+    border: 2px solid var(--gold-400);
+    box-shadow: inset 0 2px 10px rgba(212, 165, 116, 0.1);
 }
 
 .rating-section h4 {
-    font-size: 1.25rem;
-    font-weight: 800;
-    color: #1f2937;
-    margin-bottom: 1.25rem;
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--royal-blue-800);
+    margin-bottom: var(--space-6);
     text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .stars {
@@ -911,26 +1032,31 @@ body::after {
 }
 
 .star {
-    font-size: 2.25rem;
-    color: #e2e8f0;
+    font-size: 3rem;
+    color: var(--royal-blue-200);
     cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     user-select: none;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    filter: drop-shadow(0 2px 8px rgba(10, 22, 40, 0.2));
     position: relative;
 }
 
-.star.active {
-    color: #f59e0b;
-    transform: scale(1.15);
-    filter: drop-shadow(0 3px 6px rgba(245, 158, 11, 0.4));
-    animation: starPulse 0.3s ease-out;
+.star:hover {
+    color: var(--gold-400);
+    transform: scale(1.1);
 }
 
-@keyframes starPulse {
-    0% { transform: scale(1.15); }
-    50% { transform: scale(1.35); }
-    100% { transform: scale(1.15); }
+.star.active {
+    color: var(--gold-500);
+    transform: scale(1.2);
+    filter: drop-shadow(0 4px 12px rgba(212, 165, 116, 0.5));
+    animation: luxuryStarPulse 0.4s ease-out;
+}
+
+@keyframes luxuryStarPulse {
+    0% { transform: scale(1.2) rotate(0deg); }
+    50% { transform: scale(1.4) rotate(180deg); }
+    100% { transform: scale(1.2) rotate(360deg); }
 }
 
 .rating-info {
@@ -982,22 +1108,35 @@ body::after {
     transform: translateY(-2px);
 }
 
-/* Loading States */
+/* Luxurious Loading States */
 .loading-state,
 .no-results {
     text-align: center;
-    padding: 3rem 1rem;
-    color: white;
+    padding: var(--space-12) var(--space-4);
+    color: var(--gold-300);
 }
 
 .spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    border-top: 4px solid white;
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(212, 165, 116, 0.2);
+    border-top: 4px solid var(--gold-500);
     border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 1rem;
+    animation: luxurySpin 1s ease-in-out infinite;
+    margin: 0 auto var(--space-6);
+    box-shadow: 0 0 20px rgba(212, 165, 116, 0.3);
+}
+
+@keyframes luxurySpin {
+    0% { 
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(180deg) scale(1.1);
+    }
+    100% { 
+        transform: rotate(360deg) scale(1);
+    }
 }
 
 @keyframes spin {
@@ -1156,28 +1295,42 @@ body::after {
     }
 }
 
-/* Search Input Enhancements */
+/* Luxurious Search Input */
 .search-box {
     position: relative;
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-8);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .search-input {
     width: 100%;
-    padding: 1rem 3rem 1rem 1.5rem;
-    font-size: 1.125rem;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: var(--space-5) var(--space-12) var(--space-5) var(--space-8);
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-lg);
+    border: 3px solid var(--gold-400);
     border-radius: 50px;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
+    background: linear-gradient(135deg, 
+        rgba(250, 251, 252, 0.95) 0%, 
+        rgba(245, 247, 250, 0.9) 100%);
+    backdrop-filter: blur(20px);
+    transition: all 0.4s ease;
     outline: none;
+    box-shadow: inset 0 2px 8px rgba(10, 22, 40, 0.05);
+    color: var(--royal-blue-800);
+}
+
+.search-input::placeholder {
+    color: var(--royal-blue-400);
+    font-weight: 400;
 }
 
 .search-input:focus {
-    border-color: #6366f1;
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-    background: white;
+    border-color: var(--gold-500);
+    box-shadow: 0 0 0 6px rgba(212, 165, 116, 0.2), 
+                inset 0 2px 8px rgba(10, 22, 40, 0.05);
+    background: rgba(255, 255, 255, 0.98);
 }
 
 .search-btn {
@@ -1185,23 +1338,24 @@ body::after {
     right: 8px;
     top: 50%;
     transform: translateY(-50%);
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    background: var(--gradient-gold);
     border: none;
     border-radius: 50%;
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: var(--royal-blue-900);
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
+    box-shadow: var(--shadow-lg);
 }
 
 .search-btn:hover {
-    transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+    transform: translateY(-50%) scale(1.1) rotate(90deg);
+    box-shadow: var(--shadow-xl), var(--shadow-gold);
 }
 
 /* Accessibility improvements */
@@ -1297,38 +1451,38 @@ body::after {
     transform: scale(1.2);
 }
 
-/* Search Styles */
+/* Luxurious Search Section */
 .search-section {
     text-align: center;
     margin-bottom: var(--space-16);
-    padding: var(--space-8);
-    background: var(--gradient-surface);
+    padding: var(--space-12) var(--space-8);
+    background: linear-gradient(135deg, 
+        rgba(10, 22, 40, 0.98) 0%, 
+        rgba(20, 35, 67, 0.95) 100%);
     border-radius: var(--radius-2xl);
-    /* REMOVED: backdrop-filter */
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: var(--shadow-xl);
+    border: 2px solid rgba(212, 165, 116, 0.3);
+    box-shadow: var(--shadow-2xl), inset 0 1px 0 rgba(212, 165, 116, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.search-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(212, 165, 116, 0.1) 0%, transparent 70%);
+    animation: luxuryRotate 45s linear infinite;
+    pointer-events: none;
 }
 
 .search-container {
     position: relative;
-    max-width: 600px;
+    max-width: 700px;
     margin: 0 auto;
-}
-
-.search-input {
-    width: 100%;
-    padding: var(--space-4) var(--space-6);
-    font-size: var(--font-size-lg);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: var(--radius-full);
-    background: rgba(255, 255, 255, 0.9);
-    transition: var(--transition-fast);
-    outline: none;
-}
-
-.search-input:focus {
-    border-color: var(--primary-500);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    z-index: 1;
 }
 
 /* Grid Layouts */
