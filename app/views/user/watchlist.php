@@ -372,55 +372,425 @@
 </style>
 
 <script>
+// Enhanced watchlist functionality with smooth animations
+class WatchlistManager {
+    constructor() {
+        this.isProcessing = false;
+    }
+
+    // Animate card removal with smooth transitions
+    animateCardRemoval(cardElement, callback) {
+        if (!cardElement) {
+            callback?.();
+            return;
+        }
+
+        // Add removal animation class
+        cardElement.style.transition = 'all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+        cardElement.style.transform = 'scale(0.8) rotateY(90deg)';
+        cardElement.style.opacity = '0';
+        cardElement.style.filter = 'blur(5px)';
+
+        // Remove card after animation
+        setTimeout(() => {
+            cardElement.style.height = cardElement.offsetHeight + 'px';
+            cardElement.style.overflow = 'hidden';
+            
+            setTimeout(() => {
+                cardElement.style.height = '0';
+                cardElement.style.margin = '0';
+                cardElement.style.padding = '0';
+                
+                setTimeout(() => {
+                    cardElement.remove();
+                    this.checkEmptyState();
+                    callback?.();
+                }, 300);
+            }, 100);
+        }, 500);
+    }
+
+    // Check if watchlist is empty and show empty state
+    checkEmptyState() {
+        const moviesGrid = document.querySelector('.movies-grid');
+        const remainingCards = moviesGrid?.querySelectorAll('.watchlist-card').length || 0;
+        
+        if (remainingCards === 0) {
+            // Show empty state with animation
+            setTimeout(() => {
+                const container = document.querySelector('.user-page-container');
+                if (container) {
+                    const emptyState = this.createEmptyStateHTML();
+                    moviesGrid.replaceWith(emptyState);
+                }
+            }, 600);
+        }
+    }
+
+    // Create empty state HTML
+    createEmptyStateHTML() {
+        const emptyStateDiv = document.createElement('div');
+        emptyStateDiv.className = 'empty-state';
+        emptyStateDiv.style.opacity = '0';
+        emptyStateDiv.style.transform = 'translateY(20px)';
+        
+        emptyStateDiv.innerHTML = `
+            <div class="empty-state-icon">📝</div>
+            <h3>Your Watchlist is Empty</h3>
+            <p>All movies have been processed! Start adding new movies you want to watch.</p>
+            <a href="/" class="btn btn-primary">Search Movies</a>
+        `;
+        
+        // Animate in
+        setTimeout(() => {
+            emptyStateDiv.style.transition = 'all 0.6s ease';
+            emptyStateDiv.style.opacity = '1';
+            emptyStateDiv.style.transform = 'translateY(0)';
+        }, 100);
+        
+        return emptyStateDiv;
+    }
+
+    // Show loading state on button
+    setButtonLoading(button, loading = true) {
+        if (!button) return;
+        
+        if (loading) {
+            button.disabled = true;
+            button.style.opacity = '0.7';
+            button.style.transform = 'scale(0.95)';
+            const originalText = button.textContent;
+            button.setAttribute('data-original-text', originalText);
+            
+            if (button.textContent.includes('Mark Watched')) {
+                button.innerHTML = '⏳ Processing...';
+            } else if (button.textContent.includes('Remove')) {
+                button.innerHTML = '⏳ Removing...';
+            }
+        } else {
+            button.disabled = false;
+            button.style.opacity = '1';
+            button.style.transform = 'scale(1)';
+            const originalText = button.getAttribute('data-original-text');
+            if (originalText) {
+                button.textContent = originalText;
+            }
+        }
+    }
+}
+
+// Initialize watchlist manager
+const watchlistManager = new WatchlistManager();
+
+// Enhanced mark watched function
 async function markWatched(movieId) {
+    if (watchlistManager.isProcessing) return;
+    
+    const button = event?.target;
+    const card = button?.closest('.watchlist-card');
+    const movieTitle = card?.querySelector('h4')?.textContent || 'Movie';
+    
     try {
+        watchlistManager.isProcessing = true;
+        watchlistManager.setButtonLoading(button, true);
+        
+        movieAppInstance.showToast(`Marking "${movieTitle}" as watched...`, 'info');
+        
         const formData = new FormData();
         formData.append('movieId', movieId);
 
         const response = await fetch('/api/movie/watch', {
             method: 'POST',
-            body: formData
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
         });
 
         const data = await response.json();
 
         if (data.success) {
-            movieAppInstance.showToast('Movie marked as watched! 🎉', 'success');
-            // Reload page to update the list
-            setTimeout(() => location.reload(), 1000);
+            movieAppInstance.showToast(`"${movieTitle}" marked as watched! 🎉`, 'success');
+            
+            // Add success animation
+            if (card) {
+                card.style.backgroundColor = '#d4edda';
+                card.style.borderColor = '#c3e6cb';
+                
+                setTimeout(() => {
+                    watchlistManager.animateCardRemoval(card, () => {
+                        // Show completion message
+                        movieAppInstance.showToast('Movie moved to watched list!', 'success');
+                    });
+                }, 800);
+            }
         } else {
-            movieAppInstance.showToast('Error: ' + data.error, 'error');
+            movieAppInstance.showToast('Error: ' + (data.error || 'Unknown error'), 'error');
+            watchlistManager.setButtonLoading(button, false);
         }
     } catch (error) {
+        console.error('Mark watched error:', error);
         movieAppInstance.showToast('Error marking movie as watched', 'error');
+        watchlistManager.setButtonLoading(button, false);
+    } finally {
+        setTimeout(() => {
+            watchlistManager.isProcessing = false;
+        }, 1000);
     }
 }
 
+// Enhanced remove from watchlist function
 async function removeFromWatchlist(movieId) {
-    if (!confirm('Remove this movie from your watchlist?')) {
-        return;
-    }
+    if (watchlistManager.isProcessing) return;
+    
+    const button = event?.target;
+    const card = button?.closest('.watchlist-card');
+    const movieTitle = card?.querySelector('h4')?.textContent || 'Movie';
+    
+    // Custom confirmation dialog with better styling
+    const confirmed = await showCustomConfirm(
+        'Remove from Watchlist', 
+        `Are you sure you want to remove "${movieTitle}" from your watchlist?`,
+        'Remove',
+        'Cancel'
+    );
+    
+    if (!confirmed) return;
 
     try {
+        watchlistManager.isProcessing = true;
+        watchlistManager.setButtonLoading(button, true);
+        
+        movieAppInstance.showToast(`Removing "${movieTitle}" from watchlist...`, 'info');
+        
         const formData = new FormData();
         formData.append('movieId', movieId);
 
         const response = await fetch('/api/watchlist/remove', {
             method: 'POST',
-            body: formData
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
         });
 
         const data = await response.json();
 
         if (data.success) {
-            movieAppInstance.showToast('Movie removed from watchlist', 'success');
-            // Reload page to update the list
-            setTimeout(() => location.reload(), 1000);
+            movieAppInstance.showToast(`"${movieTitle}" removed from watchlist`, 'success');
+            
+            // Animate removal
+            watchlistManager.animateCardRemoval(card);
         } else {
-            movieAppInstance.showToast('Error: ' + data.error, 'error');
+            movieAppInstance.showToast('Error: ' + (data.error || 'Unknown error'), 'error');
+            watchlistManager.setButtonLoading(button, false);
         }
     } catch (error) {
+        console.error('Remove from watchlist error:', error);
         movieAppInstance.showToast('Error removing movie from watchlist', 'error');
+        watchlistManager.setButtonLoading(button, false);
+    } finally {
+        setTimeout(() => {
+            watchlistManager.isProcessing = false;
+        }, 1000);
     }
 }
+
+// Custom confirmation dialog
+function showCustomConfirm(title, message, confirmText = 'Confirm', cancelText = 'Cancel') {
+    return new Promise((resolve) => {
+        const modal = document.createElement('div');
+        modal.className = 'custom-confirm-modal';
+        modal.innerHTML = `
+            <div class="confirm-modal-content">
+                <h3>${title}</h3>
+                <p>${message}</p>
+                <div class="confirm-actions">
+                    <button class="btn btn-secondary" data-action="cancel">${cancelText}</button>
+                    <button class="btn btn-danger" data-action="confirm">${confirmText}</button>
+                </div>
+            </div>
+        `;
+        
+        // Add styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .custom-confirm-modal {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+                animation: fadeIn 0.3s ease;
+            }
+            .confirm-modal-content {
+                background: white;
+                border-radius: 16px;
+                padding: 2rem;
+                max-width: 400px;
+                width: 90%;
+                text-align: center;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+                animation: slideIn 0.3s ease;
+            }
+            .confirm-modal-content h3 {
+                margin: 0 0 1rem 0;
+                color: #333;
+                font-size: 1.25rem;
+            }
+            .confirm-modal-content p {
+                margin: 0 0 2rem 0;
+                color: #666;
+                line-height: 1.5;
+            }
+            .confirm-actions {
+                display: flex;
+                gap: 1rem;
+                justify-content: center;
+            }
+            .confirm-actions .btn {
+                padding: 0.75rem 1.5rem;
+                border-radius: 8px;
+                border: none;
+                cursor: pointer;
+                font-weight: 600;
+                transition: all 0.2s ease;
+            }
+            .confirm-actions .btn-secondary {
+                background: #f3f4f6;
+                color: #374151;
+            }
+            .confirm-actions .btn-secondary:hover {
+                background: #e5e7eb;
+            }
+            .confirm-actions .btn-danger {
+                background: #ef4444;
+                color: white;
+            }
+            .confirm-actions .btn-danger:hover {
+                background: #dc2626;
+                transform: translateY(-1px);
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            @keyframes slideIn {
+                from { transform: translateY(-50px) scale(0.9); opacity: 0; }
+                to { transform: translateY(0) scale(1); opacity: 1; }
+            }
+        `;
+        
+        if (!document.querySelector('style[data-confirm-modal]')) {
+            style.setAttribute('data-confirm-modal', 'true');
+            document.head.appendChild(style);
+        }
+        
+        document.body.appendChild(modal);
+        
+        // Handle button clicks
+        modal.addEventListener('click', (e) => {
+            const action = e.target.getAttribute('data-action');
+            if (action === 'confirm') {
+                resolve(true);
+            } else if (action === 'cancel' || e.target === modal) {
+                resolve(false);
+            }
+            modal.remove();
+        });
+        
+        // Focus the confirm button
+        setTimeout(() => {
+            modal.querySelector('[data-action="confirm"]')?.focus();
+        }, 100);
+    });
+}
+
+// Add some enhancement styles for better interactions
+const enhancementStyles = document.createElement('style');
+enhancementStyles.textContent = `
+    .watchlist-card {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+    
+    .watchlist-card:hover {
+        transform: translateY(-8px) scale(1.02) !important;
+    }
+    
+    .overlay-btn {
+        transition: all 0.2s ease !important;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .overlay-btn:hover {
+        transform: translateY(-2px) scale(1.05) !important;
+    }
+    
+    .overlay-btn:active {
+        transform: translateY(0) scale(0.98) !important;
+    }
+    
+    .overlay-btn:disabled {
+        cursor: not-allowed !important;
+        transform: scale(0.95) !important;
+    }
+    
+    /* Pulse animation for processing */
+    .overlay-btn:disabled::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        animation: shimmer 1.5s infinite;
+    }
+    
+    @keyframes shimmer {
+        0% { left: -100%; }
+        100% { left: 100%; }
+    }
+`;
+document.head.appendChild(enhancementStyles);
+
+// Add keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+    // Escape key to close any modals
+    if (e.key === 'Escape') {
+        const modal = document.querySelector('.custom-confirm-modal');
+        if (modal) {
+            modal.querySelector('[data-action="cancel"]')?.click();
+        }
+    }
+});
+
+// Initialize page enhancements
+document.addEventListener('DOMContentLoaded', () => {
+    // Add loading states to buttons on page load
+    const overlayBtns = document.querySelectorAll('.overlay-btn');
+    overlayBtns.forEach(btn => {
+        btn.style.transition = 'all 0.2s ease';
+    });
+    
+    // Add hover effects to cards
+    const cards = document.querySelectorAll('.watchlist-card');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-8px) scale(1.02)';
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            if (!card.style.transform.includes('scale(0.8)')) {
+                card.style.transform = 'translateY(0) scale(1)';
+            }
+        });
+    });
+});
 </script>
