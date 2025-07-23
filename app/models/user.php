@@ -239,5 +239,5 @@ class User extends BaseModel {
                 'deactivated_at' => date('Y-m-d H:i:s')
             ]);
         }
-    }
+    
 }

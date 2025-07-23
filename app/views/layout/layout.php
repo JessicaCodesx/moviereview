@@ -1,5 +1,4 @@
 <?php
-// Minimal layout file - app/views/layout/layout.php
 if (!isset($config)) {
     $config = require CONFIG_PATH . '/app.php';
 }
@@ -49,21 +48,32 @@ $isLoggedIn = isset($_SESSION['user']) && !empty($_SESSION['user']['id']);
 </head>
 <body>
     <!-- Header -->
-    <div class="container">
-        <?php
-        if ($isLoggedIn) {
-            include APP_PATH . '/views/layout/header.php';
-        } else {
-            include APP_PATH . '/views/layout/publicheader.php';
-        }
-        ?>
-    </div>
+    <?php
+    $isAuthPage = in_array($currentPath, ['/login', '/register']);
+    if (!$isAuthPage) {
+        echo '<div class="container">';
+    }
+
+    if ($isLoggedIn) {
+        include APP_PATH . '/views/layout/header.php';
+    } else {
+        include APP_PATH . '/views/layout/publicheader.php';
+    }
+
+    if (!$isAuthPage) {
+        echo '</div>';
+    }
+    ?>
 
     <!-- Main Content -->
     <main>
-        <div class="container">
+        <?php if (!$isAuthPage): ?>
+            <div class="container">
+                <?php echo $content; ?>
+            </div>
+        <?php else: ?>
             <?php echo $content; ?>
-        </div>
+        <?php endif; ?>
     </main>
 
     <!-- Footer -->
