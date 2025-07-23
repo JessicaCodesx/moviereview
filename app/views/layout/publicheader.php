@@ -1,27 +1,38 @@
 <?php
-// Fixed public header for app/views/layout/publicheader.php
+// Professional Public Header - Full Width Design
 $config = require CONFIG_PATH . '/app.php';
 $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
 $isAuthPage = in_array($currentPath, ['/login', '/register']);
 ?>
 
 <style>
-/* Modern Public Header Styles */
-.public-header {
-    background: <?php echo $isAuthPage ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.95)'; ?>;
-    backdrop-filter: blur(25px) saturate(180%);
-    border: 1px solid <?php echo $isAuthPage ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.3)'; ?>;
-    border-radius: 24px;
-    padding: 16px 32px;
-    margin-bottom: 32px;
-    box-shadow: <?php echo $isAuthPage ? '0 25px 50px rgba(0,0,0,0.15)' : '0 25px 50px rgba(0,0,0,0.08), 0 8px 16px rgba(0,0,0,0.05)'; ?>;
-    position: sticky;
-    top: 20px;
+/* Professional Full-Width Public Header */
+.public-header-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 1000;
+    background: <?php echo $isAuthPage ? 'rgba(0, 0, 0, 0.95)' : 'rgba(255, 255, 255, 0.98)'; ?>;
+    backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid <?php echo $isAuthPage ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'; ?>;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.public-header {
+    max-width: 1400px;
+    margin: 0 auto;
     display: grid;
     grid-template-columns: auto 1fr auto;
-    gap: 24px;
+    gap: 32px;
     align-items: center;
+    padding: 16px 24px;
+    min-height: 70px;
+}
+
+body {
+    padding-top: 86px; /* Account for fixed header */
 }
 
 /* Brand Section */
