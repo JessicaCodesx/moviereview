@@ -142,9 +142,13 @@ class MovieSearchApp {
         const resultsContainer = document.getElementById('searchResults');
         if (!resultsContainer) return;
 
+        const searchTerm = movies.length > 0 ? 'Found' : 'No';
+        const resultText = movies.length === 1 ? 'result' : 'results';
+
         resultsContainer.innerHTML = `
             <div class="results-header">
-                <h3>Search Results (${movies.length})</h3>
+                <h3>${searchTerm} ${movies.length} ${resultText}</h3>
+                <p>Click on any movie to view detailed information and ratings</p>
             </div>
             <div class="movies-grid">
                 ${movies.map(movie => this.createMovieCardHTML(movie)).join('')}
@@ -154,12 +158,13 @@ class MovieSearchApp {
         // Add click listeners to movie cards
         this.addMovieCardListeners();
 
-        // Animate results
+        // Animate results with staggered effect
         this.animateResults();
     }
 
     createMovieCardHTML(movie) {
         const poster = movie.Poster !== 'N/A' ? movie.Poster : '/public/assets/images/no-image.png';
+        const movieType = movie.Type?.charAt(0).toUpperCase() + movie.Type?.slice(1) || 'Movie';
 
         return `
             <div class="movie-card" data-imdb-id="${movie.imdbID}" style="cursor: pointer;">
@@ -169,14 +174,15 @@ class MovieSearchApp {
                          onerror="this.src='/public/assets/images/no-image.png'"
                          loading="lazy">
                     <div class="movie-overlay">
-                        <button class="overlay-btn btn-primary">
+                        <button class="overlay-btn">
                             <span>👁️</span> View Details
                         </button>
                     </div>
                 </div>
                 <div class="movie-card-info">
                     <h4>${this.escapeHtml(movie.Title)}</h4>
-                    <p>${movie.Year} • ${movie.Type?.charAt(0).toUpperCase() + movie.Type?.slice(1) || 'Movie'}</p>
+                    <p>${movie.Year}</p>
+                    <span class="movie-type">${movieType}</span>
                 </div>
             </div>
         `;
@@ -311,7 +317,10 @@ class MovieSearchApp {
             starsHTML += `
                 <span class="star ${activeClass}" 
                       data-rating="${i}" 
-                      onclick="movieAppInstance.rateMovie(${i}, ${movieId})">⭐</span>
+                      onclick="movieAppInstance.rateMovie(${i}, ${movieId})"
+                      onmouseover="movieAppInstance.highlightStars(${i})"
+                      onmouseleave="movieAppInstance.resetStarHighlight(${currentRating})"
+                      title="Rate ${i} star${i > 1 ? 's' : ''}">⭐</span>
             `;
         }
 
@@ -354,6 +363,32 @@ class MovieSearchApp {
         const stars = document.querySelectorAll('.star');
         stars.forEach((star, index) => {
             star.classList.toggle('active', (index + 1) <= rating);
+        });
+    }
+
+    highlightStars(rating) {
+        const stars = document.querySelectorAll('.star');
+        stars.forEach((star, index) => {
+            if ((index + 1) <= rating) {
+                star.style.color = '#fbbf24';
+                star.style.transform = 'scale(1.2)';
+            } else {
+                star.style.color = '#e2e8f0';
+                star.style.transform = 'scale(1)';
+            }
+        });
+    }
+
+    resetStarHighlight(currentRating) {
+        const stars = document.querySelectorAll('.star');
+        stars.forEach((star, index) => {
+            if ((index + 1) <= currentRating) {
+                star.style.color = '#f59e0b';
+                star.style.transform = 'scale(1.15)';
+            } else {
+                star.style.color = '#e2e8f0';
+                star.style.transform = 'scale(1)';
+            }
         });
     }
 
