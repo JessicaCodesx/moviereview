@@ -1,4 +1,5 @@
 <?php
+// Professional Regal Authenticated User Header - Full Width Design
 $config = require CONFIG_PATH . '/app.php';
 $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
 
@@ -47,8 +48,8 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
         .regal-auth-header {
             max-width: 1400px !important;
             margin: 0 auto !important;
-            display: grid !important;
-            grid-template-columns: auto 1fr auto !important;
+            display: flex !important;
+            justify-content: space-between !important;
             gap: 40px !important;
             align-items: center !important;
             padding: 18px 32px !important;
@@ -807,21 +808,6 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
                 </a>
             </div>
 
-            <!-- Professional Search Section -->
-            <div class="header-search">
-                <input type="text" 
-                       id="headerSearchInput" 
-                       class="search-input"
-                       placeholder="Search elite cinema collection..." 
-                       onkeypress="if(event.key==='Enter') headerSearchMovies()"
-                       aria-label="Search movies"
-                       autocomplete="off">
-                <button class="search-btn" 
-                        onclick="headerSearchMovies()" 
-                        aria-label="Search">
-                    🔍
-                </button>
-            </div>
 
             <!-- Actions Section -->
             <div class="header-actions">
@@ -917,19 +903,6 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
 
             <!-- Mobile Menu -->
             <div class="mobile-menu" id="mobileMenu">
-                <!-- Mobile Search -->
-                <div class="mobile-search">
-                    <div class="header-search">
-                        <input type="text" 
-                               class="search-input" 
-                               placeholder="Search elite cinema..." 
-                               id="mobileSearchInput"
-                               onkeypress="if(event.key==='Enter') performMobileSearch()">
-                        <button class="search-btn" onclick="performMobileSearch()" aria-label="Search">
-                            🔍
-                        </button>
-                    </div>
-                </div>
 
                 <!-- Mobile Navigation -->
                 <nav class="mobile-nav" role="navigation" aria-label="Mobile navigation">
@@ -973,33 +946,6 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
             // Performance-optimized search functions
             let searchTimeout;
 
-            function headerSearchMovies() {
-                const query = document.getElementById('headerSearchInput').value.trim();
-                if (!query) return;
-
-                // Add loading effect to search button
-                const searchBtn = document.querySelector('.search-btn');
-                const originalText = searchBtn.innerHTML;
-                searchBtn.innerHTML = '⏳';
-                searchBtn.disabled = true;
-
-                // Redirect to search results
-                window.location.href = `/search?q=${encodeURIComponent(query)}`;
-
-                // Reset button after a short delay (in case of errors)
-                setTimeout(() => {
-                    searchBtn.innerHTML = originalText;
-                    searchBtn.disabled = false;
-                }, 1000);
-            }
-
-            function performMobileSearch() {
-                const mobileSearchInput = document.getElementById('mobileSearchInput');
-                if (mobileSearchInput && mobileSearchInput.value.trim()) {
-                    const query = mobileSearchInput.value.trim();
-                    window.location.href = `/search?q=${encodeURIComponent(query)}`;
-                }
-            }
 
             // Enhanced mobile menu toggle with animations
             function toggleMobileMenu() {
@@ -1078,23 +1024,6 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
                 }
             }
 
-            // Debounced search suggestions
-            function setupSearchSuggestions() {
-                const searchInput = document.getElementById('headerSearchInput');
-                if (!searchInput) return;
-
-                searchInput.addEventListener('input', function(e) {
-                    clearTimeout(searchTimeout);
-                    const query = e.target.value.trim();
-
-                    if (query.length >= 2) {
-                        searchTimeout = setTimeout(() => {
-                            // Show search suggestions if implemented
-                            console.log('Elite search suggestions for:', query);
-                        }, 300);
-                    }
-                });
-            }
 
             // Enhanced scroll effects for regal header
             let lastScrollTop = 0;
@@ -1121,12 +1050,6 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
                 isScrolling = true;
             }
 
-            // Initialize when DOM is ready
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', setupSearchSuggestions);
-            } else {
-                setupSearchSuggestions();
-            }
 
             // Throttled scroll listener
             window.addEventListener('scroll', handleScroll, { passive: true });
@@ -1229,15 +1152,6 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
                     }
                 }
 
-                // Search shortcut (Ctrl/Cmd + K)
-                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-                    e.preventDefault();
-                    const searchInput = document.getElementById('headerSearchInput');
-                    if (searchInput) {
-                        searchInput.focus();
-                        searchInput.select();
-                    }
-                }
             });
 
             // Add hardware acceleration class after load
