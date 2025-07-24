@@ -26,8 +26,6 @@ $isLoggedIn = isset($_SESSION['user']) && !empty($_SESSION['user']['id']);
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-            background-attachment: fixed;
             min-height: 100vh;
             margin: 0;
             padding: 0;
