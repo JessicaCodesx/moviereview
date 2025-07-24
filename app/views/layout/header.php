@@ -18,6 +18,7 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
     <meta name="description" content="Discover, rate, and review your favorite movies. Track your watchlist and get personalized recommendations.">
     <meta name="keywords" content="movies, reviews, ratings, watchlist, cinema, films">
     <meta name="author" content="<?php echo $config['app_name']; ?>">
+    <meta name="user-authenticated" content="<?php echo $user ? 'true' : 'false'; ?>">
     <meta property="og:title" content="<?php echo $config['app_name']; ?>">
     <meta property="og:description" content="Your ultimate movie discovery and rating platform">
     <meta property="og:type" content="website">
