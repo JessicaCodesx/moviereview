@@ -38,7 +38,7 @@
                 <h3><?php echo count($data['watchlist'] ?? []); ?></h3>
                 <p>Movies in Watchlist</p>
                 <div class="stat-progress">
-                    <div class="progress-bar-fill" style="width: <?php echo min(100, count($data['watchlist'] ?? []) * 10); ?>%"></div>
+                    <div class="progress-bar-fill watchlist-progress" data-progress="<?php echo min(100, count($data['watchlist'] ?? []) * 10); ?>"></div>
                 </div>
             </div>
             <div class="stat-arrow">→</div>
@@ -53,7 +53,7 @@
                 <h3><?php echo count($data['recently_watched'] ?? []); ?></h3>
                 <p>Recently Watched</p>
                 <div class="stat-progress">
-                    <div class="progress-bar-fill" style="width: <?php echo min(100, count($data['recently_watched'] ?? []) * 20); ?>%"></div>
+                    <div class="progress-bar-fill watched-progress" data-progress="<?php echo min(100, count($data['recently_watched'] ?? []) * 20); ?>"></div>
                 </div>
             </div>
             <div class="stat-arrow">→</div>
@@ -68,7 +68,7 @@
                 <h3><?php echo count($data['recommendations'] ?? []); ?></h3>
                 <p>Recommendations</p>
                 <div class="stat-progress">
-                    <div class="progress-bar-fill" style="width: <?php echo min(100, count($data['recommendations'] ?? []) * 15); ?>%"></div>
+                    <div class="progress-bar-fill recommendations-progress" data-progress="<?php echo min(100, count($data['recommendations'] ?? []) * 15); ?>"></div>
                 </div>
             </div>
             <div class="stat-badge">New</div>
@@ -107,9 +107,9 @@
         <div class="horizontal-scroll-container">
             <div class="movies-horizontal-grid">
                 <?php foreach (array_slice($data['recently_watched'], 0, 8) as $index => $movie): ?>
-                    <div class="movie-card-horizontal animate-card" 
-                         style="animation-delay: <?php echo $index * 0.1; ?>s"
-                         onclick="movieAppInstance.loadMovieDetails('<?php echo $movie['imdb_id']; ?>')">
+                <div class="movie-card-horizontal animate-card" 
+                     data-animation-delay="<?php echo $index * 0.1; ?>"
+                     onclick="movieAppInstance.loadMovieDetails('<?php echo $movie['imdb_id']; ?>')">
                         <div class="movie-poster-horizontal">
                             <img src="<?php echo $movie['poster'] !== 'N/A' ? $movie['poster'] : '/public/assets/images/no-image.png'; ?>" 
                                  alt="<?php echo htmlspecialchars($movie['title']); ?>"
@@ -161,9 +161,9 @@
         <div class="horizontal-scroll-container">
             <div class="movies-horizontal-grid">
                 <?php foreach (array_slice($data['watchlist'], 0, 8) as $index => $movie): ?>
-                    <div class="movie-card-horizontal animate-card" 
-                         style="animation-delay: <?php echo $index * 0.1; ?>s"
-                         onclick="movieAppInstance.loadMovieDetails('<?php echo $movie['imdb_id']; ?>')">
+                <div class="movie-card-horizontal animate-card" 
+                     data-animation-delay="<?php echo $index * 0.1; ?>"
+                     onclick="movieAppInstance.loadMovieDetails('<?php echo $movie['imdb_id']; ?>')">
                         <div class="movie-poster-horizontal">
                             <img src="<?php echo $movie['poster'] !== 'N/A' ? $movie['poster'] : '/public/assets/images/no-image.png'; ?>" 
                                  alt="<?php echo htmlspecialchars($movie['title']); ?>"
@@ -227,9 +227,9 @@
         <div class="horizontal-scroll-container">
             <div class="movies-horizontal-grid">
                 <?php foreach (array_slice($data['recommendations'], 0, 8) as $index => $movie): ?>
-                    <div class="movie-card-horizontal animate-card recommendation-card" 
-                         style="animation-delay: <?php echo $index * 0.1; ?>s"
-                         onclick="movieAppInstance.loadMovieDetails('<?php echo $movie['imdb_id']; ?>')">
+                <div class="movie-card-horizontal animate-card recommendation-card" 
+                     data-animation-delay="<?php echo $index * 0.1; ?>"
+                     onclick="movieAppInstance.loadMovieDetails('<?php echo $movie['imdb_id']; ?>')">
                         <div class="movie-poster-horizontal">
                             <img src="<?php echo $movie['poster'] !== 'N/A' ? $movie['poster'] : '/public/assets/images/no-image.png'; ?>" 
                                  alt="<?php echo htmlspecialchars($movie['title']); ?>"
