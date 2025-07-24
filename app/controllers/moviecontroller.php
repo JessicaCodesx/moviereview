@@ -98,6 +98,23 @@ class MovieController extends BaseController {
         }
     }
 
+    public function searchPage() {
+        // Handle GET requests to /search with query parameter
+        error_log("MovieController::searchPage() called");
+
+        $query = $_GET['q'] ?? $_GET['query'] ?? '';
+        $data = ['search_query' => $query];
+
+        if (!empty($query)) {
+            error_log("Search page query: " . $query);
+            // We'll let the frontend JavaScript handle the actual search via AJAX
+            // This just provides the search page with the initial query
+        }
+
+        // Use the same view as the index but with search query pre-filled
+        $this->view('movies/index', $data);
+    }
+
     public function getMovie() {
         error_log("MovieController::getMovie() called");
         error_log("POST data: " . print_r($_POST, true));

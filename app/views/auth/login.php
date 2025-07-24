@@ -87,7 +87,7 @@
                 <label class="checkbox-wrapper regal-checkbox">
                     <input type="checkbox" id="remember" name="remember">
                     <span class="checkmark"></span>
-                    <span class="checkbox-label">Remember my access</span>
+                    <span class="checkbox-label">Remember me</span>
                 </label>
             </div>
 
