@@ -1,196 +1,583 @@
 <?php
 ?>
-<div class="features-container">
-    <div class="features-hero">
-        <div class="hero-content">
-            <h1>🌟 Powerful Features</h1>
-            <p class="hero-subtitle">Everything you need to discover, track, and enjoy movies</p>
+<div class="regal-features-container">
+    <!-- Regal Background Animation -->
+    <div class="features-background">
+        <div class="regal-gradient"></div>
+        <div class="floating-elements">
+            <div class="floating-shape shape-1"></div>
+            <div class="floating-shape shape-2"></div>
+            <div class="floating-shape shape-3"></div>
+            <div class="floating-shape shape-4"></div>
+            <div class="floating-shape shape-5"></div>
+            <div class="floating-shape shape-6"></div>
         </div>
-        <div class="hero-animation">
-            <div class="floating-icons">
-                <span class="float-icon" style="animation-delay: 0s;">🎬</span>
-                <span class="float-icon" style="animation-delay: 2s;">⭐</span>
-                <span class="float-icon" style="animation-delay: 4s;">🍿</span>
-                <span class="float-icon" style="animation-delay: 6s;">🎭</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="features-grid">
-        <!-- Movie Discovery -->
-        <div class="feature-card discover-card">
-            <div class="feature-icon">
-                <span>🔍</span>
-            </div>
-            <div class="feature-content">
-                <h3>Smart Movie Discovery</h3>
-                <p>Search through millions of movies with our powerful search engine. Find exactly what you're looking for with advanced filters and intelligent suggestions.</p>
-                <ul class="feature-list">
-                    <li>✨ Instant search results</li>
-                    <li>📊 Advanced filtering options</li>
-                    <li>🎯 Personalized suggestions</li>
-                    <li>🌍 Global movie database</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Rating System -->
-        <div class="feature-card rating-card">
-            <div class="feature-icon">
-                <span>⭐</span>
-            </div>
-            <div class="feature-content">
-                <h3>Rate & Review Movies</h3>
-                <p>Share your opinion with our intuitive 5-star rating system. Help others discover great movies and build your personal movie profile.</p>
-                <ul class="feature-list">
-                    <li>🌟 Simple 5-star ratings</li>
-                    <li>📝 Personal movie history</li>
-                    <li>📈 Rating statistics</li>
-                    <li>🎭 Genre preferences</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- AI Reviews -->
-        <div class="feature-card ai-card">
-            <div class="feature-icon">
-                <span>🤖</span>
-            </div>
-            <div class="feature-content">
-                <h3>AI-Generated Reviews</h3>
-                <p>Get professional-quality movie reviews instantly with our AI system. Perfect for when you need a quick overview of any film.</p>
-                <ul class="feature-list">
-                    <li>🚀 Instant review generation</li>
-                    <li>📖 Professional writing style</li>
-                    <li>🎯 Balanced perspectives</li>
-                    <li>💡 Insightful analysis</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Watchlist -->
-        <div class="feature-card watchlist-card">
-            <div class="feature-icon">
-                <span>📝</span>
-            </div>
-            <div class="feature-content">
-                <h3>Personal Watchlist</h3>
-                <p>Never forget a movie recommendation again. Build and manage your personal watchlist with easy organization and tracking tools.</p>
-                <ul class="feature-list">
-                    <li>📋 Unlimited movie lists</li>
-                    <li>🏷️ Custom organization</li>
-                    <li>⚡ Quick add/remove</li>
-                    <li>📱 Mobile-friendly access</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Progress Tracking -->
-        <div class="feature-card tracking-card">
-            <div class="feature-icon">
-                <span>✅</span>
-            </div>
-            <div class="feature-content">
-                <h3>Track Your Journey</h3>
-                <p>Monitor your movie-watching progress with detailed statistics and achievements. See your viewing patterns and discover new preferences.</p>
-                <ul class="feature-list">
-                    <li>📊 Viewing statistics</li>
-                    <li>🏆 Achievement system</li>
-                    <li>📅 Watch history</li>
-                    <li>🎨 Visual progress tracking</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Social Features -->
-        <div class="feature-card social-card">
-            <div class="feature-icon">
-                <span>👥</span>
-            </div>
-            <div class="feature-content">
-                <h3>Community Features</h3>
-                <p>Connect with fellow movie enthusiasts. Share recommendations, compare tastes, and discover movies through our community-driven features.</p>
-                <ul class="feature-list">
-                    <li>🌐 Community ratings</li>
-                    <li>🔗 Share your profile</li>
-                    <li>💬 Rating comparisons</li>
-                    <li>🎪 Trending movies</li>
-                </ul>
-            </div>
+        <div class="regal-particles">
+            <span class="particle particle-1">👑</span>
+            <span class="particle particle-2">⭐</span>
+            <span class="particle particle-3">🎭</span>
+            <span class="particle particle-4">🎬</span>
         </div>
     </div>
 
-    <!-- Pricing/CTA Section -->
-    <div class="features-cta">
-        <div class="cta-content">
-            <h2>Ready to Start Your Movie Journey?</h2>
-            <p>Join thousands of movie lovers who use Movie Review Hub to discover, track, and enjoy films.</p>
-            <div class="cta-stats">
-                <div class="stat-item">
-                    <span class="stat-number">50K+</span>
-                    <span class="stat-label">Happy Users</span>
+    <!-- Elite Features Hero -->
+    <div class="elite-features-hero">
+        <div class="hero-crown-animation">
+            <div class="hero-crown">👑</div>
+            <div class="crown-particles">
+                <span class="crown-particle">✨</span>
+                <span class="crown-particle">🎭</span>
+                <span class="crown-particle">🎬</span>
+                <span class="crown-particle">⭐</span>
+            </div>
+        </div>
+        <div class="hero-content-royal">
+            <h1>Distinguished Features</h1>
+            <p class="hero-subtitle-royal">Sophisticated tools for the discerning cinematic connoisseur</p>
+            <div class="elite-badge">
+                <span class="badge-icon">🎭</span>
+                <span class="badge-text">Cinematic Excellence Platform</span>
+            </div>
+        </div>
+        <div class="hero-floating-icons">
+            <span class="royal-float-icon" style="animation-delay: 0s;">🎬</span>
+            <span class="royal-float-icon" style="animation-delay: 2s;">⭐</span>
+            <span class="royal-float-icon" style="animation-delay: 4s;">🍿</span>
+            <span class="royal-float-icon" style="animation-delay: 6s;">🎭</span>
+            <span class="royal-float-icon" style="animation-delay: 8s;">👑</span>
+        </div>
+    </div>
+
+    <div class="elite-features-content">
+        <div class="royal-features-grid">
+            <!-- Sophisticated Discovery -->
+            <div class="royal-feature-card discovery-card-royal">
+                <div class="feature-crown">🔍</div>
+                <div class="royal-feature-icon">
+                    <span>🎯</span>
+                    <div class="icon-glow-effect"></div>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-number">2M+</span>
-                    <span class="stat-label">Movies Rated</span>
+                <div class="royal-feature-content">
+                    <h3>Sophisticated Discovery Engine</h3>
+                    <p>Navigate through our meticulously curated database of cinematic masterpieces. Our intelligent search system provides refined suggestions tailored to your distinguished taste.</p>
+                    <ul class="royal-feature-list">
+                        <li>✨ Instantaneous intelligent search</li>
+                        <li>🎯 Advanced curation algorithms</li>
+                        <li>🧠 Personalized masterpiece suggestions</li>
+                        <li>🌍 Comprehensive global cinema library</li>
+                    </ul>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-number">100K+</span>
-                    <span class="stat-label">Reviews Generated</span>
+                <div class="card-shimmer-effect"></div>
+            </div>
+
+            <!-- Elite Rating System -->
+            <div class="royal-feature-card rating-card-royal">
+                <div class="feature-crown">⭐</div>
+                <div class="royal-feature-icon">
+                    <span>👑</span>
+                    <div class="icon-glow-effect"></div>
+                </div>
+                <div class="royal-feature-content">
+                    <h3>Distinguished Critique System</h3>
+                    <p>Express your refined opinions through our sophisticated 5-star constellation rating system. Contribute to the distinguished discourse of cinematic appreciation.</p>
+                    <ul class="royal-feature-list">
+                        <li>🌟 Elegant constellation ratings</li>
+                        <li>📖 Personal critique chronicles</li>
+                        <li>📊 Sophisticated taste analytics</li>
+                        <li>🎭 Genre preference refinement</li>
+                    </ul>
+                </div>
+                <div class="card-shimmer-effect"></div>
+            </div>
+
+            <!-- AI Sommelier -->
+            <div class="royal-feature-card ai-card-royal">
+                <div class="feature-crown">🤖</div>
+                <div class="royal-feature-icon">
+                    <span>🧠</span>
+                    <div class="icon-glow-effect"></div>
+                </div>
+                <div class="royal-feature-content">
+                    <h3>AI Cinema Sommelier</h3>
+                    <p>Experience professional-caliber critiques generated by our sophisticated AI sommelier. Receive scholarly analysis and insightful commentary on any film in our collection.</p>
+                    <ul class="royal-feature-list">
+                        <li>🚀 Instantaneous scholarly reviews</li>
+                        <li>📚 Academic writing excellence</li>
+                        <li>⚖️ Balanced critical perspectives</li>
+                        <li>💎 Profound cinematic insights</li>
+                    </ul>
+                </div>
+                <div class="card-shimmer-effect"></div>
+            </div>
+
+            <!-- Curated Collection -->
+            <div class="royal-feature-card collection-card-royal">
+                <div class="feature-crown">📜</div>
+                <div class="royal-feature-icon">
+                    <span>📚</span>
+                    <div class="icon-glow-effect"></div>
+                </div>
+                <div class="royal-feature-content">
+                    <h3>Personal Curated Collection</h3>
+                    <p>Maintain your distinguished watchlist with the elegance befitting a true connoisseur. Organize your cinematic discoveries with sophisticated cataloging tools.</p>
+                    <ul class="royal-feature-list">
+                        <li>📋 Unlimited curatorial capacity</li>
+                        <li>🏷️ Sophisticated organization systems</li>
+                        <li>⚡ Effortless collection management</li>
+                        <li>📱 Cross-device accessibility</li>
+                    </ul>
+                </div>
+                <div class="card-shimmer-effect"></div>
+            </div>
+
+            <!-- Journey Tracking -->
+            <div class="royal-feature-card journey-card-royal">
+                <div class="feature-crown">📊</div>
+                <div class="royal-feature-icon">
+                    <span>🏆</span>
+                    <div class="icon-glow-effect"></div>
+                </div>
+                <div class="royal-feature-content">
+                    <h3>Cinematic Journey Analytics</h3>
+                    <p>Monitor your distinguished viewing progression with comprehensive analytics and royal achievements. Discover patterns in your refined cinematic preferences.</p>
+                    <ul class="royal-feature-list">
+                        <li>📈 Comprehensive viewing analytics</li>
+                        <li>🏅 Royal achievement system</li>
+                        <li>📅 Detailed viewing chronicles</li>
+                        <li>🎨 Visual progress artistry</li>
+                    </ul>
+                </div>
+                <div class="card-shimmer-effect"></div>
+            </div>
+
+            <!-- Elite Community -->
+            <div class="royal-feature-card community-card-royal">
+                <div class="feature-crown">🎪</div>
+                <div class="royal-feature-icon">
+                    <span>👑</span>
+                    <div class="icon-glow-effect"></div>
+                </div>
+                <div class="royal-feature-content">
+                    <h3>Distinguished Society</h3>
+                    <p>Connect with fellow cinematic connoisseurs in our exclusive community. Share refined recommendations and engage in sophisticated discourse about the art of cinema.</p>
+                    <ul class="royal-feature-list">
+                        <li>🌐 Community of connoisseurs</li>
+                        <li>🔗 Profile sharing privileges</li>
+                        <li>💬 Sophisticated taste comparisons</li>
+                        <li>🎭 Trending masterpiece discovery</li>
+                    </ul>
+                </div>
+                <div class="card-shimmer-effect"></div>
+            </div>
+        </div>
+
+        <!-- Elite Call to Action -->
+        <div class="royal-features-cta">
+            <div class="cta-crown-decoration">
+                <div class="cta-crown">👑</div>
+                <div class="cta-sparkles">
+                    <span class="sparkle">✨</span>
+                    <span class="sparkle">⭐</span>
+                    <span class="sparkle">💎</span>
+                    <span class="sparkle">🎭</span>
+                    <span class="sparkle">✨</span>
                 </div>
             </div>
-            <div class="cta-buttons">
-                <?php if (!$isLoggedIn): ?>
-                    <a href="/register" class="btn btn-primary btn-large">
-                        <span>🚀</span>Get Started Free
-                    </a>
-                    <a href="/login" class="btn btn-secondary btn-large">
-                        <span>🔑</span>Sign In
-                    </a>
-                <?php else: ?>
-                    <a href="/dashboard" class="btn btn-primary btn-large">
-                        <span>📊</span>Go to Dashboard
-                    </a>
-                    <a href="/" class="btn btn-secondary btn-large">
-                        <span>🔍</span>Start Searching
-                    </a>
-                <?php endif; ?>
+            <div class="royal-cta-content">
+                <h2>Ready to Join the Elite Circle?</h2>
+                <p>Experience the pinnacle of cinematic curation and join our distinguished community of film connoisseurs.</p>
+                <div class="royal-cta-stats">
+                    <div class="royal-stat-item">
+                        <span class="royal-stat-number">2,500+</span>
+                        <span class="royal-stat-label">Distinguished Members</span>
+                    </div>
+                    <div class="royal-stat-item">
+                        <span class="royal-stat-number">100K+</span>
+                        <span class="royal-stat-label">Expert Critiques</span>
+                    </div>
+                    <div class="royal-stat-item">
+                        <span class="royal-stat-number">50K+</span>
+                        <span class="royal-stat-label">Curated Masterpieces</span>
+                    </div>
+                </div>
+                <div class="royal-cta-buttons">
+                    <?php if (!$isLoggedIn): ?>
+                        <a href="/register" class="btn-royal btn-primary-royal btn-large-royal">
+                            <span class="btn-icon">🚀</span>
+                            <span class="btn-text">Begin Your Journey</span>
+                        </a>
+                        <a href="/login" class="btn-royal btn-secondary-royal btn-large-royal">
+                            <span class="btn-icon">🔑</span>
+                            <span class="btn-text">Access Elite Portal</span>
+                        </a>
+                    <?php else: ?>
+                        <a href="/dashboard" class="btn-royal btn-primary-royal btn-large-royal">
+                            <span class="btn-icon">📊</span>
+                            <span class="btn-text">Royal Dashboard</span>
+                        </a>
+                        <a href="/" class="btn-royal btn-secondary-royal btn-large-royal">
+                            <span class="btn-icon">🔍</span>
+                            <span class="btn-text">Explore Masterpieces</span>
+                        </a>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<style>
-.features-container {
-    max-width: 1400px;
-    margin: 0 auto;
+<script>
+// Initialize floating particles
+function initializeFloatingParticles() {
+    const particles = document.querySelectorAll('.particle');
+    particles.forEach((particle, index) => {
+        particle.style.animationDelay = `${index * 2.5}s`;
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+    });
 }
 
-.features-hero {
+// Enhanced card hover effects
+function initializeCardEffects() {
+    document.querySelectorAll('.royal-feature-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-15px) scale(1.02)';
+            this.querySelector('.icon-glow-effect').style.opacity = '1';
+        });
+
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+            this.querySelector('.icon-glow-effect').style.opacity = '0';
+        });
+    });
+}
+
+// Crown particle animations
+function initializeCrownParticles() {
+    const crownParticles = document.querySelectorAll('.crown-particle');
+    crownParticles.forEach((particle, index) => {
+        const delay = index * 1.5;
+        particle.style.animationDelay = `${delay}s`;
+    });
+}
+
+// Sparkle animations
+function initializeSparkles() {
+    const sparkles = document.querySelectorAll('.sparkle');
+    sparkles.forEach((sparkle, index) => {
+        const delay = index * 0.8;
+        sparkle.style.animationDelay = `${delay}s`;
+    });
+}
+
+// Initialize scroll animations
+function initializeScrollAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.royal-feature-card, .royal-features-cta').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(40px)';
+        el.style.transition = 'all 0.8s ease';
+        observer.observe(el);
+    });
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+    initializeFloatingParticles();
+    initializeCardEffects();
+    initializeCrownParticles();
+    initializeSparkles();
+    initializeScrollAnimations();
+
+    // Stagger card animations
+    document.querySelectorAll('.royal-feature-card').forEach((card, index) => {
+        setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 200);
+    });
+});
+</script>
+
+<style>
+/* Elite Cinema Features Styles */
+:root {
+    --regal-primary: #1a1f3a;
+    --regal-secondary: #0f1419;
+    --regal-accent: #daa520;
+    --regal-accent-light: #f4d03f;
+    --regal-text: #ffffff;
+    --regal-text-muted: rgba(255, 255, 255, 0.7);
+    --regal-border: rgba(218, 165, 32, 0.3);
+    --regal-backdrop: rgba(26, 31, 58, 0.8);
+    --regal-glass: rgba(26, 31, 58, 0.9);
+    --regal-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    --regal-glow: 0 0 30px rgba(218, 165, 32, 0.3);
+}
+
+.regal-features-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--regal-secondary) 0%, var(--regal-primary) 50%, var(--regal-secondary) 100%);
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Background Animation */
+.features-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.regal-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(218, 165, 32, 0.1), transparent),
+        radial-gradient(circle at 80% 20%, rgba(218, 165, 32, 0.08), transparent),
+        radial-gradient(circle at 40% 80%, rgba(218, 165, 32, 0.12), transparent);
+}
+
+.floating-elements {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.floating-shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.08;
+    animation: regalFloat 30s ease-in-out infinite;
+}
+
+.shape-1 {
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
+    top: -10%;
+    left: -10%;
+    animation-delay: 0s;
+}
+
+.shape-2 {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(135deg, var(--regal-primary), var(--regal-accent));
+    top: 70%;
+    right: -5%;
+    animation-delay: 10s;
+}
+
+.shape-3 {
+    width: 150px;
+    height: 150px;
+    background: linear-gradient(135deg, var(--regal-accent-light), var(--regal-accent));
+    top: 30%;
+    left: 10%;
+    animation-delay: 20s;
+}
+
+.shape-4 {
+    width: 250px;
+    height: 250px;
+    background: linear-gradient(135deg, var(--regal-accent), var(--regal-primary));
+    top: 10%;
+    right: 20%;
+    animation-delay: 5s;
+}
+
+.shape-5 {
+    width: 180px;
+    height: 180px;
+    background: linear-gradient(135deg, var(--regal-accent-light), var(--regal-primary));
+    bottom: -10%;
+    left: 40%;
+    animation-delay: 15s;
+}
+
+.shape-6 {
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
+    top: 60%;
+    right: 50%;
+    animation-delay: 25s;
+}
+
+@keyframes regalFloat {
+    0%, 100% { 
+        transform: translateY(0px) translateX(0px) rotate(0deg) scale(1); 
+    }
+    25% { 
+        transform: translateY(-30px) translateX(20px) rotate(90deg) scale(1.1); 
+    }
+    50% { 
+        transform: translateY(-15px) translateX(-15px) rotate(180deg) scale(0.9); 
+    }
+    75% { 
+        transform: translateY(20px) translateX(-30px) rotate(270deg) scale(1.05); 
+    }
+}
+
+.regal-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    font-size: 1.5rem;
+    opacity: 0.4;
+    animation: particleFloat 20s linear infinite;
+    filter: drop-shadow(0 2px 4px rgba(218, 165, 32, 0.3));
+}
+
+@keyframes particleFloat {
+    0% { 
+        transform: translateY(100vh) translateX(0px) rotate(0deg); 
+        opacity: 0; 
+    }
+    10% { 
+        opacity: 0.4; 
+    }
+    90% { 
+        opacity: 0.4; 
+    }
+    100% { 
+        transform: translateY(-100px) translateX(50px) rotate(360deg); 
+        opacity: 0; 
+    }
+}
+
+/* Elite Features Hero */
+.elite-features-hero {
     text-align: center;
-    padding: var(--space-16) var(--space-4);
-    margin-bottom: var(--space-12);
+    padding: 80px 40px;
+    margin-bottom: 60px;
     position: relative;
 }
 
-.hero-content h1 {
-    font-size: clamp(2.5rem, 6vw, 4rem);
-    font-weight: 900;
-    color: white;
-    margin-bottom: var(--space-4);
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+.hero-crown-animation {
+    position: relative;
+    margin-bottom: 40px;
 }
 
-.hero-subtitle {
-    font-size: var(--font-size-xl);
-    color: rgba(255,255,255,0.9);
-    margin-bottom: var(--space-8);
-    max-width: 600px;
+.hero-crown {
+    font-size: 5rem;
+    filter: drop-shadow(0 4px 12px rgba(218, 165, 32, 0.4));
+    animation: crownFloat 6s ease-in-out infinite;
+}
+
+@keyframes crownFloat {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg); 
+    }
+    50% { 
+        transform: translateY(-10px) rotate(3deg); 
+    }
+}
+
+.crown-particles {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
+}
+
+.crown-particle {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: particleOrbit 12s linear infinite;
+}
+
+.crown-particle:nth-child(1) { 
+    animation-delay: 0s; 
+    transform: rotate(0deg) translateX(150px);
+}
+.crown-particle:nth-child(2) { 
+    animation-delay: 3s; 
+    transform: rotate(90deg) translateX(150px);
+}
+.crown-particle:nth-child(3) { 
+    animation-delay: 6s; 
+    transform: rotate(180deg) translateX(150px);
+}
+.crown-particle:nth-child(4) { 
+    animation-delay: 9s; 
+    transform: rotate(270deg) translateX(150px);
+}
+
+@keyframes particleOrbit {
+    0% { transform: rotate(0deg) translateX(150px) rotate(0deg); }
+    100% { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
+}
+
+.hero-content-royal h1 {
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 25px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-subtitle-royal {
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    color: var(--regal-text-muted);
+    margin-bottom: 30px;
+    max-width: 700px;
     margin-left: auto;
     margin-right: auto;
+    font-weight: 500;
+    font-style: italic;
 }
 
-.floating-icons {
+.elite-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--regal-glass);
+    backdrop-filter: blur(20px);
+    border: 2px solid var(--regal-border);
+    border-radius: 20px;
+    padding: 12px 20px;
+    color: var(--regal-accent);
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 8px 25px rgba(218, 165, 32, 0.3);
+    margin-bottom: 40px;
+}
+
+.badge-icon {
+    font-size: 1.2rem;
+}
+
+.hero-floating-icons {
     position: absolute;
     top: 0;
     left: 0;
@@ -199,201 +586,445 @@
     pointer-events: none;
 }
 
-.float-icon {
+.royal-float-icon {
     position: absolute;
     font-size: 2rem;
-    opacity: 0.2;
-    animation: floatAround 8s ease-in-out infinite;
+    opacity: 0.3;
+    animation: royalFloatAround 10s ease-in-out infinite;
+    filter: drop-shadow(0 2px 8px rgba(218, 165, 32, 0.4));
 }
 
-.float-icon:nth-child(1) { top: 20%; left: 10%; }
-.float-icon:nth-child(2) { top: 60%; right: 15%; }
-.float-icon:nth-child(3) { top: 30%; left: 75%; }
-.float-icon:nth-child(4) { bottom: 40%; right: 30%; }
+.royal-float-icon:nth-child(1) { top: 20%; left: 10%; }
+.royal-float-icon:nth-child(2) { top: 60%; right: 15%; }
+.royal-float-icon:nth-child(3) { top: 30%; left: 75%; }
+.royal-float-icon:nth-child(4) { bottom: 40%; right: 30%; }
+.royal-float-icon:nth-child(5) { top: 70%; left: 20%; }
 
-@keyframes floatAround {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(180deg); }
+@keyframes royalFloatAround {
+    0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+    50% { transform: translateY(-25px) rotate(180deg); opacity: 0.6; }
 }
 
-.features-grid {
+/* Elite Content Container */
+.elite-features-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+/* Royal Features Grid */
+.royal-features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: var(--space-8);
-    margin-bottom: var(--space-16);
+    gap: 30px;
+    margin-bottom: 60px;
 }
 
-.feature-card {
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(20px);
-    border-radius: var(--radius-2xl);
-    padding: var(--space-8);
-    box-shadow: var(--shadow-2xl);
-    border: 1px solid rgba(255,255,255,0.2);
-    transition: var(--transition-base);
+.royal-feature-card {
+    background: var(--regal-glass);
+    backdrop-filter: blur(25px) saturate(200%);
+    border: 2px solid var(--regal-border);
+    border-radius: 25px;
+    padding: 40px 35px;
+    box-shadow: var(--regal-shadow);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     position: relative;
     overflow: hidden;
 }
 
-.feature-card::before {
+.royal-feature-card::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 4px;
-    background: var(--gradient-primary);
+    background: linear-gradient(90deg, var(--regal-accent), var(--regal-accent-light), var(--regal-accent));
 }
 
-.feature-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-2xl), 0 25px 50px rgba(99, 102, 241, 0.15);
+.royal-feature-card:hover {
+    border-color: var(--regal-accent);
+    box-shadow: 0 20px 40px rgba(218, 165, 32, 0.4);
 }
 
-.feature-icon {
+.feature-crown {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 1.8rem;
+    opacity: 0.6;
+    filter: drop-shadow(0 2px 8px rgba(218, 165, 32, 0.4));
+    animation: crownFloat 8s ease-in-out infinite;
+}
+
+.royal-feature-icon {
     width: 80px;
     height: 80px;
-    background: var(--gradient-primary);
+    background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: var(--space-6);
+    margin-bottom: 30px;
     font-size: 2rem;
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 8px 25px rgba(218, 165, 32, 0.4);
+    position: relative;
+    color: var(--regal-primary);
 }
 
-.feature-content h3 {
-    font-size: var(--font-size-2xl);
+.icon-glow-effect {
+    position: absolute;
+    inset: -15px;
+    background: radial-gradient(circle, rgba(218, 165, 32, 0.3), transparent);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.1); opacity: 0.6; }
+}
+
+.royal-feature-content h3 {
+    font-size: 1.6rem;
     font-weight: 800;
-    color: var(--neutral-800);
-    margin-bottom: var(--space-4);
+    color: var(--regal-accent);
+    margin-bottom: 20px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.feature-content p {
-    color: var(--neutral-600);
-    font-size: var(--font-size-base);
+.royal-feature-content p {
+    color: var(--regal-text-muted);
+    font-size: 1.1rem;
     line-height: 1.7;
-    margin-bottom: var(--space-6);
+    margin-bottom: 25px;
+    font-weight: 500;
 }
 
-.feature-list {
+.royal-feature-list {
     list-style: none;
     padding: 0;
 }
 
-.feature-list li {
-    padding: var(--space-2) 0;
-    color: var(--neutral-700);
-    font-weight: 500;
+.royal-feature-list li {
+    padding: 8px 0;
+    color: var(--regal-text);
+    font-weight: 600;
     display: flex;
     align-items: center;
-    gap: var(--space-2);
+    gap: 10px;
+    font-size: 0.95rem;
 }
 
-.features-cta {
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(20px);
-    border-radius: var(--radius-2xl);
-    padding: var(--space-16) var(--space-8);
+.card-shimmer-effect {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(218, 165, 32, 0.1), transparent);
+    transition: left 0.8s ease;
+    pointer-events: none;
+}
+
+.royal-feature-card:hover .card-shimmer-effect {
+    left: 100%;
+}
+
+/* Royal CTA Section */
+.royal-features-cta {
+    background: var(--regal-glass);
+    backdrop-filter: blur(25px) saturate(200%);
+    border: 2px solid var(--regal-border);
+    border-radius: 25px;
+    padding: 60px 40px;
     text-align: center;
-    box-shadow: var(--shadow-2xl);
-    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: var(--regal-shadow);
     position: relative;
     overflow: hidden;
 }
 
-.features-cta::before {
+.royal-features-cta::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 4px;
-    background: var(--gradient-primary);
+    background: linear-gradient(90deg, var(--regal-accent), var(--regal-accent-light), var(--regal-accent));
 }
 
-.cta-content h2 {
-    font-size: var(--font-size-4xl);
+.cta-crown-decoration {
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.cta-crown {
+    font-size: 4rem;
+    color: var(--regal-accent);
+    filter: drop-shadow(0 4px 12px rgba(218, 165, 32, 0.4));
+    animation: crownFloat 6s ease-in-out infinite;
+}
+
+.cta-sparkles {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+}
+
+.sparkle {
+    position: absolute;
+    font-size: 1.5rem;
+    color: var(--regal-accent);
+    animation: sparkleFloat 6s ease-in-out infinite;
+}
+
+.sparkle:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; }
+.sparkle:nth-child(2) { top: 20%; right: 20%; animation-delay: 1.2s; }
+.sparkle:nth-child(3) { bottom: 30%; left: 30%; animation-delay: 2.4s; }
+.sparkle:nth-child(4) { bottom: 20%; right: 30%; animation-delay: 3.6s; }
+.sparkle:nth-child(5) { top: 50%; left: 10%; animation-delay: 4.8s; }
+
+@keyframes sparkleFloat {
+    0%, 100% { transform: translateY(0px) scale(1) rotate(0deg); opacity: 0.6; }
+    50% { transform: translateY(-15px) scale(1.3) rotate(180deg); opacity: 1; }
+}
+
+.royal-cta-content h2 {
+    font-size: 2.8rem;
     font-weight: 900;
-    color: var(--neutral-800);
-    margin-bottom: var(--space-4);
+    color: var(--regal-accent);
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.cta-content p {
-    font-size: var(--font-size-lg);
-    color: var(--neutral-600);
-    margin-bottom: var(--space-8);
-    max-width: 600px;
+.royal-cta-content p {
+    font-size: 1.3rem;
+    color: var(--regal-text-muted);
+    margin-bottom: 40px;
+    max-width: 700px;
     margin-left: auto;
     margin-right: auto;
+    font-weight: 500;
+    line-height: 1.6;
 }
 
-.cta-stats {
+.royal-cta-stats {
     display: flex;
     justify-content: center;
-    gap: var(--space-12);
-    margin-bottom: var(--space-8);
+    gap: 50px;
+    margin-bottom: 40px;
     flex-wrap: wrap;
 }
 
-.stat-item {
+.royal-stat-item {
     text-align: center;
+    padding: 20px;
+    background: rgba(218, 165, 32, 0.1);
+    border-radius: 16px;
+    border: 1px solid var(--regal-border);
+    backdrop-filter: blur(10px);
+    min-width: 150px;
 }
 
-.stat-number {
+.royal-stat-number {
     display: block;
-    font-size: var(--font-size-4xl);
+    font-size: 2.5rem;
     font-weight: 900;
-    color: var(--primary-600);
-    margin-bottom: var(--space-1);
+    color: var(--regal-accent);
+    margin-bottom: 8px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.stat-label {
-    font-size: var(--font-size-sm);
-    color: var(--neutral-600);
+.royal-stat-label {
+    font-size: 0.9rem;
+    color: var(--regal-text-muted);
     font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
-.cta-buttons {
+.royal-cta-buttons {
     display: flex;
     justify-content: center;
-    gap: var(--space-4);
+    gap: 20px;
     flex-wrap: wrap;
 }
 
-.btn-large {
-    padding: var(--space-4) var(--space-8);
-    font-size: var(--font-size-lg);
-    font-weight: 800;
+/* Royal Buttons */
+.btn-royal {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 30px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
+.btn-primary-royal {
+    background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
+    color: var(--regal-primary);
+    box-shadow: 0 8px 25px rgba(218, 165, 32, 0.4);
+}
+
+.btn-primary-royal:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(218, 165, 32, 0.5);
+    background: linear-gradient(135deg, var(--regal-accent-light), #fff);
+}
+
+.btn-secondary-royal {
+    background: rgba(218, 165, 32, 0.1);
+    color: var(--regal-accent);
+    border: 2px solid var(--regal-border);
+}
+
+.btn-secondary-royal:hover {
+    background: rgba(218, 165, 32, 0.2);
+    border-color: var(--regal-accent);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(218, 165, 32, 0.3);
+}
+
+.btn-large-royal {
+    padding: 20px 35px;
+    font-size: 1.2rem;
+}
+
+.btn-icon {
+    font-size: 1.3rem;
+}
+
+/* Card Specific Styling */
+.discovery-card-royal:hover {
+    box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+}
+
+.rating-card-royal:hover {
+    box-shadow: 0 20px 40px rgba(245, 158, 11, 0.3);
+}
+
+.ai-card-royal:hover {
+    box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
+}
+
+.collection-card-royal:hover {
+    box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3);
+}
+
+.journey-card-royal:hover {
+    box-shadow: 0 20px 40px rgba(239, 68, 68, 0.3);
+}
+
+.community-card-royal:hover {
+    box-shadow: 0 20px 40px rgba(218, 165, 32, 0.4);
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-    .features-grid {
+    .elite-features-content {
+        padding: 0 20px 40px;
+        gap: 40px;
+    }
+
+    .royal-features-grid {
         grid-template-columns: 1fr;
-        gap: var(--space-6);
+        gap: 25px;
     }
 
-    .feature-card {
-        padding: var(--space-6);
+    .royal-feature-card {
+        padding: 30px 25px;
     }
 
-    .features-cta {
-        padding: var(--space-12) var(--space-6);
+    .royal-features-cta {
+        padding: 40px 25px;
     }
 
-    .cta-stats {
-        gap: var(--space-6);
-    }
-
-    .cta-buttons {
+    .royal-cta-stats {
+        gap: 20px;
         flex-direction: column;
         align-items: center;
     }
 
-    .btn-large {
+    .royal-cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn-large-royal {
         width: 100%;
         max-width: 300px;
+    }
+
+    .crown-particles {
+        width: 250px;
+        height: 250px;
+    }
+
+    .cta-sparkles {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .elite-features-hero {
+        padding: 60px 20px;
+    }
+
+    .hero-content-royal h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-subtitle-royal {
+        font-size: 1.1rem;
+    }
+
+    .royal-feature-card {
+        padding: 25px 20px;
+    }
+
+    .royal-features-cta {
+        padding: 30px 20px;
+    }
+
+    .royal-cta-content h2 {
+        font-size: 2.2rem;
+    }
+
+    .royal-cta-content p {
+        font-size: 1.1rem;
+    }
+
+    .crown-particles {
+        width: 200px;
+        height: 200px;
+    }
+
+    .royal-stat-item {
+        min-width: 120px;
+        padding: 15px;
+    }
+
+    .royal-stat-number {
+        font-size: 2rem;
     }
 }
 </style>
