@@ -90,7 +90,7 @@
                     <div class="stat-number"><?php echo $data['stats']['ratings_count'] ?? 0; ?></div>
                     <div class="stat-label">Movies Rated</div>
                     <div class="stat-progress">
-                        <div class="progress-line" style="width: <?php echo min(100, ($data['stats']['ratings_count'] ?? 0) * 2); ?>%"></div>
+                        <div class="progress-line ratings-progress" data-progress="<?php echo min(100, ($data['stats']['ratings_count'] ?? 0) * 2); ?>"></div>
                     </div>
                 </div>
                 <div class="stat-trend">
@@ -108,7 +108,7 @@
                     <div class="stat-number"><?php echo $data['stats']['watchlist_count'] ?? 0; ?></div>
                     <div class="stat-label">In Watchlist</div>
                     <div class="stat-progress">
-                        <div class="progress-line" style="width: <?php echo min(100, ($data['stats']['watchlist_count'] ?? 0) * 5); ?>%"></div>
+                        <div class="progress-line watchlist-progress" data-progress="<?php echo min(100, ($data['stats']['watchlist_count'] ?? 0) * 5); ?>"></div>
                     </div>
                 </div>
                 <div class="stat-action">
@@ -125,7 +125,7 @@
                     <div class="stat-number"><?php echo $data['stats']['watched_count'] ?? 0; ?></div>
                     <div class="stat-label">Movies Watched</div>
                     <div class="stat-progress">
-                        <div class="progress-line" style="width: <?php echo min(100, ($data['stats']['watched_count'] ?? 0) * 3); ?>%"></div>
+                        <div class="progress-line watched-progress" data-progress="<?php echo min(100, ($data['stats']['watched_count'] ?? 0) * 3); ?>"></div>
                     </div>
                 </div>
                 <div class="stat-action">
@@ -177,7 +177,7 @@
                     <p>Rate 10 movies</p>
                     <div class="achievement-progress">
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: <?php echo min(100, (($data['stats']['ratings_count'] ?? 0) / 10) * 100); ?>%"></div>
+                            <div class="progress-fill movie-critic-progress" data-progress="<?php echo min(100, (($data['stats']['ratings_count'] ?? 0) / 10) * 100); ?>"></div>
                         </div>
                         <span class="progress-text"><?php echo min(10, $data['stats']['ratings_count'] ?? 0); ?>/10</span>
                     </div>
@@ -191,7 +191,7 @@
                     <p>Add 5 movies to watchlist</p>
                     <div class="achievement-progress">
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: <?php echo min(100, (($data['stats']['watchlist_count'] ?? 0) / 5) * 100); ?>%"></div>
+                            <div class="progress-fill list-curator-progress" data-progress="<?php echo min(100, (($data['stats']['watchlist_count'] ?? 0) / 5) * 100); ?>"></div>
                         </div>
                         <span class="progress-text"><?php echo min(5, $data['stats']['watchlist_count'] ?? 0); ?>/5</span>
                     </div>
@@ -205,7 +205,7 @@
                     <p>Watch 20 movies</p>
                     <div class="achievement-progress">
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: <?php echo min(100, (($data['stats']['watched_count'] ?? 0) / 20) * 100); ?>%"></div>
+                            <div class="progress-fill movie-buff-progress" data-progress="<?php echo min(100, (($data['stats']['watched_count'] ?? 0) / 20) * 100); ?>"></div>
                         </div>
                         <span class="progress-text"><?php echo min(20, $data['stats']['watched_count'] ?? 0); ?>/20</span>
                     </div>
@@ -219,7 +219,7 @@
                     <p>Rate 100 movies</p>
                     <div class="achievement-progress">
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: <?php echo min(100, (($data['stats']['ratings_count'] ?? 0) / 100) * 100); ?>%"></div>
+                            <div class="progress-fill cinema-master-progress" data-progress="<?php echo min(100, (($data['stats']['ratings_count'] ?? 0) / 100) * 100); ?>"></div>
                         </div>
                         <span class="progress-text"><?php echo min(100, $data['stats']['ratings_count'] ?? 0); ?>/100</span>
                     </div>
@@ -242,7 +242,7 @@
 
         <div class="activity-timeline">
             <?php foreach ($data['recent_ratings'] as $index => $rating): ?>
-                <div class="activity-item" style="animation-delay: <?php echo $index * 0.1; ?>s">
+                <div class="activity-item" data-animation-delay="<?php echo $index * 0.1; ?>">
                     <div class="activity-avatar">
                         <span class="activity-icon">⭐</span>
                     </div>
