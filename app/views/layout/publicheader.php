@@ -7,11 +7,12 @@ $isAuthPage = in_array($currentPath, ['/login', '/register']);
 <style>
 /* Professional Regal Header Styles */
 .regal-header-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    z-index: 1000 !important;
     background: <?php echo $isAuthPage ? 'linear-gradient(135deg, #1a1f3a 0%, #2d3561 50%, #1a1f3a 100%)' : 'linear-gradient(135deg, #0f1419 0%, #1a1f3a 50%, #0f1419 100%)'; ?>;
     backdrop-filter: blur(25px) saturate(200%);
     border-bottom: 2px solid <?php echo $isAuthPage ? 'rgba(218, 165, 32, 0.4)' : 'rgba(218, 165, 32, 0.6)'; ?>;
@@ -516,8 +517,7 @@ $isAuthPage = in_array($currentPath, ['/login', '/register']);
 }
 </style>
 
-<div class="regal-header-wrapper" id="regalHeader">
-    <header class="regal-header">
+    <div class="public-header-wrapper regal-header-wrapper" id="regalHeader">    <header class="regal-header">
         <!-- Brand Section -->
         <div class="header-brand">
             <a href="/" class="brand-link" id="brandLink">

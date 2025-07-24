@@ -22,6 +22,7 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
             top: 0 !important;
             left: 0 !important;
             right: 0 !important;
+            width: 100% !important;
             z-index: 1000 !important;
             background: linear-gradient(135deg, #0f1419 0%, #1a1f3a 50%, #0f1419 100%) !important;
             backdrop-filter: blur(25px) saturate(200%) !important;

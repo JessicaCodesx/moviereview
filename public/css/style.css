@@ -142,7 +142,6 @@ body {
     padding: 0;
     overflow-x: hidden;
     position: relative;
-    transform: translate3d(0, 0, 0);
 }
 
 /* Desktop Background */
