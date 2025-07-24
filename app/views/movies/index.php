@@ -1213,19 +1213,21 @@ function displaySearchResults(results, query) {
     searchResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-function displayNoResults(query) {
-    const searchResults = document.getElementById('searchResults');
+    function displayNoResults(query, error = null) {
+        const searchResults = document.getElementById('searchResults');
 
-    searchResults.innerHTML = `
-        <div class="no-results">
-            <div class="no-results-icon">🎭</div>
-            <h3>No Films Found</h3>
-            <p>We couldn't find any films matching "${query}". Try searching with different keywords or check the spelling.</p>
-        </div>
-    `;
+        const errorMessage = error || `We couldn't find any films matching "${query}". Try searching with different keywords or check the spelling.`;
 
-    searchResults.classList.add('show');
-}
+        searchResults.innerHTML = `
+            <div class="no-results">
+                <div class="no-results-icon">🎭</div>
+                <h3>No Films Found</h3>
+                <p>${errorMessage}</p>
+            </div>
+        `;
+
+        searchResults.classList.add('show');
+    }
 
 function displayError(message) {
     const searchResults = document.getElementById('searchResults');
