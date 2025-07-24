@@ -1,26 +1,15 @@
-var CACHE_NAME = 'moviereview-v1';
+// Ultra-minimal Service Worker - No-op implementation
+// This file does absolutely nothing except register successfully
 
-// Simple install event
-self.addEventListener('install', function(event) {
-  console.log('SW: Installing');
-  // Skip waiting to activate immediately
+console.log('Minimal SW loaded');
+
+// Just install and activate without doing anything
+self.addEventListener('install', function() {
   self.skipWaiting();
 });
 
-// Simple activate event
-self.addEventListener('activate', function(event) {
-  console.log('SW: Activating');
-  // Claim all clients immediately
-  event.waitUntil(
-    self.clients.claim().then(function() {
-      console.log('SW: Active');
-    })
-  );
+self.addEventListener('activate', function() {
+  self.clients.claim();
 });
 
-// Minimal fetch handler - just pass through to network
-self.addEventListener('fetch', function(event) {
-  // Let all requests go to network normally
-  // This SW just establishes the registration without interfering
-  return;
-});
+// No fetch handler - let everything pass through normally
