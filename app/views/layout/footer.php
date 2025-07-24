@@ -1,49 +1,49 @@
 </div>
 
 <!-- Full-width footer outside any container -->
-<footer style="background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%) !important; color: white; margin-top: 4rem; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;">
-    <div style="max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem;">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-grid">
             <!-- Brand Section -->
             <div>
-                <h5 style="color: white; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center;">
-                    <span style="margin-right: 0.5rem; font-size: 1.25rem;">🎬</span>
+                <h5 class="footer-brand-title">
+                    <span class="footer-brand-icon">🎬</span>
                     Movie Review Hub
                 </h5>
-                <p style="color: rgba(255, 255, 255, 0.8); font-size: 0.875rem; line-height: 1.6; margin: 0;">
+                <p class="footer-brand-description">
                     Discover, rate, and review your favorite movies. Track your watchlist, get personalized recommendations, and join a community of movie enthusiasts.
                 </p>
             </div>
 
             <!-- Quick Links -->
             <div>
-                <h6 style="color: white; font-weight: 600; margin-bottom: 1rem;">Quick Links</h6>
-                <nav style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <h6 class="footer-section-title">Quick Links</h6>
+                <nav class="footer-nav">
                     <?php if ($isLoggedIn): ?>
-                        <a href="/" style="color: rgba(255, 255, 255, 0.8); text-decoration: none; font-size: 0.875rem; transition: all 0.3s ease; display: flex; align-items: center;">
-                            <span style="margin-right: 0.5rem; width: 1rem;">🔍</span>Search Movies
+                        <a href="/" class="footer-link">
+                            <span class="footer-link-icon">🔍</span>Search Movies
                         </a>
-                        <a href="/dashboard" style="color: rgba(255, 255, 255, 0.8); text-decoration: none; font-size: 0.875rem; transition: all 0.3s ease; display: flex; align-items: center;">
-                            <span style="margin-right: 0.5rem; width: 1rem;">📊</span>Dashboard
+                        <a href="/dashboard" class="footer-link">
+                            <span class="footer-link-icon">📊</span>Dashboard
                         </a>
-                        <a href="/watchlist" style="color: rgba(255, 255, 255, 0.8); text-decoration: none; font-size: 0.875rem; transition: all 0.3s ease; display: flex; align-items: center;">
-                            <span style="margin-right: 0.5rem; width: 1rem;">📝</span>My Watchlist
+                        <a href="/watchlist" class="footer-link">
+                            <span class="footer-link-icon">📝</span>My Watchlist
                         </a>
-                        <a href="/watched" style="color: rgba(255, 255, 255, 0.8); text-decoration: none; font-size: 0.875rem; transition: all 0.3s ease; display: flex; align-items: center;">
-                            <span style="margin-right: 0.5rem; width: 1rem;">✅</span>Watched Movies
+                        <a href="/watched" class="footer-link">
+                            <span class="footer-link-icon">✅</span>Watched Movies
                         </a>
-                        <a href="/profile" style="color: rgba(255, 255, 255, 0.8); text-decoration: none; font-size: 0.875rem; transition: all 0.3s ease; display: flex; align-items: center;">
-                            <span style="margin-right: 0.5rem; width: 1rem;">👤</span>Profile
+                        <a href="/profile" class="footer-link">
+                            <span class="footer-link-icon">👤</span>Profile
                         </a>
                     <?php else: ?>
-                        <a href="/" style="color: rgba(255, 255, 255, 0.8); text-decoration: none; font-size: 0.875rem; transition: all 0.3s ease; display: flex; align-items: center;">
-                            <span style="margin-right: 0.5rem; width: 1rem;">🏠</span>Home
+                        <a href="/" class="footer-link">
+                            <span class="footer-link-icon">🏠</span>Home
                         </a>
-                        <a href="/login" style="color: rgba(255, 255, 255, 0.8); text-decoration: none; font-size: 0.875rem; transition: all 0.3s ease; display: flex; align-items: center;">
-                            <span style="margin-right: 0.5rem; width: 1rem;">🔑</span>Login
+                        <a href="/login" class="footer-link">
+                            <span class="footer-link-icon">🔑</span>Login
                         </a>
-                        <a href="/register" style="color: rgba(255, 255, 255, 0.8); text-decoration: none; font-size: 0.875rem; transition: all 0.3s ease; display: flex; align-items: center;">
-                            <span style="margin-right: 0.5rem; width: 1rem;">👥</span>Sign Up
+                        <a href="/register" class="footer-link">
+                            <span class="footer-link-icon">👥</span>Sign Up
                         </a>
                     <?php endif; ?>
                 </nav>
@@ -51,22 +51,22 @@
 
             <!-- Academic Info -->
             <div>
-                <h6 style="color: white; font-weight: 600; margin-bottom: 1rem;">Academic Project</h6>
-                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                    <div style="color: rgba(255, 255, 255, 0.8); font-size: 0.875rem; display: flex; align-items: center;">
-                        <span style="margin-right: 0.5rem; width: 1rem;">🎓</span>
+                <h6 class="footer-section-title">Academic Project</h6>
+                <div class="footer-info-list">
+                    <div class="footer-info-item">
+                        <span class="footer-link-icon">🎓</span>
                         COSC 4806 - Web Development
                     </div>
-                    <div style="color: rgba(255, 255, 255, 0.8); font-size: 0.875rem; display: flex; align-items: center;">
-                        <span style="margin-right: 0.5rem; width: 1rem;">📅</span>
+                    <div class="footer-info-item">
+                        <span class="footer-link-icon">📅</span>
                         Summer 2025
                     </div>
-                    <div style="color: rgba(255, 255, 255, 0.8); font-size: 0.875rem; display: flex; align-items: center;">
-                        <span style="margin-right: 0.5rem; width: 1rem;">🎯</span>
+                    <div class="footer-info-item">
+                        <span class="footer-link-icon">🎯</span>
                         Final Project
                     </div>
-                    <div style="color: rgba(255, 255, 255, 0.8); font-size: 0.875rem; display: flex; align-items: center;">
-                        <span style="margin-right: 0.5rem; width: 1rem;">💻</span>
+                    <div class="footer-info-item">
+                        <span class="footer-link-icon">💻</span>
                         Version 1.0.0
                     </div>
                 </div>
@@ -74,27 +74,27 @@
 
             <!-- Tech Stack & Features -->
             <div>
-                <h6 style="color: white; font-weight: 600; margin-bottom: 1rem;">Built With</h6>
-                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
-                    <span style="background: rgba(255, 255, 255, 0.15); color: white; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.75rem; font-weight: 500;">PHP 8.2</span>
-                    <span style="background: rgba(255, 255, 255, 0.15); color: white; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.75rem; font-weight: 500;">MySQL</span>
-                    <span style="background: rgba(255, 255, 255, 0.15); color: white; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.75rem; font-weight: 500;">MVC Pattern</span>
-                    <span style="background: rgba(255, 255, 255, 0.15); color: white; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.75rem; font-weight: 500;">OMDB API</span>
-                    <span style="background: rgba(255, 255, 255, 0.15); color: white; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.75rem; font-weight: 500;">Gemini AI</span>
-                    <span style="background: rgba(255, 255, 255, 0.15); color: white; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.75rem; font-weight: 500;">JavaScript</span>
+                <h6 class="footer-section-title">Built With</h6>
+                <div class="tech-tags">
+                    <span class="tech-tag">PHP 8.2</span>
+                    <span class="tech-tag">MySQL</span>
+                    <span class="tech-tag">MVC Pattern</span>
+                    <span class="tech-tag">OMDB API</span>
+                    <span class="tech-tag">Gemini AI</span>
+                    <span class="tech-tag">JavaScript</span>
                 </div>
 
-                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                    <div style="color: rgba(255, 255, 255, 0.7); font-size: 0.75rem; display: flex; align-items: center;">
-                        <span style="margin-right: 0.25rem;">⚡</span>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <span class="feature-icon">⚡</span>
                         Real-time Movie Search
                     </div>
-                    <div style="color: rgba(255, 255, 255, 0.7); font-size: 0.75rem; display: flex; align-items: center;">
-                        <span style="margin-right: 0.25rem;">🤖</span>
+                    <div class="feature-item">
+                        <span class="feature-icon">🤖</span>
                         AI-Generated Reviews
                     </div>
-                    <div style="color: rgba(255, 255, 255, 0.7); font-size: 0.75rem; display: flex; align-items: center;">
-                        <span style="margin-right: 0.25rem;">📱</span>
+                    <div class="feature-item">
+                        <span class="feature-icon">📱</span>
                         Mobile Responsive
                     </div>
                 </div>
@@ -102,31 +102,31 @@
         </div>
 
         <!-- Divider -->
-        <hr style="border: none; height: 1px; background: rgba(255, 255, 255, 0.2); margin: 2rem 0;">
+        <hr class="footer-divider">
 
         <!-- Bottom Section -->
-        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
-            <div style="display: flex; align-items: center; gap: 1rem;">
-                <div style="color: rgba(255, 255, 255, 0.8); font-size: 0.875rem;">
+        <div class="footer-bottom">
+            <div class="footer-bottom-left">
+                <div class="footer-copyright">
                     &copy; <?= date('Y') ?> Movie Review Hub
                 </div>
-                <div style="color: rgba(255, 255, 255, 0.6); font-size: 0.875rem;">
-                    Made with <span style="color: #ef4444;">❤️</span> for COSC 4806
+                <div class="footer-tagline">
+                    Made with <span class="heart-icon">❤️</span> for COSC 4806
                 </div>
             </div>
 
-            <div style="display: flex; align-items: center; gap: 1rem;">
-                <div style="color: rgba(255, 255, 255, 0.7); font-size: 0.875rem;">
-                    <span style="margin-right: 0.25rem;">🔒</span>
+            <div class="footer-bottom-right">
+                <div class="footer-info-item">
+                    <span class="feature-icon">🔒</span>
                     Secure & Reliable
                 </div>
-                <div style="color: rgba(255, 255, 255, 0.7); font-size: 0.875rem;">
-                    <span style="margin-right: 0.25rem;">🌍</span>
+                <div class="footer-info-item">
+                    <span class="feature-icon">🌍</span>
                     API Powered
                 </div>
                 <?php if ($isLoggedIn): ?>
-                <div style="color: rgba(255, 255, 255, 0.7); font-size: 0.875rem;">
-                    <span style="margin-right: 0.25rem;">👋</span>
+                <div class="footer-info-item">
+                    <span class="feature-icon">👋</span>
                     Welcome, <?php echo htmlspecialchars($_SESSION['user']['username']); ?>
                 </div>
                 <?php endif; ?>
