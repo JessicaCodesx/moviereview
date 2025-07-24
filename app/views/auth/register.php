@@ -1,850 +1,65 @@
 <?php
-// Complete register page for app/views/auth/register.php
+// Elite Cinema Registration Page - app/views/auth/register.php
 ?>
-
-<style>
-/* Mobile-first responsive design */
-:root {
-    --primary-color: #6366f1;
-    --primary-hover: #4f46e5;
-    --success-color: #10b981;
-    --error-color: #ef4444;
-    --warning-color: #f59e0b;
-    --neutral-50: #f9fafb;
-    --neutral-100: #f3f4f6;
-    --neutral-200: #e5e7eb;
-    --neutral-300: #d1d5db;
-    --neutral-600: #4b5563;
-    --neutral-800: #1f2937;
-    --neutral-900: #111827;
-
-    --space-1: 0.25rem;
-    --space-2: 0.5rem;
-    --space-3: 0.75rem;
-    --space-4: 1rem;
-    --space-5: 1.25rem;
-    --space-6: 1.5rem;
-    --space-8: 2rem;
-    --space-12: 3rem;
-    --space-16: 4rem;
-
-    --text-sm: 0.875rem;
-    --text-base: 1rem;
-    --text-lg: 1.125rem;
-    --text-xl: 1.25rem;
-    --text-2xl: 1.5rem;
-    --text-3xl: 1.875rem;
-    --text-4xl: 2.25rem;
-
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-}
-
-/* Auth Container - Mobile First */
-.auth-container {
-    min-height: calc(100vh - 120px);
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-8);
-    align-items: center;
-    padding: var(--space-6);
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-@media (min-width: 1024px) {
-    .auth-container {
-        grid-template-columns: 1fr 1fr;
-        gap: var(--space-16);
-        padding: var(--space-8);
-    }
-}
-
-/* Floating Background Shapes */
-.auth-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: -1;
-    pointer-events: none;
-}
-
-.floating-shapes {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-}
-
-.shape {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    animation: float 20s infinite linear;
-}
-
-.shape:nth-child(1) {
-    width: 80px;
-    height: 80px;
-    top: 20%;
-    left: 10%;
-    animation-delay: 0s;
-}
-
-.shape:nth-child(2) {
-    width: 120px;
-    height: 120px;
-    top: 60%;
-    right: 15%;
-    animation-delay: -7s;
-}
-
-.shape:nth-child(3) {
-    width: 60px;
-    height: 60px;
-    bottom: 20%;
-    left: 20%;
-    animation-delay: -14s;
-}
-
-@keyframes float {
-    0% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
-    33% { transform: translateY(-30px) rotate(120deg); opacity: 0.4; }
-    66% { transform: translateY(30px) rotate(240deg); opacity: 0.7; }
-    100% { transform: translateY(0px) rotate(360deg); opacity: 0.7; }
-}
-
-/* Welcome Section */
-.welcome-section {
-    text-align: left;
-    color: white;
-    order: 2;
-}
-
-@media (min-width: 1024px) {
-    .welcome-section {
-        order: 1;
-    }
-}
-
-@media (max-width: 768px) {
-    .welcome-section {
-        text-align: center;
-    }
-}
-
-.welcome-content h2 {
-    font-size: var(--text-4xl);
-    font-weight: 800;
-    margin-bottom: var(--space-6);
-    background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    line-height: 1.2;
-}
-
-@media (max-width: 768px) {
-    .welcome-content h2 {
-        font-size: var(--text-3xl);
-    }
-}
-
-@media (max-width: 480px) {
-    .welcome-content h2 {
-        font-size: var(--text-2xl);
-    }
-}
-
-.welcome-content p {
-    font-size: var(--text-lg);
-    line-height: 1.7;
-    margin-bottom: var(--space-8);
-    color: rgba(255, 255, 255, 0.9);
-}
-
-/* Community Stats */
-.community-stats {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-4);
-    margin-bottom: var(--space-8);
-}
-
-@media (min-width: 768px) {
-    .community-stats {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-.stat-item {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 16px;
-    padding: var(--space-5);
-    text-align: center;
-    transition: all 0.3s ease;
-}
-
-.stat-item:hover {
-    transform: translateY(-2px);
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.stat-number {
-    font-size: var(--text-2xl);
-    font-weight: 800;
-    color: white;
-    display: block;
-}
-
-@media (max-width: 480px) {
-    .stat-number {
-        font-size: var(--text-xl);
-    }
-}
-
-.stat-label {
-    font-size: var(--text-sm);
-    color: rgba(255, 255, 255, 0.8);
-    margin-top: var(--space-1);
-}
-
-/* Testimonial */
-.testimonial {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    padding: var(--space-6);
-    margin-top: var(--space-8);
-}
-
-.testimonial blockquote {
-    font-style: italic;
-    font-size: var(--text-lg);
-    line-height: 1.6;
-    margin-bottom: var(--space-4);
-    color: rgba(255, 255, 255, 0.95);
-}
-
-.testimonial cite {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: var(--text-sm);
-}
-
-/* Auth Card */
-.auth-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(25px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 24px;
-    padding: var(--space-8);
-    box-shadow: var(--shadow-xl);
-    order: 1;
-    width: 100%;
-    max-width: 480px;
-    margin: 0 auto;
-}
-
-@media (min-width: 1024px) {
-    .auth-card {
-        order: 2;
-    }
-}
-
-@media (max-width: 480px) {
-    .auth-card {
-        padding: var(--space-6) var(--space-4);
-        border-radius: 20px;
-    }
-}
-
-.animate-in {
-    animation: slideInUp 0.6s ease-out;
-}
-
-@keyframes slideInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.shake {
-    animation: shake 0.6s ease-in-out;
-}
-
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
-}
-
-/* Brand Header */
-.auth-brand {
-    text-align: center;
-    margin-bottom: var(--space-8);
-}
-
-.brand-logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-3);
-    margin-bottom: var(--space-2);
-}
-
-.logo-icon {
-    font-size: var(--text-4xl);
-    animation: brandFloat 4s ease-in-out infinite;
-}
-
-@keyframes brandFloat {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-3px) rotate(2deg); }
-}
-
-.logo-text {
-    font-size: var(--text-2xl);
-    font-weight: 900;
-    color: var(--primary-color);
-}
-
-.brand-tagline {
-    color: var(--neutral-600);
-    font-size: var(--text-sm);
-}
-
-/* Auth Header */
-.auth-header {
-    text-align: center;
-    margin-bottom: var(--space-8);
-}
-
-.auth-header h2 {
-    font-size: var(--text-3xl);
-    font-weight: 800;
-    color: var(--neutral-900);
-    margin-bottom: var(--space-2);
-}
-
-.auth-header p {
-    color: var(--neutral-600);
-    font-size: var(--text-base);
-}
-
-/* Form Styles */
-.auth-form {
-    width: 100%;
-}
-
-.form-group {
-    margin-bottom: var(--space-6);
-}
-
-.form-label {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-weight: 600;
-    color: var(--neutral-800);
-    margin-bottom: var(--space-2);
-    font-size: var(--text-sm);
-}
-
-.label-icon {
-    font-size: var(--text-base);
-}
-
-.required {
-    color: var(--error-color);
-}
-
-.input-wrapper {
-    position: relative;
-}
-
-.form-control {
-    width: 100%;
-    padding: var(--space-4);
-    border: 2px solid var(--neutral-200);
-    border-radius: 12px;
-    font-size: var(--text-base);
-    transition: all 0.3s ease;
-    background: white;
-    position: relative;
-    z-index: 1;
-}
-
-.form-control:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-}
-
-.form-control.valid {
-    border-color: var(--success-color);
-}
-
-.form-control.invalid {
-    border-color: var(--error-color);
-}
-
-.input-border {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border: 2px solid transparent;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 0;
-}
-
-.form-control:focus + .input-border {
-    opacity: 1;
-}
-
-.input-feedback {
-    margin-top: var(--space-2);
-    font-size: var(--text-sm);
-    min-height: 1.25rem;
-}
-
-.input-feedback.success {
-    color: var(--success-color);
-}
-
-.input-feedback.error {
-    color: var(--error-color);
-}
-
-.form-hint {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    margin-top: var(--space-2);
-    font-size: var(--text-sm);
-    color: var(--neutral-600);
-}
-
-.hint-icon {
-    font-size: var(--text-sm);
-}
-
-.password-toggle {
-    position: absolute;
-    right: var(--space-3);
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: var(--space-2);
-    border-radius: 6px;
-    transition: background-color 0.2s ease;
-    z-index: 2;
-}
-
-.password-toggle:hover {
-    background: var(--neutral-100);
-}
-
-/* Checkbox Styles */
-.checkbox-wrapper {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--space-3);
-    cursor: pointer;
-    line-height: 1.5;
-}
-
-.checkbox-wrapper input[type="checkbox"] {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-}
-
-.checkmark {
-    position: relative;
-    width: 20px;
-    height: 20px;
-    background: white;
-    border: 2px solid var(--neutral-300);
-    border-radius: 4px;
-    transition: all 0.3s ease;
-    flex-shrink: 0;
-    margin-top: 2px;
-}
-
-.checkbox-wrapper:hover .checkmark {
-    border-color: var(--primary-color);
-}
-
-.checkbox-wrapper input:checked ~ .checkmark {
-    background: var(--primary-color);
-    border-color: var(--primary-color);
-}
-
-.checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-    left: 6px;
-    top: 2px;
-    width: 6px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-}
-
-.checkbox-wrapper input:checked ~ .checkmark:after {
-    display: block;
-}
-
-.checkbox-label {
-    font-size: var(--text-sm);
-    color: var(--neutral-700);
-}
-
-.agreement-checkbox {
-    background: var(--neutral-50);
-    border: 1px solid var(--neutral-200);
-    border-radius: 8px;
-    padding: var(--space-4);
-}
-
-.terms-link {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.terms-link:hover {
-    text-decoration: underline;
-}
-
-/* Button Styles */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-    padding: var(--space-4) var(--space-6);
-    border: none;
-    border-radius: 12px;
-    font-weight: 700;
-    font-size: var(--text-base);
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
-    color: white;
-    box-shadow: var(--shadow-md);
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-}
-
-.btn-primary:active {
-    transform: translateY(0);
-}
-
-.btn-full {
-    width: 100%;
-    padding: var(--space-5) var(--space-6);
-    font-size: var(--text-lg);
-    border-radius: 16px;
-}
-
-.btn-register {
-    margin-top: var(--space-4);
-}
-
-.btn-loader {
-    display: none;
-}
-
-.btn.loading .btn-text {
-    opacity: 0;
-}
-
-.btn.loading .btn-loader {
-    display: flex;
-}
-
-.btn.success {
-    background: linear-gradient(135deg, var(--success-color), #059669);
-}
-
-.spinner {
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-/* Footer */
-.auth-footer {
-    text-align: center;
-    margin-top: var(--space-8);
-    padding-top: var(--space-6);
-    border-top: 1px solid var(--neutral-200);
-}
-
-.auth-footer p {
-    color: var(--neutral-600);
-    margin-bottom: var(--space-3);
-}
-
-.auth-link {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-weight: 600;
-    padding: var(--space-2) var(--space-4);
-    border-radius: 8px;
-    transition: all 0.3s ease;
-}
-
-.auth-link:hover {
-    background: rgba(99, 102, 241, 0.1);
-    text-decoration: none;
-}
-
-/* Message Styles */
-.message {
-    padding: var(--space-4);
-    border-radius: 12px;
-    margin-bottom: var(--space-6);
-    font-weight: 600;
-    display: none;
-}
-
-.message.show {
-    display: block;
-    animation: slideDown 0.3s ease;
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.message.success {
-    background: rgba(16, 185, 129, 0.1);
-    color: var(--success-color);
-    border: 1px solid rgba(16, 185, 129, 0.2);
-}
-
-.message.error {
-    background: rgba(239, 68, 68, 0.1);
-    color: var(--error-color);
-    border: 1px solid rgba(239, 68, 68, 0.2);
-}
-
-/* Modal Styles */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
-}
-
-.modal-content {
-    background-color: white;
-    margin: 10% auto;
-    border-radius: 16px;
-    width: 90%;
-    max-width: 600px;
-    box-shadow: var(--shadow-xl);
-    max-height: 80vh;
-    overflow-y: auto;
-}
-
-@media (max-width: 768px) {
-    .modal-content {
-        margin: 5% auto;
-        width: 95%;
-    }
-}
-
-.modal-header {
-    padding: var(--space-6);
-    border-bottom: 1px solid var(--neutral-200);
-}
-
-.modal-header h3 {
-    margin: 0;
-    color: var(--neutral-900);
-    font-size: var(--text-xl);
-}
-
-.modal-body {
-    padding: var(--space-6);
-    line-height: 1.6;
-    color: var(--neutral-700);
-}
-
-.modal-body ul {
-    margin: var(--space-4) 0;
-    padding-left: var(--space-5);
-}
-
-.modal-body li {
-    margin-bottom: var(--space-2);
-}
-
-.modal-footer {
-    padding: var(--space-6);
-    border-top: 1px solid var(--neutral-200);
-    text-align: right;
-}
-
-.btn-secondary {
-    background: var(--neutral-100);
-    color: var(--neutral-700);
-    border: 1px solid var(--neutral-300);
-}
-
-.btn-secondary:hover {
-    background: var(--neutral-200);
-}
-
-/* Confetti Animation */
-@keyframes confetti-fall {
-    0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(100vh) rotate(720deg);
-        opacity: 0;
-    }
-}
-
-.confetti {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    background: var(--primary-color);
-    animation: confetti-fall 3s linear forwards;
-    z-index: 10000;
-}
-</style>
-
-<!-- Floating Background -->
-<div class="auth-background">
-    <div class="floating-shapes">
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
-    </div>
-</div>
-
-<div class="auth-container">
-    <!-- Welcome Section -->
-    <div class="welcome-section">
-        <div class="welcome-content">
-            <h2>Join the Movie Community</h2>
-            <p>Discover your next favorite film, connect with fellow movie enthusiasts, and build your personal movie collection. Track what you've watched, rate your favorites, and get personalized recommendations.</p>
-
-            <div class="community-stats">
-                <div class="stat-item">
-                    <span class="stat-number">50K+</span>
-                    <span class="stat-label">Movies Rated</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">2K+</span>
-                    <span class="stat-label">Active Users</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">15K+</span>
-                    <span class="stat-label">Reviews Written</span>
-                </div>
-            </div>
-
-            <div class="testimonial">
-                <blockquote>
-                    "This platform completely changed how I discover movies. The recommendations are spot-on!"
-                </blockquote>
-                <cite>— Sarah M., Movie Enthusiast</cite>
-            </div>
+<div class="regal-auth-container">
+    <!-- Regal Background Animation -->
+    <div class="auth-background">
+        <div class="regal-gradient"></div>
+        <div class="floating-elements">
+            <div class="floating-shape shape-1"></div>
+            <div class="floating-shape shape-2"></div>
+            <div class="floating-shape shape-3"></div>
+            <div class="floating-shape shape-4"></div>
+            <div class="floating-shape shape-5"></div>
+            <div class="floating-shape shape-6"></div>
+        </div>
+        <div class="regal-particles">
+            <span class="particle particle-1">👑</span>
+            <span class="particle particle-2">⭐</span>
+            <span class="particle particle-3">🎭</span>
+            <span class="particle particle-4">🎬</span>
         </div>
     </div>
 
-    <div class="auth-card animate-in">
-        <!-- Brand Header -->
+    <div class="auth-card regal-card animate-in">
+        <!-- Regal Brand Header -->
         <div class="auth-brand">
             <div class="brand-logo">
-                <span class="logo-icon">🎬</span>
-                <span class="logo-text">Movie Hub</span>
+                <span class="logo-crown">👑</span>
+                <span class="logo-text">Elite Cinema</span>
             </div>
-            <div class="brand-tagline">Create your movie profile</div>
+            <div class="brand-tagline">Join our distinguished community</div>
+            <div class="brand-accent"></div>
         </div>
 
         <div class="auth-header">
-            <h2>Create Account</h2>
-            <p>Start your personalized movie journey today</p>
+            <h2>Become a Connoisseur</h2>
+            <p>Begin your exclusive cinematic journey</p>
         </div>
 
         <!-- Message Container -->
-        <div id="authMessage" class="message"></div>
+        <div id="authMessage" class="auth-message"></div>
 
         <form id="registerForm" class="auth-form">
             <div class="form-group">
                 <label for="username" class="form-label">
                     <span class="label-icon">👤</span>
-                    Username
-                    <span class="required">*</span>
+                    Distinguished Username
                 </label>
                 <div class="input-wrapper">
                     <input type="text" 
                            id="username" 
                            name="username" 
                            required 
-                           class="form-control" 
-                           placeholder="Choose a unique username"
+                           class="form-control regal-input" 
+                           placeholder="Choose your distinguished handle"
                            pattern="[a-zA-Z0-9_]{3,20}" 
                            title="Username must be 3-20 characters long and contain only letters, numbers, and underscores"
                            autocomplete="username">
-                    <div class="input-border"></div>
-                    <div class="input-feedback" id="usernameFeedback"></div>
+                    <div class="input-enhancement"></div>
+                    <div class="input-glow"></div>
                 </div>
+                <div class="input-feedback" id="usernameFeedback"></div>
                 <small class="form-hint">
                     <span class="hint-icon">💡</span>
                     3-20 characters, letters, numbers, and underscores only
@@ -853,152 +68,470 @@
 
             <div class="form-group">
                 <label for="password" class="form-label">
-                    <span class="label-icon">🔒</span>
-                    Password
-                    <span class="required">*</span>
+                    <span class="label-icon">🔐</span>
+                    Private Access Key
                 </label>
                 <div class="input-wrapper">
                     <input type="password" 
                            id="password" 
                            name="password" 
                            required 
-                           class="form-control" 
-                           placeholder="Create a strong password"
+                           class="form-control regal-input" 
+                           placeholder="Create your secure key"
                            minlength="8"
                            autocomplete="new-password">
-                    <button type="button" class="password-toggle" onclick="togglePassword('password')">
-                        👁️
+                    <button type="button" class="password-toggle regal-toggle" onclick="togglePassword('password')">
+                        <svg class="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <svg class="eye-off-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                            <line x1="1" y1="1" x2="23" y2="23"></line>
+                        </svg>
                     </button>
-                    <div class="input-border"></div>
-                    <div class="input-feedback" id="passwordFeedback"></div>
+                    <div class="input-enhancement"></div>
+                    <div class="input-glow"></div>
                 </div>
+                <div class="input-feedback" id="passwordFeedback"></div>
                 <small class="form-hint">
                     <span class="hint-icon">🛡️</span>
-                    At least 8 characters long
+                    At least 8 characters for optimal security
                 </small>
             </div>
 
             <div class="form-group">
                 <label for="confirm_password" class="form-label">
-                    <span class="label-icon">🔒</span>
-                    Confirm Password
-                    <span class="required">*</span>
+                    <span class="label-icon">🔐</span>
+                    Confirm Access Key
                 </label>
                 <div class="input-wrapper">
                     <input type="password" 
                            id="confirm_password" 
                            name="confirm_password" 
                            required 
-                           class="form-control" 
-                           placeholder="Confirm your password"
+                           class="form-control regal-input" 
+                           placeholder="Confirm your secure key"
                            autocomplete="new-password">
-                    <button type="button" class="password-toggle" onclick="togglePassword('confirm_password')">
-                        👁️
+                    <button type="button" class="password-toggle regal-toggle" onclick="togglePassword('confirm_password')">
+                        <svg class="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <svg class="eye-off-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                            <line x1="1" y1="1" x2="23" y2="23"></line>
+                        </svg>
                     </button>
-                    <div class="input-border"></div>
-                    <div class="input-feedback" id="confirmFeedback"></div>
+                    <div class="input-enhancement"></div>
+                    <div class="input-glow"></div>
                 </div>
+                <div class="input-feedback" id="confirmFeedback"></div>
             </div>
 
-            <div class="form-group">
-                <label class="checkbox-wrapper agreement-checkbox">
+            <div class="form-options">
+                <label class="checkbox-wrapper regal-checkbox agreement-checkbox">
                     <input type="checkbox" id="terms" name="terms" required>
                     <span class="checkmark"></span>
                     <span class="checkbox-label">
-                        I agree to the 
-                        <a href="#" onclick="showTerms()" class="terms-link">Terms of Service</a> 
+                        I accept the 
+                        <a href="#" onclick="showTerms()" class="terms-link regal-link">Elite Code of Conduct</a> 
                         and 
-                        <a href="#" onclick="showPrivacy()" class="terms-link">Privacy Policy</a>
-                        <span class="required">*</span>
+                        <a href="#" onclick="showPrivacy()" class="terms-link regal-link">Privacy Covenant</a>
                     </span>
                 </label>
             </div>
 
-            <div class="form-group">
-                <label class="checkbox-wrapper">
+            <div class="form-options">
+                <label class="checkbox-wrapper regal-checkbox">
                     <input type="checkbox" id="newsletter" name="newsletter">
                     <span class="checkmark"></span>
                     <span class="checkbox-label">
-                        Send me movie recommendations and updates via email
+                        Receive curated recommendations and elite updates
                     </span>
                 </label>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-full btn-register">
-                <span class="btn-text">Create Account</span>
+            <button type="submit" class="btn btn-primary btn-full regal-btn btn-register">
+                <span class="btn-content">
+                    <span class="btn-icon">👑</span>
+                    <span class="btn-text">Join the Elite Circle</span>
+                </span>
                 <span class="btn-loader">
                     <svg class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 12a9 9 0 11-6.219-8.56"/>
                     </svg>
                 </span>
+                <div class="btn-glow"></div>
             </button>
         </form>
 
         <div class="auth-footer">
-            <p>Already have an account?</p>
-            <a href="/login" class="auth-link">Sign In</a>
+            <p>Already a distinguished member? 
+                <a href="/login" class="auth-link regal-link">
+                    <span>Access Elite Portal</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="7" y1="17" x2="17" y2="7"></line>
+                        <polyline points="7,7 17,7 17,17"></polyline>
+                    </svg>
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Elite Community Showcase -->
+    <div class="features-showcase regal-showcase animate-in">
+        <div class="showcase-header">
+            <div class="showcase-crown">👑</div>
+            <h3>Join Our Elite Community</h3>
+            <p>Experience the pinnacle of cinematic excellence</p>
+        </div>
+
+        <div class="community-stats">
+            <div class="stat-item regal-stat">
+                <span class="stat-number">50,000+</span>
+                <span class="stat-label">Movies Curated</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item regal-stat">
+                <span class="stat-number">2,500+</span>
+                <span class="stat-label">Elite Members</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item regal-stat">
+                <span class="stat-number">100,000+</span>
+                <span class="stat-label">Expert Reviews</span>
+            </div>
+        </div>
+
+        <div class="membership-benefits">
+            <div class="benefit-item regal-benefit">
+                <div class="benefit-icon-wrapper">
+                    <div class="benefit-icon">🎯</div>
+                    <div class="icon-glow"></div>
+                </div>
+                <h4>Exclusive Access</h4>
+                <p>First access to rare films and exclusive premieres from our curated collection</p>
+            </div>
+            <div class="benefit-item regal-benefit">
+                <div class="benefit-icon-wrapper">
+                    <div class="benefit-icon">🎭</div>
+                    <div class="icon-glow"></div>
+                </div>
+                <h4>Elite Community</h4>
+                <p>Connect with fellow connoisseurs and film critics in our distinguished society</p>
+            </div>
+            <div class="benefit-item regal-benefit">
+                <div class="benefit-icon-wrapper">
+                    <div class="benefit-icon">🏆</div>
+                    <div class="icon-glow"></div>
+                </div>
+                <h4>Recognition System</h4>
+                <p>Earn prestigious badges and climb the ranks in our merit-based hierarchy</p>
+            </div>
+            <div class="benefit-item regal-benefit">
+                <div class="benefit-icon-wrapper">
+                    <div class="benefit-icon">🤖</div>
+                    <div class="icon-glow"></div>
+                </div>
+                <h4>AI Sommelier</h4>
+                <p>Receive sophisticated recommendations tailored to your refined cinematic palate</p>
+            </div>
+        </div>
+
+        <div class="testimonial-regal">
+            <div class="testimonial-crown">👑</div>
+            <blockquote>
+                "This platform has completely transformed my approach to cinema. The community here truly understands the art of film."
+            </blockquote>
+            <cite>— Victoria Sterling, Film Critic & Elite Member</cite>
         </div>
     </div>
 </div>
 
 <!-- Terms Modal -->
-<div id="termsModal" class="modal">
-    <div class="modal-content">
+<div id="termsModal" class="modal regal-modal">
+    <div class="modal-content regal-modal-content">
         <div class="modal-header">
-            <h3>Terms of Service</h3>
+            <h3>Elite Code of Conduct</h3>
         </div>
         <div class="modal-body">
-            <p>Welcome to Movie Review Hub. By creating an account, you agree to:</p>
+            <p>By joining our distinguished community, you agree to uphold our standards of excellence:</p>
             <ul>
-                <li><strong>Account Security:</strong> Keep your password secure and don't share your account</li>
-                <li><strong>Content Guidelines:</strong> Write honest, respectful reviews and ratings</li>
-                <li><strong>Community Standards:</strong> Be respectful to other users and their opinions</li>
-                <li><strong>Service Usage:</strong> Use our platform for personal, non-commercial purposes</li>
-                <li><strong>Data Accuracy:</strong> Provide accurate information for your profile</li>
+                <li><strong>Account Integrity:</strong> Maintain the security and dignity of your elite profile</li>
+                <li><strong>Scholarly Discourse:</strong> Contribute thoughtful, well-reasoned critiques and reviews</li>
+                <li><strong>Respectful Engagement:</strong> Honor diverse perspectives within our refined community</li>
+                <li><strong>Exclusive Usage:</strong> Utilize our platform for personal enrichment and cultural appreciation</li>
+                <li><strong>Authentic Participation:</strong> Provide genuine insights based on your cinematic experience</li>
             </ul>
-            <p>We reserve the right to suspend accounts that violate these terms.</p>
+            <p>Failure to maintain these standards may result in revocation of membership privileges.</p>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-secondary" onclick="closeModal('termsModal')">Close</button>
+            <button class="btn btn-secondary regal-btn-secondary" onclick="closeModal('termsModal')">Understood</button>
         </div>
     </div>
 </div>
 
 <!-- Privacy Modal -->
-<div id="privacyModal" class="modal">
-    <div class="modal-content">
+<div id="privacyModal" class="modal regal-modal">
+    <div class="modal-content regal-modal-content">
         <div class="modal-header">
-            <h3>Privacy Policy</h3>
+            <h3>Privacy Covenant</h3>
         </div>
         <div class="modal-body">
-            <p>Your privacy is important to us. Here's what you should know:</p>
+            <p>Your privacy is paramount to our exclusive service. We safeguard:</p>
             <ul>
-                <li><strong>Account Information:</strong> Username and password</li>
-                <li><strong>Usage Data:</strong> Movies you rate and review</li>
-                <li><strong>Preferences:</strong> Your watchlist and recommendations</li>
+                <li><strong>Identity Information:</strong> Your distinguished username and secure credentials</li>
+                <li><strong>Preference Data:</strong> Your curated watchlist and refined recommendations</li>
+                <li><strong>Engagement Metrics:</strong> Your contributions to our scholarly discourse</li>
+                <li><strong>Communication Records:</strong> Your correspondence within our elite circle</li>
             </ul>
-            <p>We do not sell your personal information and use it only to improve your experience.</p>
+            <p>We never commercialize your personal data and use it solely to enhance your distinguished experience.</p>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-secondary" onclick="closeModal('privacyModal')">Close</button>
+            <button class="btn btn-secondary regal-btn-secondary" onclick="closeModal('privacyModal')">Acknowledged</button>
         </div>
     </div>
 </div>
 
 <script>
-// Password toggle functionality
-function togglePassword(fieldId) {
-    const field = document.getElementById(fieldId);
-    const toggle = field.nextElementSibling;
+// Enhanced regal registration functionality
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-    if (field.type === 'password') {
-        field.type = 'text';
-        toggle.textContent = '🙈';
+    const formData = new FormData(e.target);
+    const password = formData.get('password');
+    const confirmPassword = formData.get('confirm_password');
+    const messageDiv = document.getElementById('authMessage');
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+
+    // Client-side validation with royal flair
+    if (password !== confirmPassword) {
+        showMessage(messageDiv, '⚠️ Your access keys do not align. Please verify and try again.', 'error');
+        highlightField('confirm_password', false);
+        return;
+    }
+
+    if (!document.getElementById('terms').checked) {
+        showMessage(messageDiv, '📜 Please accept our Elite Code of Conduct to proceed.', 'error');
+        return;
+    }
+
+    // Show loading state with royal flair
+    setButtonLoading(submitBtn, true);
+    clearMessage(messageDiv);
+
+    try {
+        const response = await fetch('/api/auth/register', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            showMessage(messageDiv, '🎉 Welcome to the elite circle! Preparing your royal dashboard...', 'success');
+
+            // Add success animation with crown effect
+            submitBtn.classList.add('success');
+
+            // Create crown celebration effect
+            createCrownCelebration();
+
+            // Redirect to dashboard with royal delay
+            setTimeout(() => {
+                window.location.href = '/dashboard';
+            }, 2500);
+        } else {
+            showMessage(messageDiv, data.error, 'error');
+            // Elegant shake animation
+            document.querySelector('.auth-card').classList.add('regal-shake');
+            setTimeout(() => {
+                document.querySelector('.auth-card').classList.remove('regal-shake');
+            }, 800);
+        }
+    } catch (error) {
+        showMessage(messageDiv, 'Registration denied. Please verify your connection and credentials.', 'error');
+        console.error('Registration error:', error);
+    } finally {
+        setTimeout(() => setButtonLoading(submitBtn, false), 1000);
+    }
+});
+
+function createCrownCelebration() {
+    const celebration = document.createElement('div');
+    celebration.className = 'crown-celebration';
+    celebration.innerHTML = `
+        <span class="crown-particle">👑</span>
+        <span class="crown-particle">⭐</span>
+        <span class="crown-particle">🎭</span>
+        <span class="crown-particle">👑</span>
+        <span class="crown-particle">⭐</span>
+        <span class="crown-particle">🎬</span>
+        <span class="crown-particle">👑</span>
+        <span class="crown-particle">🎪</span>
+    `;
+
+    document.body.appendChild(celebration);
+
+    setTimeout(() => {
+        celebration.remove();
+    }, 3000);
+}
+
+function togglePassword(inputId) {
+    const input = document.getElementById(inputId);
+    const button = input.parentElement.querySelector('.password-toggle');
+    const eyeIcon = button.querySelector('.eye-icon');
+    const eyeOffIcon = button.querySelector('.eye-off-icon');
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        eyeIcon.style.display = 'none';
+        eyeOffIcon.style.display = 'block';
+        button.classList.add('revealed');
     } else {
-        field.type = 'password';
-        toggle.textContent = '👁️';
+        input.type = 'password';
+        eyeIcon.style.display = 'block';
+        eyeOffIcon.style.display = 'none';
+        button.classList.remove('revealed');
+    }
+
+    // Add ripple effect
+    addRippleEffect(button);
+}
+
+function addRippleEffect(element) {
+    const ripple = document.createElement('span');
+    const rect = element.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+
+    ripple.style.cssText = `
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: ${size}px;
+        height: ${size}px;
+        border-radius: 50%;
+        background: rgba(218, 165, 32, 0.3);
+        transform: translate(-50%, -50%) scale(0);
+        animation: ripple 0.6s linear;
+        pointer-events: none;
+    `;
+
+    element.style.position = 'relative';
+    element.style.overflow = 'hidden';
+    element.appendChild(ripple);
+
+    setTimeout(() => ripple.remove(), 600);
+}
+
+function setButtonLoading(button, loading) {
+    const content = button.querySelector('.btn-content');
+    const loader = button.querySelector('.btn-loader');
+    const glow = button.querySelector('.btn-glow');
+
+    if (loading) {
+        button.disabled = true;
+        button.classList.add('loading');
+        content.style.opacity = '0';
+        loader.style.opacity = '1';
+        glow.style.opacity = '1';
+    } else {
+        button.disabled = false;
+        button.classList.remove('loading');
+        content.style.opacity = '1';
+        loader.style.opacity = '0';
+        glow.style.opacity = '0';
     }
 }
+
+function showMessage(element, message, type) {
+    const icon = type === 'success' ? '✨' : '⚠️';
+    element.innerHTML = `<div class="message message-${type}"><span class="message-icon">${icon}</span>${message}</div>`;
+    element.querySelector('.message').classList.add('show');
+}
+
+function clearMessage(element) {
+    element.innerHTML = '';
+}
+
+// Field validation feedback with royal styling
+function highlightField(fieldId, isValid) {
+    const field = document.getElementById(fieldId);
+    const feedback = document.getElementById(fieldId + 'Feedback');
+
+    field.classList.remove('valid', 'invalid');
+    field.classList.add(isValid ? 'valid' : 'invalid');
+}
+
+// Real-time password confirmation validation
+document.getElementById('confirm_password').addEventListener('input', function() {
+    const password = document.getElementById('password').value;
+    const confirmPassword = this.value;
+    const feedback = document.getElementById('confirmFeedback');
+
+    if (confirmPassword === '') {
+        feedback.textContent = '';
+        this.classList.remove('valid', 'invalid');
+        return;
+    }
+
+    if (password === confirmPassword) {
+        feedback.innerHTML = '<span style="color: var(--regal-accent);">✓ Keys are aligned</span>';
+        this.classList.remove('invalid');
+        this.classList.add('valid');
+    } else {
+        feedback.innerHTML = '<span style="color: #ef4444;">✗ Keys do not match</span>';
+        this.classList.remove('valid');
+        this.classList.add('invalid');
+    }
+});
+
+// Real-time username validation
+document.getElementById('username').addEventListener('input', function() {
+    const username = this.value;
+    const feedback = document.getElementById('usernameFeedback');
+    const pattern = /^[a-zA-Z0-9_]{3,20}$/;
+
+    if (username === '') {
+        feedback.textContent = '';
+        this.classList.remove('valid', 'invalid');
+        return;
+    }
+
+    if (pattern.test(username)) {
+        feedback.innerHTML = '<span style="color: var(--regal-accent);">✓ Distinguished handle approved</span>';
+        this.classList.remove('invalid');
+        this.classList.add('valid');
+    } else {
+        feedback.innerHTML = '<span style="color: #ef4444;">✗ Handle must be 3-20 characters, letters, numbers, and underscores only</span>';
+        this.classList.remove('valid');
+        this.classList.add('invalid');
+    }
+});
+
+// Real-time password strength validation
+document.getElementById('password').addEventListener('input', function() {
+    const password = this.value;
+    const feedback = document.getElementById('passwordFeedback');
+
+    if (password === '') {
+        feedback.textContent = '';
+        this.classList.remove('valid', 'invalid');
+        return;
+    }
+
+    if (password.length >= 8) {
+        feedback.innerHTML = '<span style="color: var(--regal-accent);">✓ Access key meets security standards</span>';
+        this.classList.remove('invalid');
+        this.classList.add('valid');
+    } else {
+        feedback.innerHTML = '<span style="color: #ef4444;">✗ Access key must be at least 8 characters</span>';
+        this.classList.remove('valid');
+        this.classList.add('invalid');
+    }
+});
 
 // Show/hide modals
 function showTerms() {
@@ -1023,192 +556,1194 @@ window.onclick = function(event) {
     });
 };
 
-// Message handling
-function showMessage(element, message, type) {
-    element.textContent = message;
-    element.className = `message ${type} show`;
-}
-
-function clearMessage(element) {
-    element.className = 'message';
-}
-
-// Button loading state
-function setButtonLoading(button, loading) {
-    if (loading) {
-        button.classList.add('loading');
-        button.disabled = true;
-    } else {
-        button.classList.remove('loading');
-        button.disabled = false;
-    }
-}
-
-// Field validation feedback
-function highlightField(fieldId, isValid) {
-    const field = document.getElementById(fieldId);
-    const feedback = document.getElementById(fieldId + 'Feedback');
-
-    field.classList.remove('valid', 'invalid');
-    field.classList.add(isValid ? 'valid' : 'invalid');
-}
-
-// Real-time password confirmation validation
-document.getElementById('confirm_password').addEventListener('input', function() {
-    const password = document.getElementById('password').value;
-    const confirmPassword = this.value;
-    const feedback = document.getElementById('confirmFeedback');
-
-    if (confirmPassword === '') {
-        feedback.textContent = '';
-        this.classList.remove('valid', 'invalid');
-        return;
-    }
-
-    if (password === confirmPassword) {
-        feedback.textContent = '✓ Passwords match';
-        feedback.className = 'input-feedback success';
-        this.classList.remove('invalid');
-        this.classList.add('valid');
-    } else {
-        feedback.textContent = '✗ Passwords do not match';
-        feedback.className = 'input-feedback error';
-        this.classList.remove('valid');
-        this.classList.add('invalid');
-    }
-});
-
-// Real-time username validation
-document.getElementById('username').addEventListener('input', function() {
-    const username = this.value;
-    const feedback = document.getElementById('usernameFeedback');
-    const pattern = /^[a-zA-Z0-9_]{3,20}$/;
-
-    if (username === '') {
-        feedback.textContent = '';
-        this.classList.remove('valid', 'invalid');
-        return;
-    }
-
-    if (pattern.test(username)) {
-        feedback.textContent = '✓ Valid username';
-        feedback.className = 'input-feedback success';
-        this.classList.remove('invalid');
-        this.classList.add('valid');
-    } else {
-        feedback.textContent = '✗ Username must be 3-20 characters, letters, numbers, and underscores only';
-        feedback.className = 'input-feedback error';
-        this.classList.remove('valid');
-        this.classList.add('invalid');
-    }
-});
-
-// Real-time password strength validation
-document.getElementById('password').addEventListener('input', function() {
-    const password = this.value;
-    const feedback = document.getElementById('passwordFeedback');
-
-    if (password === '') {
-        feedback.textContent = '';
-        this.classList.remove('valid', 'invalid');
-        return;
-    }
-
-    if (password.length >= 8) {
-        feedback.textContent = '✓ Password meets minimum length';
-        feedback.className = 'input-feedback success';
-        this.classList.remove('invalid');
-        this.classList.add('valid');
-    } else {
-        feedback.textContent = '✗ Password must be at least 8 characters';
-        feedback.className = 'input-feedback error';
-        this.classList.remove('valid');
-        this.classList.add('invalid');
-    }
-});
-
-// Confetti animation
-function createConfetti() {
-    const colors = ['#6366f1', '#8b5cf6', '#ec4899', '#ef4444', '#f59e0b', '#10b981'];
-
-    for (let i = 0; i < 50; i++) {
+// Enhanced initialization
+document.addEventListener('DOMContentLoaded', () => {
+    // Auto-focus first input with royal timing
+    const firstInput = document.getElementById('username');
+    if (firstInput && window.innerWidth > 768) {
         setTimeout(() => {
-            const confetti = document.createElement('div');
-            confetti.className = 'confetti';
-            confetti.style.left = Math.random() * 100 + 'vw';
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.animationDelay = Math.random() * 3 + 's';
-            confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            document.body.appendChild(confetti);
-
-            // Remove confetti after animation
-            setTimeout(() => {
-                confetti.remove();
-            }, 5000);
-        }, i * 50);
+            firstInput.focus();
+            firstInput.parentElement.classList.add('focused');
+        }, 800);
     }
+
+    // Staggered animation delays for royal entrance
+    document.querySelectorAll('.animate-in').forEach((el, index) => {
+        el.style.animationDelay = `${index * 0.3}s`;
+    });
+
+    // Initialize floating particles
+    initializeFloatingParticles();
+
+    // Setup enhanced input interactions
+    setupEnhancedInputs();
+});
+
+function initializeFloatingParticles() {
+    const particles = document.querySelectorAll('.particle');
+    particles.forEach((particle, index) => {
+        particle.style.animationDelay = `${index * 2}s`;
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+    });
 }
 
-// Enhanced registration functionality
-document.getElementById('registerForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.target);
-    const password = formData.get('password');
-    const confirmPassword = formData.get('confirm_password');
-    const messageDiv = document.getElementById('authMessage');
-    const submitBtn = e.target.querySelector('button[type="submit"]');
-
-    // Client-side validation
-    if (password !== confirmPassword) {
-        showMessage(messageDiv, 'Passwords do not match', 'error');
-        highlightField('confirm_password', false);
-        return;
-    }
-
-    if (!document.getElementById('terms').checked) {
-        showMessage(messageDiv, 'Please agree to the Terms of Service and Privacy Policy', 'error');
-        return;
-    }
-
-    // Show loading state
-    setButtonLoading(submitBtn, true);
-    clearMessage(messageDiv);
-
-    try {
-        const response = await fetch('/api/auth/register', {
-            method: 'POST',
-            body: formData
+function setupEnhancedInputs() {
+    document.querySelectorAll('.regal-input').forEach(input => {
+        input.addEventListener('focus', () => {
+            input.parentElement.classList.add('focused');
+            input.parentElement.querySelector('.input-glow').style.opacity = '1';
         });
 
-        const data = await response.json();
+        input.addEventListener('blur', () => {
+            if (!input.value) {
+                input.parentElement.classList.remove('focused');
+            }
+            input.parentElement.querySelector('.input-glow').style.opacity = '0';
+        });
 
-        if (data.success) {
-            showMessage(messageDiv, 'Account created successfully! Redirecting...', 'success');
+        input.addEventListener('input', () => {
+            if (input.value) {
+                input.parentElement.classList.add('has-value');
+            } else {
+                input.parentElement.classList.remove('has-value');
+            }
+        });
+    });
 
-            // Add success animation
-            submitBtn.classList.add('success');
+    // Add click ripple effects to buttons and checkboxes
+    document.querySelectorAll('.regal-btn, .regal-checkbox').forEach(element => {
+        element.addEventListener('click', (e) => {
+            addRippleEffect(e.currentTarget);
+        });
+    });
+}
 
-            // Celebrate with confetti effect
-            createConfetti();
-
-            // Redirect to dashboard
-            setTimeout(() => {
-                window.location.href = '/dashboard';
-            }, 2000);
-        } else {
-            showMessage(messageDiv, data.error, 'error');
-            // Shake the form on error
-            document.querySelector('.auth-card').classList.add('shake');
-            setTimeout(() => {
-                document.querySelector('.auth-card').classList.remove('shake');
-            }, 600);
+// Keyboard shortcuts for royal efficiency
+document.addEventListener('keydown', (e) => {
+    // Enter to submit from anywhere in form
+    if (e.key === 'Enter' && e.target.tagName === 'INPUT') {
+        const form = document.getElementById('registerForm');
+        const submitBtn = form.querySelector('button[type="submit"]');
+        if (!submitBtn.disabled) {
+            form.dispatchEvent(new Event('submit'));
         }
-    } catch (error) {
-        showMessage(messageDiv, 'Registration failed. Please check your connection and try again.', 'error');
-        console.error('Registration error:', error);
-    } finally {
-        setButtonLoading(submitBtn, false);
     }
 });
 </script>
+
+<style>
+/* Professional Regal Registration Styles */
+:root {
+    --regal-primary: #1a1f3a;
+    --regal-secondary: #0f1419;
+    --regal-accent: #daa520;
+    --regal-accent-light: #f4d03f;
+    --regal-text: #ffffff;
+    --regal-text-muted: rgba(255, 255, 255, 0.7);
+    --regal-border: rgba(218, 165, 32, 0.3);
+    --regal-backdrop: rgba(26, 31, 58, 0.8);
+    --regal-glass: rgba(26, 31, 58, 0.9);
+    --regal-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    --regal-glow: 0 0 30px rgba(218, 165, 32, 0.3);
+}
+
+.regal-auth-container {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 60px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--regal-secondary) 0%, var(--regal-primary) 50%, var(--regal-secondary) 100%);
+}
+
+@media (max-width: 1024px) {
+    .regal-auth-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 20px;
+    }
+}
+
+.auth-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.regal-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(218, 165, 32, 0.15), transparent),
+        radial-gradient(circle at 80% 20%, rgba(218, 165, 32, 0.1), transparent),
+        radial-gradient(circle at 40% 80%, rgba(218, 165, 32, 0.12), transparent);
+}
+
+.floating-elements {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.floating-shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.1;
+    animation: regalFloat 25s ease-in-out infinite;
+}
+
+.shape-1 {
+    width: 400px;
+    height: 400px;
+    background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
+    top: -10%;
+    left: -15%;
+    animation-delay: 0s;
+}
+
+.shape-2 {
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(135deg, var(--regal-primary), var(--regal-accent));
+    top: 60%;
+    right: -10%;
+    animation-delay: 8s;
+}
+
+.shape-3 {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(135deg, var(--regal-accent-light), var(--regal-accent));
+    top: 30%;
+    left: 15%;
+    animation-delay: 16s;
+}
+
+.shape-4 {
+    width: 150px;
+    height: 150px;
+    background: linear-gradient(135deg, var(--regal-accent), var(--regal-primary));
+    top: 10%;
+    right: 25%;
+    animation-delay: 4s;
+}
+
+.shape-5 {
+    width: 350px;
+    height: 350px;
+    background: linear-gradient(135deg, var(--regal-accent-light), var(--regal-primary));
+    bottom: -15%;
+    left: 50%;
+    animation-delay: 12s;
+}
+
+.shape-6 {
+    width: 250px;
+    height: 250px;
+    background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
+    top: 50%;
+    right: 60%;
+    animation-delay: 20s;
+}
+
+@keyframes regalFloat {
+    0%, 100% { 
+        transform: translateY(0px) translateX(0px) rotate(0deg) scale(1); 
+        opacity: 0.1;
+    }
+    25% { 
+        transform: translateY(-40px) translateX(30px) rotate(90deg) scale(1.1); 
+        opacity: 0.15;
+    }
+    50% { 
+        transform: translateY(-20px) translateX(-20px) rotate(180deg) scale(0.9); 
+        opacity: 0.2;
+    }
+    75% { 
+        transform: translateY(30px) translateX(-40px) rotate(270deg) scale(1.05); 
+        opacity: 0.12;
+    }
+}
+
+.regal-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    font-size: 1.8rem;
+    opacity: 0.6;
+    animation: particleFloat 15s linear infinite;
+    filter: drop-shadow(0 2px 4px rgba(218, 165, 32, 0.3));
+}
+
+.particle-1 { animation-delay: 0s; }
+.particle-2 { animation-delay: 3s; }
+.particle-3 { animation-delay: 6s; }
+.particle-4 { animation-delay: 9s; }
+
+@keyframes particleFloat {
+    0% { 
+        transform: translateY(100vh) translateX(0px) rotate(0deg); 
+        opacity: 0; 
+    }
+    10% { 
+        opacity: 0.6; 
+    }
+    90% { 
+        opacity: 0.6; 
+    }
+    100% { 
+        transform: translateY(-100px) translateX(100px) rotate(360deg); 
+        opacity: 0; 
+    }
+}
+
+/* Regal Auth Card */
+.regal-card {
+    background: var(--regal-glass);
+    backdrop-filter: blur(25px) saturate(200%);
+    border: 2px solid var(--regal-border);
+    border-radius: 25px;
+    padding: 50px;
+    width: 100%;
+    max-width: 520px;
+    box-shadow: 
+        var(--regal-shadow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    animation: regalSlideIn 1s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (max-width: 768px) {
+    .regal-card {
+        padding: 30px 25px;
+        max-width: 100%;
+    }
+}
+
+.regal-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--regal-accent), var(--regal-accent-light), var(--regal-accent));
+}
+
+.regal-card::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--regal-accent), transparent);
+    border-radius: 1px;
+}
+
+.regal-card.regal-shake {
+    animation: regalShake 0.8s ease-in-out;
+}
+
+@keyframes regalShake {
+    0%, 100% { transform: translateX(0) rotateZ(0deg); }
+    25% { transform: translateX(-10px) rotateZ(-1deg); }
+    75% { transform: translateX(10px) rotateZ(1deg); }
+}
+
+@keyframes regalSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Brand Section */
+.auth-brand {
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 12px;
+}
+
+.logo-crown {
+    font-size: 3rem;
+    filter: drop-shadow(0 4px 12px rgba(218, 165, 32, 0.4));
+    animation: crownFloat 6s ease-in-out infinite;
+}
+
+@keyframes crownFloat {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg); 
+        filter: drop-shadow(0 4px 12px rgba(218, 165, 32, 0.4));
+    }
+    50% { 
+        transform: translateY(-6px) rotate(2deg); 
+        filter: drop-shadow(0 8px 20px rgba(218, 165, 32, 0.6));
+    }
+}
+
+.logo-text {
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.brand-tagline {
+    color: var(--regal-text-muted);
+    font-size: 1rem;
+    font-style: italic;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+.brand-accent {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--regal-accent), var(--regal-accent-light));
+    border-radius: 2px;
+    margin: 0 auto;
+    box-shadow: 0 2px 8px rgba(218, 165, 32, 0.3);
+}
+
+/* Auth Header */
+.auth-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.auth-header h2 {
+    color: var(--regal-accent);
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: -0.01em;
+}
+
+.auth-header p {
+    color: var(--regal-text-muted);
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 30px;
+}
+
+.form-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-weight: 700;
+    color: var(--regal-accent);
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.label-icon {
+    font-size: 1.1rem;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+.input-wrapper {
+    position: relative;
+    margin-bottom: 8px;
+}
+
+.regal-input {
+    width: 100%;
+    padding: 18px 20px;
+    border: 2px solid var(--regal-border);
+    border-radius: 16px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--regal-text);
+    backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-weight: 500;
+}
+
+.regal-input::placeholder {
+    color: var(--regal-text-muted);
+    opacity: 0.7;
+}
+
+.regal-input:focus {
+    outline: none;
+    border-color: var(--regal-accent);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 
+        0 0 0 4px rgba(218, 165, 32, 0.2),
+        0 8px 25px rgba(218, 165, 32, 0.3);
+    transform: translateY(-2px);
+}
+
+.input-enhancement {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(90deg, var(--regal-accent), var(--regal-accent-light));
+    transform: scaleX(0);
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    border-radius: 1px;
+}
+
+.input-wrapper.focused .input-enhancement {
+    transform: scaleX(1);
+}
+
+.input-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(218, 165, 32, 0.1), transparent);
+    border-radius: 16px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(218, 165, 32, 0.1);
+    border: 1px solid var(--regal-border);
+    border-radius: 10px;
+    cursor: pointer;
+    color: var(--regal-accent);
+    transition: all 0.3s ease;
+    padding: 8px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.password-toggle:hover {
+    background: rgba(218, 165, 32, 0.2);
+    border-color: var(--regal-accent);
+    transform: translateY(-50%) scale(1.05);
+    box-shadow: 0 4px 12px rgba(218, 165, 32, 0.3);
+}
+
+.password-toggle.revealed {
+    background: rgba(218, 165, 32, 0.25);
+    color: var(--regal-accent-light);
+}
+
+.input-feedback {
+    margin-top: 8px;
+    font-size: 0.85rem;
+    min-height: 1.2rem;
+    font-weight: 500;
+}
+
+.form-hint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: var(--regal-text-muted);
+    font-weight: 500;
+}
+
+.hint-icon {
+    font-size: 0.9rem;
+}
+
+/* Checkbox */
+.form-options {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 35px;
+}
+
+.regal-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: var(--regal-text-muted);
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.regal-checkbox:hover {
+    color: var(--regal-accent);
+}
+
+.regal-checkbox input[type="checkbox"] {
+    display: none;
+}
+
+.checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--regal-border);
+    border-radius: 6px;
+    position: relative;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.regal-checkbox input:checked + .checkmark {
+    background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
+    border-color: var(--regal-accent);
+    box-shadow: 0 4px 12px rgba(218, 165, 32, 0.3);
+}
+
+.regal-checkbox input:checked + .checkmark::after {
+    content: '✓';
+    position: absolute;
+    top: -1px;
+    left: 3px;
+    color: var(--regal-primary);
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.agreement-checkbox {
+    background: rgba(218, 165, 32, 0.05);
+    border: 1px solid var(--regal-border);
+    border-radius: 12px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.terms-link {
+    color: var(--regal-accent);
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.terms-link:hover {
+    color: var(--regal-accent-light);
+    text-decoration: underline;
+}
+
+/* Regal Button */
+.regal-btn {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
+    border: none;
+    border-radius: 16px;
+    padding: 18px 32px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--regal-primary);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow: 
+        0 8px 25px rgba(218, 165, 32, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.regal-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
+}
+
+.regal-btn:hover::before {
+    left: 100%;
+}
+
+.regal-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 15px 35px rgba(218, 165, 32, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    background: linear-gradient(135deg, var(--regal-accent-light), #fff);
+}
+
+.regal-btn:active {
+    transform: translateY(-1px);
+}
+
+.btn-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: opacity 0.3s ease;
+}
+
+.btn-icon {
+    font-size: 1.1rem;
+}
+
+.btn-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.btn-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2), transparent);
+    border-radius: 16px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.regal-btn.loading .btn-glow {
+    opacity: 1;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.regal-btn.success {
+    background: linear-gradient(135deg, #10b981, #34d399);
+    transform: scale(1.02);
+    box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4);
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* Auth Footer */
+.auth-footer {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.auth-footer p {
+    color: var(--regal-text-muted);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.regal-link {
+    color: var(--regal-accent);
+    text-decoration: none;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+    padding: 4px 8px;
+    border-radius: 8px;
+}
+
+.regal-link:hover {
+    color: var(--regal-accent-light);
+    background: rgba(218, 165, 32, 0.1);
+    transform: translateX(3px);
+    text-shadow: 0 2px 4px rgba(218, 165, 32, 0.3);
+}
+
+/* Features Showcase */
+.regal-showcase {
+    max-width: 600px;
+    animation: regalSlideInRight 1s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (max-width: 1024px) {
+    .regal-showcase {
+        order: -1;
+        max-width: 100%;
+    }
+}
+
+.showcase-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.showcase-crown {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 4px 12px rgba(218, 165, 32, 0.4));
+    animation: crownFloat 6s ease-in-out infinite;
+}
+
+.showcase-header h3 {
+    color: var(--regal-accent);
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.showcase-header p {
+    color: var(--regal-text-muted);
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.community-stats {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .community-stats {
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
+.regal-stat {
+    text-align: center;
+    color: var(--regal-text);
+    padding: 20px;
+    background: var(--regal-glass);
+    border-radius: 16px;
+    backdrop-filter: blur(20px);
+    border: 2px solid var(--regal-border);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    min-width: 120px;
+}
+
+.regal-stat:hover {
+    transform: translateY(-5px);
+    border-color: var(--regal-accent);
+    box-shadow: 0 12px 30px rgba(218, 165, 32, 0.3);
+}
+
+.stat-number {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--regal-accent);
+    display: block;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--regal-text-muted);
+    font-weight: 600;
+}
+
+.stat-divider {
+    width: 2px;
+    height: 40px;
+    background: linear-gradient(180deg, transparent, var(--regal-accent), transparent);
+}
+
+@media (max-width: 768px) {
+    .stat-divider {
+        display: none;
+    }
+}
+
+.membership-benefits {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+    .membership-benefits {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+.regal-benefit {
+    text-align: center;
+    color: var(--regal-text);
+    padding: 25px 20px;
+    background: var(--regal-glass);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    border: 2px solid var(--regal-border);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.regal-benefit::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(218, 165, 32, 0.1), transparent);
+    transition: left 0.8s ease;
+}
+
+.regal-benefit:hover::before {
+    left: 100%;
+}
+
+.regal-benefit:hover {
+    transform: translateY(-8px);
+    border-color: var(--regal-accent);
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.4),
+        0 5px 15px rgba(218, 165, 32, 0.3);
+}
+
+.benefit-icon-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(218, 165, 32, 0.3);
+}
+
+.benefit-icon {
+    font-size: 1.5rem;
+    color: var(--regal-primary);
+}
+
+.icon-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle, rgba(218, 165, 32, 0.3), transparent);
+    border-radius: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.regal-benefit:hover .icon-glow {
+    opacity: 1;
+}
+
+.regal-benefit h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--regal-accent);
+}
+
+.regal-benefit p {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+.testimonial-regal {
+    background: var(--regal-glass);
+    backdrop-filter: blur(25px);
+    border: 2px solid var(--regal-border);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.testimonial-crown {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 2px 8px rgba(218, 165, 32, 0.4));
+}
+
+.testimonial-regal blockquote {
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: var(--regal-text);
+    font-weight: 500;
+}
+
+.testimonial-regal cite {
+    color: var(--regal-accent);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Modal Styles */
+.regal-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+.regal-modal-content {
+    background: var(--regal-glass);
+    backdrop-filter: blur(25px);
+    border: 2px solid var(--regal-border);
+    margin: 10% auto;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: var(--regal-shadow);
+    max-height: 80vh;
+    overflow-y: auto;
+    color: var(--regal-text);
+}
+
+@media (max-width: 768px) {
+    .regal-modal-content {
+        margin: 5% auto;
+        width: 95%;
+    }
+}
+
+.modal-header {
+    padding: 30px;
+    border-bottom: 1px solid var(--regal-border);
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: var(--regal-accent);
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.modal-body {
+    padding: 30px;
+    line-height: 1.6;
+    color: var(--regal-text-muted);
+}
+
+.modal-body ul {
+    margin: 20px 0;
+    padding-left: 25px;
+}
+
+.modal-body li {
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+.modal-body strong {
+    color: var(--regal-accent);
+}
+
+.modal-footer {
+    padding: 30px;
+    border-top: 1px solid var(--regal-border);
+    text-align: right;
+}
+
+.regal-btn-secondary {
+    background: rgba(218, 165, 32, 0.1);
+    color: var(--regal-accent);
+    border: 1px solid var(--regal-border);
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.regal-btn-secondary:hover {
+    background: rgba(218, 165, 32, 0.2);
+    border-color: var(--regal-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(218, 165, 32, 0.3);
+}
+
+/* Message Styles */
+.auth-message {
+    margin-bottom: 25px;
+}
+
+.message {
+    padding: 15px 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    backdrop-filter: blur(20px);
+    border: 1px solid transparent;
+}
+
+.message.show {
+    display: flex;
+    animation: messageSlideDown 0.4s ease;
+}
+
+@keyframes messageSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message-success {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.message-error {
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+.message-icon {
+    font-size: 1.2rem;
+}
+
+/* Crown Celebration Effect */
+.crown-celebration {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10000;
+}
+
+.crown-particle {
+    position: absolute;
+    font-size: 2rem;
+    animation: crownCelebrate 3s ease-out forwards;
+}
+
+.crown-particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+.crown-particle:nth-child(2) { left: 20%; animation-delay: 0.2s; }
+.crown-particle:nth-child(3) { left: 30%; animation-delay: 0.4s; }
+.crown-particle:nth-child(4) { left: 40%; animation-delay: 0.6s; }
+.crown-particle:nth-child(5) { left: 50%; animation-delay: 0.8s; }
+.crown-particle:nth-child(6) { left: 60%; animation-delay: 1s; }
+.crown-particle:nth-child(7) { left: 70%; animation-delay: 1.2s; }
+.crown-particle:nth-child(8) { left: 80%; animation-delay: 1.4s; }
+
+@keyframes crownCelebrate {
+    0% {
+        top: -50px;
+        opacity: 1;
+        transform: rotate(0deg);
+    }
+    50% {
+        top: 50%;
+        opacity: 1;
+        transform: rotate(180deg);
+    }
+    100% {
+        top: 100vh;
+        opacity: 0;
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes regalSlideInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* CSS ripple effect */
+@keyframes ripple {
+    to {
+        transform: translate(-50%, -50%) scale(4);
+        opacity: 0;
+    }
+}
+</style>
