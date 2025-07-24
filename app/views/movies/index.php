@@ -65,7 +65,7 @@
                            class="search-input" 
                            placeholder="Search for films, directors, actors..."
                            autocomplete="off" />
-                    <button class="search-btn" aria-label="Search movies" onclick="performSearch()">
+                        <button type="button" class="search-btn" aria-label="Search movies" onclick="performSearch()">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="11" cy="11" r="8"></circle>
                             <path d="21 21l-4.35-4.35"></path>
@@ -1342,15 +1342,6 @@ document.addEventListener('DOMContentLoaded', () => {
     animateCounters();
     setupSearchFunctionality();
     setupCategoryButtons();
-
-    // Auto-search if query is provided via URL
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput && searchInput.value.trim()) {
-        console.log('Auto-searching for:', searchInput.value);
-        setTimeout(() => {
-            performSearch();
-        }, 500); // Small delay to ensure everything is loaded
-    }
 });
 </script>
 

@@ -35,6 +35,7 @@ class MovieSearchApp {
             input.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();
+                    e.stopPropagation();
                     const query = e.target.value.trim();
                     if (query) {
                         this.searchMovies(query);
