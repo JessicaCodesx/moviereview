@@ -47,34 +47,34 @@
     </div>
 </div>
 
-<!-- Professional Search Section -->
-<div class="regal-search-section">
-    <div class="search-container">
-        <div class="search-header">
-            <div class="search-icon-wrapper">
-                <span class="search-icon">🔍</span>
-            </div>
-            <h2>Explore Our Cinematic Collection</h2>
-            <p>Search through our curated library of exceptional films, acclaimed directors, and renowned performers</p>
-        </div>
-        <div class="search-box">
-                <div class="search-input-wrapper">
-                <form onsubmit="return false;" style="display: contents;">
-                    <div class="search-field">
-                        <input type="text" 
-                               id="searchInput" 
-                               class="search-input" 
-                               placeholder="Search for films, directors, actors..."
-                               value="<?php echo isset($search_query) ? htmlspecialchars($search_query) : ''; ?>"
-                               autocomplete="off" />
-                        <button type="button" class="search-btn" aria-label="Search movies" onclick="performSearch()">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="11" cy="11" r="8"></circle>
-                                <path d="21 21l-4.35-4.35"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </form>
+                    <!-- Professional Search Section -->
+                    <div class="regal-search-section">
+                        <div class="search-container">
+                            <div class="search-header">
+                                <div class="search-icon-wrapper">
+                                    <span class="search-icon">🔍</span>
+                                </div>
+                                <h2>Explore Our Cinematic Collection</h2>
+                                <p>Search through our curated library of exceptional films, acclaimed directors, and renowned performers</p>
+                            </div>
+                            <div class="search-box">
+                                    <div class="search-input-wrapper">
+                                    <form onsubmit="return false;" style="display: contents;">
+                                        <div class="search-field">
+                                            <input type="text" 
+                                                   id="searchInput" 
+                                                   class="search-input" 
+                                                   placeholder="Search for films, directors, actors..."
+                                                   value="<?php echo isset($search_query) ? htmlspecialchars($search_query) : ''; ?>"
+                                                   autocomplete="off" />
+                                            <button type="button" class="search-btn" aria-label="Search movies" onclick="performSearch()">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <circle cx="11" cy="11" r="8"></circle>
+                                                    <path d="M21 21l-4.35-4.35"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </form>
                 <div class="search-enhancement"></div>
             </div>
             <div class="search-suggestions">
@@ -498,16 +498,18 @@ body {
     background: linear-gradient(to bottom, transparent, var(--regal-border), transparent);
 }
 
-/* Professional Search Section - MUCH WIDER */
-.regal-search-section {
-    margin-bottom: 60px;
-}
+    /* Professional Search Section - MUCH WIDER */
+    .regal-search-section {
+        margin-bottom: 60px;
+        padding: 0 20px; /* Add padding to the section itself */
+    }
 
-.search-container {
-    max-width: 1400px; /* INCREASED from 800px - MAJOR CHANGE */
-    margin: 0 auto;
-    padding: 0 40px; /* INCREASED from 20px */
-}
+    .search-container {
+        max-width: 2000px; /* INCREASED from 1400px - EXTRA WIDE */
+        margin: 0 auto;
+        padding: 0 60px; /* INCREASED from 40px */
+    }
+
 
 .search-header {
     text-align: center;
@@ -518,7 +520,7 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 60px;
+    width: 100px;
     height: 60px;
     background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
     border-radius: 50%;
@@ -529,7 +531,7 @@ body {
 }
 
 .search-icon {
-    font-size: 1.8rem;
+    font-size: 3rem;
     color: var(--regal-primary);
 }
 
@@ -560,22 +562,26 @@ body {
     position: relative;
 }
 
-.search-input-wrapper {
-    position: relative;
-    margin-bottom: 25px;
-}
+    .search-input-wrapper {
+        position: relative;
+        margin-bottom: 25px;
+        width: 100%; /* Ensure full width */
+    }
 
-.search-field {
-    position: relative;
-    display: flex;
-    align-items: center;
-    background: rgba(0, 0, 0, 0.2);
-    border: 2px solid var(--regal-border);
-    border-radius: 20px;
-    padding: 12px; /* INCREASED from 8px */
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-}
+    .search-field {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.2);
+        border: 2px solid var(--regal-border);
+        border-radius: 20px;
+        padding: 16px; /* INCREASED from 12px */
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        width: 100%; /* Ensure full width */
+        /* Removed max-width to allow full stretch */
+        /* Removed margin auto */
+    }
 
 .search-field:focus-within {
     border-color: var(--regal-accent);
