@@ -104,205 +104,144 @@
     </div>
 </div>
 
-<!-- Movie Details Container -->
-<div id="movieDetails" class="movie-details"></div>
+    <!-- Movie Details Container -->
+    <div id="movieDetails" class="movie-details"></div>
 
-<!-- Popular Movies Section -->
-<div class="regal-popular-section">
-    <div class="section-container">
+    <!-- Popular Movies Section -->
+    <div class="regal-popular-section">
+      <div class="section-container">
         <div class="section-header">
-            <div class="section-title">
-                <div class="title-icon">⭐</div>
-                <div class="title-content">
-                    <h3>Acclaimed Cinema</h3>
-                    <p class="section-subtitle">Films celebrated by our distinguished community</p>
-                </div>
+          <div class="section-title">
+            <div class="title-icon">⭐</div>
+            <div class="title-content">
+              <h3>Acclaimed Cinema</h3>
+              <p class="section-subtitle">Films celebrated by our distinguished community</p>
             </div>
-            <div class="section-actions">
-                <button class="category-btn active" data-category="all">All</button>
-                <button class="category-btn" data-category="action">Action</button>
-                <button class="category-btn" data-category="comedy">Comedy</button>
-                <button class="category-btn" data-category="drama">Drama</button>
-            </div>
+          </div>
+          <div class="section-actions">
+            <button class="category-btn active" data-category="all">All</button>
+            <button class="category-btn" data-category="action">Action</button>
+            <button class="category-btn" data-category="comedy">Comedy</button>
+            <button class="category-btn" data-category="drama">Drama</button>
+          </div>
         </div>
+
+        <!-- Movie Grid -->
         <div class="popular-movies">
-            <!-- Sample movie cards -->
-            <div class="movie-card regal-movie-card" onclick="loadMovieDetails('tt1375666')">
-                <div class="movie-poster">
-                    <img src="https://m.media-amazon.com/images/M/MV5BYjQ5NjM0Y2YtNjZkNC00ZDhkLWJjMWItN2QyNzFkMDE3ZjAxXkEyXkFqcGdeQXVyODIxMzk5NjA@._V1_SX300.jpg" 
-                         alt="Inception" loading="lazy">
-                    <div class="movie-overlay">
-                        <button class="play-button">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                <polygon points="5,3 19,12 5,21"></polygon>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="movie-badge">
-                        <span class="avg-badge">⭐ 8.8</span>
-                    </div>
-                    <div class="acclaim-indicator">
-                        <span class="acclaim-badge">Acclaimed</span>
-                    </div>
-                    <div class="regal-frame"></div>
-                </div>
-                <div class="movie-card-info">
-                    <h4>Inception</h4>
-                    <p>2010 • Action, Sci-Fi, Thriller</p>
-                    <div class="movie-stats">
-                        <span class="rating-count">2.4M reviews</span>
-                        <span class="popularity-score">96% acclaimed</span>
-                    </div>
-                </div>
+          <!-- Lilo & Stitch -->
+          <div class="movie-card regal-movie-card" onclick="searchForMovie('Lilo Stitch')">
+            <div class="movie-poster">
+              <img src="/public/assets/images/lilo.jpg" alt="Lilo & Stitch" loading="lazy">
+              <div class="movie-badge"><span class="avg-badge">⭐ 7.8</span></div>
+              <div class="acclaim-indicator"><span class="acclaim-badge">Family Favorite</span></div>
+              <div class="regal-frame"></div>
             </div>
+            <div class="movie-card-info">
+              <h4>Lilo &amp; Stitch</h4>
+              <p>Animation • Family, Adventure</p>
+              <div class="movie-stats">
+                <span class="rating-count">900K reviews</span>
+                <span class="popularity-score">92% loved</span>
+              </div>
+            </div>
+          </div>
 
-            <div class="movie-card regal-movie-card" onclick="loadMovieDetails('tt0111161')">
-                <div class="movie-poster">
-                    <img src="https://m.media-amazon.com/images/M/MV5BNDE3ODcxYzMtY2YzZC00NmNlLWJiNDMtZDViZWM2MzIxZDYwXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_SX300.jpg" 
-                         alt="The Shawshank Redemption" loading="lazy">
-                    <div class="movie-overlay">
-                        <button class="play-button">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                <polygon points="5,3 19,12 5,21"></polygon>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="movie-badge">
-                        <span class="avg-badge">⭐ 9.3</span>
-                    </div>
-                    <div class="acclaim-indicator">
-                        <span class="acclaim-badge">Acclaimed</span>
-                    </div>
-                    <div class="regal-frame"></div>
-                </div>
-                <div class="movie-card-info">
-                    <h4>The Shawshank Redemption</h4>
-                    <p>1994 • Drama</p>
-                    <div class="movie-stats">
-                        <span class="rating-count">2.8M reviews</span>
-                        <span class="popularity-score">98% acclaimed</span>
-                    </div>
-                </div>
+          <!-- Minecraft Movie -->
+          <div class="movie-card regal-movie-card" onclick="searchForMovie('Minecraft Movie')">
+            <div class="movie-poster">
+              <img src="/public/assets/images/minecraft.jpg" alt="Minecraft Movie" loading="lazy">
+              <div class="movie-badge"><span class="avg-badge">⭐ 7.4</span></div>
+              <div class="acclaim-indicator"><span class="acclaim-badge">Popular</span></div>
+              <div class="regal-frame"></div>
             </div>
+            <div class="movie-card-info">
+              <h4>Minecraft Movie</h4>
+              <p>Adventure • Family, Gaming</p>
+              <div class="movie-stats">
+                <span class="rating-count">800K reviews</span>
+                <span class="popularity-score">90% box‑office</span>
+              </div>
+            </div>
+          </div>
 
-            <div class="movie-card regal-movie-card" onclick="loadMovieDetails('tt0068646')">
-                <div class="movie-poster">
-                    <img src="https://m.media-amazon.com/images/M/MV5BM2MyNzRiYmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzE3MDE@._V1_SX300.jpg" 
-                         alt="The Godfather" loading="lazy">
-                    <div class="movie-overlay">
-                        <button class="play-button">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                <polygon points="5,3 19,12 5,21"></polygon>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="movie-badge">
-                        <span class="avg-badge">⭐ 9.2</span>
-                    </div>
-                    <div class="acclaim-indicator">
-                        <span class="acclaim-badge">Acclaimed</span>
-                    </div>
-                    <div class="regal-frame"></div>
-                </div>
-                <div class="movie-card-info">
-                    <h4>The Godfather</h4>
-                    <p>1972 • Crime, Drama</p>
-                    <div class="movie-stats">
-                        <span class="rating-count">1.9M reviews</span>
-                        <span class="popularity-score">97% acclaimed</span>
-                    </div>
-                </div>
+          <!-- Mission: Impossible -->
+          <div class="movie-card regal-movie-card" onclick="searchForMovie('Mission Impossible')">
+            <div class="movie-poster">
+              <img src="/public/assets/images/mission.jpeg" alt="Mission: Impossible" loading="lazy">
+              <div class="movie-badge"><span class="avg-badge">⭐ 8.3</span></div>
+              <div class="acclaim-indicator"><span class="acclaim-badge">Action Packed</span></div>
+              <div class="regal-frame"></div>
             </div>
+            <div class="movie-card-info">
+              <h4>Mission: Impossible</h4>
+              <p>Action • Thriller, Spy</p>
+              <div class="movie-stats">
+                <span class="rating-count">950K reviews</span>
+                <span class="popularity-score">94% critics</span>
+              </div>
+            </div>
+          </div>
 
-            <div class="movie-card regal-movie-card" onclick="loadMovieDetails('tt0108052')">
-                <div class="movie-poster">
-                    <img src="https://m.media-amazon.com/images/M/MV5BYTViNzMxZjEtZGEwNy00MDNiLWIzNGQtZDY2MjQ1OWViZjFmXkEyXkFqcGdeQXVyNzE3MDE@._V1_SX300.jpg" 
-                         alt="Schindler's List" loading="lazy">
-                    <div class="movie-overlay">
-                        <button class="play-button">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                <polygon points="5,3 19,12 5,21"></polygon>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="movie-badge">
-                        <span class="avg-badge">⭐ 9.0</span>
-                    </div>
-                    <div class="acclaim-indicator">
-                        <span class="acclaim-badge">Acclaimed</span>
-                    </div>
-                    <div class="regal-frame"></div>
-                </div>
-                <div class="movie-card-info">
-                    <h4>Schindler's List</h4>
-                    <p>1993 • Biography, Drama, History</p>
-                    <div class="movie-stats">
-                        <span class="rating-count">1.4M reviews</span>
-                        <span class="popularity-score">95% acclaimed</span>
-                    </div>
-                </div>
+          <!-- Titanic -->
+          <div class="movie-card regal-movie-card" onclick="searchForMovie('Titanic')">
+            <div class="movie-poster">
+              <img src="/public/assets/images/titanic.png" alt="Titanic" loading="lazy">
+              <div class="movie-badge"><span class="avg-badge">⭐ 9.0</span></div>
+              <div class="acclaim-indicator"><span class="acclaim-badge">Romantic Epic</span></div>
+              <div class="regal-frame"></div>
             </div>
+            <div class="movie-card-info">
+              <h4>Titanic</h4>
+              <p>Drama • Romance, Historical</p>
+              <div class="movie-stats">
+                <span class="rating-count">1.2M reviews</span>
+                <span class="popularity-score">97% audience</span>
+              </div>
+            </div>
+          </div>
 
-            <div class="movie-card regal-movie-card" onclick="loadMovieDetails('tt1853728')">
-                <div class="movie-poster">
-                    <img src="https://m.media-amazon.com/images/M/MV5BZGM1NGIyZTAtMjQ5Yi00YmM3LWExYjYtNmFmMDIwYjIzN2MzXkEyXkFqcGdeQXVyNjM1OTM@._V1_SX300.jpg" 
-                         alt="Django Unchained" loading="lazy">
-                    <div class="movie-overlay">
-                        <button class="play-button">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                <polygon points="5,3 19,12 5,21"></polygon>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="movie-badge">
-                        <span class="avg-badge">⭐ 8.4</span>
-                    </div>
-                    <div class="acclaim-indicator">
-                        <span class="acclaim-badge">Acclaimed</span>
-                    </div>
-                    <div class="regal-frame"></div>
-                </div>
-                <div class="movie-card-info">
-                    <h4>Django Unchained</h4>
-                    <p>2012 • Drama, Western</p>
-                    <div class="movie-stats">
-                        <span class="rating-count">1.6M reviews</span>
-                        <span class="popularity-score">92% acclaimed</span>
-                    </div>
-                </div>
+          <!-- The Bee Movie -->
+          <div class="movie-card regal-movie-card" onclick="searchForMovie('Bee Movie')">
+            <div class="movie-poster">
+              <img src="/public/assets/images/bee.jpg" alt="The Bee Movie" loading="lazy">
+              <div class="movie-badge"><span class="avg-badge">⭐ 6.5</span></div>
+              <div class="acclaim-indicator"><span class="acclaim-badge">Cult Classic</span></div>
+              <div class="regal-frame"></div>
             </div>
+            <div class="movie-card-info">
+              <h4>The Bee Movie</h4>
+              <p>Animation • Comedy, Family</p>
+              <div class="movie-stats">
+                <span class="rating-count">500K reviews</span>
+                <span class="popularity-score">80% internet icon</span>
+              </div>
+            </div>
+          </div>
 
-            <div class="movie-card regal-movie-card" onclick="loadMovieDetails('tt0167260')">
-                <div class="movie-poster">
-                    <img src="https://m.media-amazon.com/images/M/MV5BNzA5ZDNlZWMtM2NhNS00NDJjLTk4NDItYTRmY2EwMWI5MTktXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg" 
-                         alt="The Lord of the Rings: The Return of the King" loading="lazy">
-                    <div class="movie-overlay">
-                        <button class="play-button">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                <polygon points="5,3 19,12 5,21"></polygon>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="movie-badge">
-                        <span class="avg-badge">⭐ 9.0</span>
-                    </div>
-                    <div class="acclaim-indicator">
-                        <span class="acclaim-badge">Acclaimed</span>
-                    </div>
-                    <div class="regal-frame"></div>
-                </div>
-                <div class="movie-card-info">
-                    <h4>The Lord of the Rings: The Return of the King</h4>
-                    <p>2003 • Action, Adventure, Drama</p>
-                    <div class="movie-stats">
-                        <span class="rating-count">1.9M reviews</span>
-                        <span class="popularity-score">94% acclaimed</span>
-                    </div>
-                </div>
+          <!-- The Godfather -->
+          <div class="movie-card regal-movie-card" onclick="searchForMovie('The Godfather')">
+            <div class="movie-poster">
+              <img src="/public/assets/images/godfather.jpg" alt="The Godfather" loading="lazy">
+              <div class="movie-badge"><span class="avg-badge">⭐ 9.2</span></div>
+              <div class="acclaim-indicator"><span class="acclaim-badge">Masterpiece</span></div>
+              <div class="regal-frame"></div>
             </div>
-        </div>
+            <div class="movie-card-info">
+              <h4>The Godfather</h4>
+              <p>Crime • Drama, Mafia</p>
+              <div class="movie-stats">
+                <span class="rating-count">2M reviews</span>
+                <span class="popularity-score">99% critics</span>
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- /popular-movies -->
+      </div>
     </div>
-</div>
+
+
+    
 
 <style>
 /* Professional Regal Homepage Styles - WIDER LAYOUT */
