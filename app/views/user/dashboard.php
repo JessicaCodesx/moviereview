@@ -1,5 +1,4 @@
 <?php
-// Elite Cinema Dashboard - app/views/dashboard/index.php
 ?>
 <div class="regal-dashboard-container">
     <!-- Regal Background Animation -->
@@ -516,7 +515,7 @@ function initializeFloatingParticles() {
 </script>
 
 <style>
-/* Elite Cinema Dashboard Styles */
+/* Elite Cinema Dashboard Styles - Cleaned Up */
 :root {
     --regal-primary: #1a1f3a;
     --regal-secondary: #0f1419;
@@ -527,21 +526,29 @@ function initializeFloatingParticles() {
     --regal-border: rgba(218, 165, 32, 0.3);
     --regal-backdrop: rgba(26, 31, 58, 0.8);
     --regal-glass: rgba(26, 31, 58, 0.9);
-    --regal-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    --regal-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     --regal-glow: 0 0 30px rgba(218, 165, 32, 0.3);
 }
 
 .regal-dashboard-container {
     min-height: 100vh;
     background: linear-gradient(135deg, var(--regal-secondary) 0%, var(--regal-primary) 50%, var(--regal-secondary) 100%);
-    padding: 30px;
+    padding: 20px;
     position: relative;
     overflow-x: hidden;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 @media (max-width: 768px) {
     .regal-dashboard-container {
-        padding: 20px 15px;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .regal-dashboard-container {
+        padding: 10px;
     }
 }
 
@@ -798,9 +805,23 @@ function initializeFloatingParticles() {
 /* Elite Stats Grid */
 .elite-stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-    margin-bottom: 50px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+    .elite-stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .elite-stats-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
 }
 
 .elite-stat-card {
@@ -1009,26 +1030,47 @@ function initializeFloatingParticles() {
 .elite-scroll-container {
     overflow-x: auto;
     padding-bottom: 10px;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
 }
 
 .elite-movies-grid {
     display: flex;
-    gap: 25px;
+    gap: 20px;
     padding: 5px;
     min-width: min-content;
 }
 
+@media (max-width: 768px) {
+    .elite-movies-grid {
+        gap: 15px;
+    }
+}
+
 .elite-movie-card {
     min-width: 200px;
+    flex-shrink: 0;
     background: var(--regal-glass);
     backdrop-filter: blur(20px);
     border: 2px solid var(--regal-border);
     border-radius: 18px;
     overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
     cursor: pointer;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     position: relative;
+}
+
+@media (max-width: 768px) {
+    .elite-movie-card {
+        min-width: 180px;
+    }
+}
+
+@media (max-width: 480px) {
+    .elite-movie-card {
+        min-width: 160px;
+    }
 }
 
 .elite-movie-card:hover {
@@ -1203,8 +1245,22 @@ function initializeFloatingParticles() {
 /* Elite Actions Grid */
 .elite-actions-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .elite-actions-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .elite-actions-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
 }
 
 .elite-action-card {
@@ -1466,31 +1522,30 @@ function initializeFloatingParticles() {
 /* Responsive Design */
 @media (max-width: 768px) {
     .elite-welcome {
-        padding: 25px 20px;
+        padding: 20px 15px;
     }
 
     .welcome-content-regal {
         flex-direction: column;
         text-align: center;
+        gap: 15px;
     }
 
     .welcome-crown {
         position: static;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
+        font-size: 2.5rem;
     }
 
     .welcome-text-regal h1 {
-        font-size: 2rem;
-    }
-
-    .elite-stats-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
+        font-size: 1.8rem;
+        line-height: 1.3;
     }
 
     .elite-stats-preview {
         flex-direction: column;
-        gap: 20px;
+        gap: 15px;
+        padding: 20px;
     }
 
     .stat-divider-regal {
@@ -1504,43 +1559,54 @@ function initializeFloatingParticles() {
         gap: 15px;
     }
 
-    .elite-actions-grid {
-        grid-template-columns: 1fr;
+    .section-title-regal h3 {
+        font-size: 1.5rem;
     }
 
     .elite-movies-grid {
         gap: 15px;
     }
-
-    .elite-movie-card {
-        min-width: 180px;
-    }
 }
 
 @media (max-width: 480px) {
-    .regal-dashboard-container {
+    .elite-welcome {
         padding: 15px 10px;
     }
 
-    .elite-welcome {
-        padding: 20px 15px;
+    .welcome-text-regal h1 {
+        font-size: 1.6rem;
+        margin-bottom: 8px;
     }
 
-    .welcome-text-regal h1 {
-        font-size: 1.8rem;
+    .welcome-subtitle {
+        font-size: 1rem;
     }
 
     .section-title-regal h3 {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
     }
 
     .elite-empty-content h3 {
-        font-size: 1.7rem;
+        font-size: 1.5rem;
     }
 
     .elite-empty-actions {
         flex-direction: column;
         align-items: center;
+        gap: 10px;
+    }
+
+    .btn-regal {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+    }
+
+    .elite-stat-card {
+        padding: 20px 15px;
+    }
+
+    .elite-action-card {
+        padding: 20px;
     }
 }
 
