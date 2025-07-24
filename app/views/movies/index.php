@@ -94,7 +94,7 @@ $isLoggedIn = isset($_SESSION['user']) && !empty($_SESSION['user']['id']);
     <div class="recent-ratings">
         <?php foreach (array_slice($data['recent_ratings'], 0, 5) as $index => $rating): ?>
             <div class="rating-card animate-card" 
-                 style="animation-delay: <?php echo $index * 0.1; ?>s"
+                 data-animation-delay="<?php echo $index * 0.1; ?>"
                  onclick="movieAppInstance.loadMovieDetails('<?php echo htmlspecialchars($rating['imdb_id']); ?>')">
                 <div class="rating-poster">
                     <img src="<?php echo $rating['poster'] !== 'N/A' ? htmlspecialchars($rating['poster']) : '/public/assets/images/no-image.png'; ?>" 
@@ -146,7 +146,7 @@ $isLoggedIn = isset($_SESSION['user']) && !empty($_SESSION['user']['id']);
         <div class="popular-movies">
             <?php foreach ($data['popular_movies'] as $index => $movie): ?>
                 <div class="movie-card popular-card animate-card" 
-                     style="animation-delay: <?php echo $index * 0.1; ?>s"
+                     data-animation-delay="<?php echo $index * 0.1; ?>"
                      onclick="movieAppInstance.loadMovieDetails('<?php echo htmlspecialchars($movie['imdb_id']); ?>')">
                     <div class="movie-poster">
                         <img src="<?php echo $movie['poster'] !== 'N/A' ? htmlspecialchars($movie['poster']) : '/public/assets/images/no-image.png'; ?>" 
