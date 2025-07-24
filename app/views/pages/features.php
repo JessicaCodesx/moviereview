@@ -607,8 +607,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* Elite Content Container */
 .elite-features-content {
-    max-width: 1400px;
-    margin: 0 auto;
+    width: 100%;
+    margin: 0;
     padding: 0 40px 60px;
     display: flex;
     flex-direction: column;

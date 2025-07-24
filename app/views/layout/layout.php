@@ -1,4 +1,5 @@
 <?php
+// Professional Layout Configuration
 if (!isset($config)) {
     $config = require CONFIG_PATH . '/app.php';
 }
@@ -470,14 +471,14 @@ $canonicalUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https
                     const query = input.value.trim();
                     if (!query) return;
 
-                    // Add loading state
-                    input.classList.add('loading');
-                    searchButtons.forEach(btn => {
-                        btn.disabled = true;
-                        btn.innerHTML = '⏳';
-                    });
+                    // Check if we have the movie app instance for AJAX search
+                    if (window.movieAppInstance && typeof window.movieAppInstance.searchMovies === 'function') {
+                        // Use AJAX search instead of redirect
+                        window.movieAppInstance.searchMovies(query);
+                        return;
+                    }
 
-                    // Redirect to search
+                    // Fallback: redirect to search (only if AJAX search not available)
                     window.location.href = `/search?q=${encodeURIComponent(query)}`;
                 }
 
