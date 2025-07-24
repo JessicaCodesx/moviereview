@@ -35,7 +35,7 @@
             <p class="hero-subtitle-royal">Your distinguished sanctuary for cinematic excellence and scholarly critique</p>
             <div class="academic-badge">
                 <span class="badge-icon">🎓</span>
-                <span class="badge-text">Academic Research Project</span>
+                <span class="badge-text">Academic Project</span>
             </div>
         </div>
     </div>
@@ -65,7 +65,7 @@
                     <div class="academic-icon">🎓</div>
                     <div class="academic-content">
                         <h3>Academic Excellence</h3>
-                        <p>This platform serves as a comprehensive academic project demonstrating advanced web development 
+                        <p>This platform serves as my comprehensive academic project demonstrating advanced web development 
                         principles, modern software architecture, and innovative AI integration in the context of cultural 
                         media analysis and user experience design.</p>
                     </div>
@@ -170,7 +170,7 @@
                 </div>
                 <div class="academic-highlight">
                     <div class="highlight-icon">🔬</div>
-                    <h4>Research & Innovation</h4>
+                    <h4> Innovation</h4>
                     <p>Integration of cutting-edge AI technology for content analysis and user personalization</p>
                 </div>
                 <div class="academic-highlight">
@@ -200,7 +200,7 @@
                 </div>
                 <div class="info-row-royal">
                     <span class="info-label">Academic Status:</span>
-                    <span class="info-value">Research & Development Project</span>
+                    <span class="info-value">Development Project</span>
                 </div>
                 <div class="info-row-royal">
                     <span class="info-label">Last Enhancement:</span>
