@@ -602,12 +602,16 @@ $isLoggedIn = isset($_SESSION['user']) && !empty($_SESSION['user']['id']);
 
 /* Guest CTA */
 .guest-cta {
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    background: linear-gradient(135deg, #0a1628 0%, #142343 40%, #1e3a5f 70%, #c4821b 100%);
     border-radius: 24px;
     padding: 3rem 2rem;
     text-align: center;
     color: white;
     margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(10, 22, 40, 0.2), inset 0 1px 0 rgba(212, 165, 116, 0.2);
+    border: 1px solid rgba(212, 165, 116, 0.3);
 }
 
 .cta-content h3 {
