@@ -154,6 +154,9 @@ class MovieSearchApp {
             </div>
         `;
 
+        resultsContainer.style.display = 'block';
+        resultsContainer.classList.add('show');
+
         // Add click listeners to movie cards
         this.addMovieCardListeners();
 
@@ -245,7 +248,10 @@ class MovieSearchApp {
         const detailsContainer = document.getElementById('movieDetails');
         if (!detailsContainer) return;
 
- const poster = movie.poster !== 'N/A' ? movie.poster : '/public/assets/images/no-image.png';
+        // Check if user is authenticated
+        const isAuthenticated = this.isUserAuthenticated();
+
+        const poster = movie.poster !== 'N/A' ? movie.poster : '/public/assets/images/no-image.png';
         const rating = movie.rating || 0;
         const ratingCount = movie.ratings?.count || 0;
 
@@ -285,19 +291,30 @@ class MovieSearchApp {
                             ${movie.actors && movie.actors !== 'N/A' ? `<p><strong>Cast:</strong> ${movie.actors}</p>` : ''}
                         </div>
 
+                        ${isAuthenticated ? `
                         <div class="rating-section">
                             <h4>Rate this movie:</h4>
                             ${this.createRatingHTML(movie.user_rating || 0, movie.id)}
                             ${ratingCount > 0 ? `<p class="rating-info">Average: ${rating}/5 (${ratingCount} ratings)</p>` : ''}
                         </div>
+                        ` : ''}
 
                         <div class="movie-actions">
-                            <button class="btn btn-primary" onclick="movieAppInstance.addToWatchlist(${movie.id})">
-                                <span>📝</span> Add to Watchlist
-                            </button>
-                            <button class="btn btn-secondary" onclick="movieAppInstance.markAsWatched(${movie.id})">
-                                <span>✅</span> Mark as Watched
-                            </button>
+                            ${isAuthenticated ? `
+                                <button class="btn btn-primary" onclick="movieAppInstance.addToWatchlist(${movie.id})">
+                                    <span>📝</span> Add to Watchlist
+                                </button>
+                                <button class="btn btn-secondary" onclick="movieAppInstance.markAsWatched(${movie.id})">
+                                    <span>✅</span> Mark as Watched
+                                </button>
+                            ` : `
+                                <a href="/login" class="btn btn-primary">
+                                    <span>🔐</span> Login to Add to Watchlist
+                                </a>
+                                <a href="/register" class="btn btn-secondary">
+                                    <span>👑</span> Join to Rate Movies
+                                </a>
+                            `}
                             <button class="btn btn-secondary" onclick="movieAppInstance.generateReview(${movie.id})">
                                 <span>🤖</span> AI Review
                             </button>
@@ -565,6 +582,18 @@ class MovieSearchApp {
         const div = document.createElement('div');
         div.textContent = text || '';
         return div.innerHTML;
+    }
+
+    // Check if user is authenticated
+    isUserAuthenticated() {
+        // Check if there's a session or auth token
+        // This can be improved based on your authentication system
+        return document.body.classList.contains('authenticated') || 
+               document.querySelector('meta[name="user-authenticated"]')?.content === 'true' ||
+               localStorage.getItem('isAuthenticated') === 'true' ||
+               document.cookie.includes('user_session') ||
+               window.location.pathname.includes('/dashboard') ||
+               document.querySelector('.user-info, .user-avatar, .authenticated') !== null;
     }
 
     // Additional methods for user actions
