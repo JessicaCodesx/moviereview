@@ -1,5 +1,4 @@
 <?php
-// Professional Layout Configuration
 if (!isset($config)) {
     $config = require CONFIG_PATH . '/app.php';
 }
@@ -626,24 +625,49 @@ $canonicalUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https
 
     <!-- Service Worker Registration -->
     <script>
-        if ('serviceWorker' in navigator) {
+        // Service Worker registration with enhanced error handling
+        if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js')
+                // Add a small delay to ensure page is fully loaded
+                setTimeout(function() {
+                    navigator.serviceWorker.register('/sw.js', {
+                        scope: '/'
+                    })
                     .then(function(registration) {
-                        console.log('Service Worker registered successfully:', registration.scope);
+                        console.log('✅ Service Worker registered:', registration.scope);
 
-                        // Check for updates
+                        // Handle updates
                         registration.addEventListener('updatefound', function() {
-                            console.log('Service Worker update found');
+                            console.log('🔄 Service Worker update found');
+                            var newWorker = registration.installing;
+                            if (newWorker) {
+                                newWorker.addEventListener('statechange', function() {
+                                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                        console.log('🆕 New Service Worker available');
+                                    }
+                                });
+                            }
                         });
                     })
                     .catch(function(error) {
-                        console.warn('Service Worker registration failed (this is non-critical):', error.message);
-                        // Don't throw or show errors to users - SW is optional enhancement
+                        // More specific error handling
+                        if (error.name === 'SecurityError') {
+                            console.info('ℹ️ Service Worker blocked by security policy (normal on some hosts)');
+                        } else if (error.name === 'TypeError') {
+                            console.info('ℹ️ Service Worker script could not be loaded (may not exist)');
+                        } else {
+                            console.warn('⚠️ Service Worker registration failed:', error.message);
+                        }
+                        // Don't show errors to users - SW is optional
                     });
+                }, 100);
             });
         } else {
-            console.log('Service Worker not supported in this browser');
+            if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') {
+                console.info('ℹ️ Service Worker requires HTTPS (except on localhost)');
+            } else {
+                console.info('ℹ️ Service Worker not supported in this browser');
+            }
         }
     </script>
 </body>
