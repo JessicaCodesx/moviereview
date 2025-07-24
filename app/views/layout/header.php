@@ -1085,7 +1085,7 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
                         signOutBtn.style.pointerEvents = 'none';
 
                         // Make logout request
-                        const response = await fetch('/logout', {
+                        const response = await fetch('/api/auth/logout', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
