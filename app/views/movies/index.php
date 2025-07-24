@@ -1127,29 +1127,44 @@ async function performSearch() {
     searchBtn.disabled = true;
 
     try {
-        // FIXED: Use /api/search instead of /search
-        const response = await fetch(`/api/search?q=${encodeURIComponent(query)}&type=movie&limit=20`);
-        const data = await response.json();
+            const formData = new FormData();
+            formData.append('query', query);
 
-        if (data.success && data.results) {
-            displaySearchResults(data.results, query);
-        } else {
-            displayNoResults(query);
+            const response = await fetch('/api/search', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            if (data.Response === 'True' && data.Search) {
+                displaySearchResults(data.Search, query);
+            } else if (data.Response === 'False') {
+                displayNoResults(query, data.Error);
+            } else {
+                displayError('Unexpected response format');
+            }
+        } catch (error) {
+            console.error('Search error:', error);
+            displayError('Failed to search movies. Please try again.');
+        } finally {
+            // Restore search button
+            searchBtn.innerHTML = `
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="21 21l-4.35-4.35"></path>
+                </svg>
+            `;
+            searchBtn.disabled = false;
         }
-    } catch (error) {
-        console.error('Search error:', error);
-        displayError('Failed to search movies. Please try again.');
-    } finally {
-        // Restore search button
-        searchBtn.innerHTML = `
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="21 21l-4.35-4.35"></path>
-            </svg>
-        `;
-        searchBtn.disabled = false;
     }
-}
 
 function displaySearchResults(results, query) {
     const searchResults = document.getElementById('searchResults');
