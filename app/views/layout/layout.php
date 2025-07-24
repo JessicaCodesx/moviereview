@@ -165,12 +165,12 @@ $canonicalUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https
 
         /* Content Containers */
         .container {
-            max-width: var(--container-max-width);
-            margin: 0 auto;
-            padding: 0 var(--container-padding);
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
             width: 100%;
         }
-
+        
         .content-wrapper {
             padding: 40px 0;
         }
