@@ -58,20 +58,23 @@
             <p>Search through our curated library of exceptional films, acclaimed directors, and renowned performers</p>
         </div>
         <div class="search-box">
-            <div class="search-input-wrapper">
-                <div class="search-field">
-                    <input type="text" 
-                           id="searchInput" 
-                           class="search-input" 
-                           placeholder="Search for films, directors, actors..."
-                           autocomplete="off" />
+                <div class="search-input-wrapper">
+                <form onsubmit="return false;" style="display: contents;">
+                    <div class="search-field">
+                        <input type="text" 
+                               id="searchInput" 
+                               class="search-input" 
+                               placeholder="Search for films, directors, actors..."
+                               value="<?php echo isset($search_query) ? htmlspecialchars($search_query) : ''; ?>"
+                               autocomplete="off" />
                         <button type="button" class="search-btn" aria-label="Search movies" onclick="performSearch()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <path d="21 21l-4.35-4.35"></path>
-                        </svg>
-                    </button>
-                </div>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="21 21l-4.35-4.35"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
                 <div class="search-enhancement"></div>
             </div>
             <div class="search-suggestions">
