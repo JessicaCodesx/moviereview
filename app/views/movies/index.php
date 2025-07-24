@@ -1093,20 +1093,22 @@ body {
 </style>
 
 <script>
-// Movie App Instance (placeholder for existing functionality)
-const movieAppInstance = {
-    loadMovieDetails: function(imdbId) {
-        console.log('Loading movie details for:', imdbId);
-        // Your existing movie details functionality
-    },
+    // Movie App Instance - Check if already exists from app.js
+    if (typeof window.movieAppInstance === 'undefined') {
+        // Fallback movie app instance if main app.js is not loaded
+        window.movieAppInstance = {
+            loadMovieDetails: function(imdbId) {
+                console.log('Loading movie details for:', imdbId);
+                // Your existing movie details functionality
+            },
 
-    showToast: function(message, type) {
-        console.log(`Toast [${type}]:`, message);
-        // Your existing toast functionality
+            showToast: function(message, type) {
+                console.log(`Toast [${type}]:`, message);
+                // Your existing toast functionality
+            }
+        };
     }
-};
 
-// FIXED SEARCH FUNCTIONALITY - Now uses /api/search
 async function performSearch() {
     const searchInput = document.getElementById('searchInput');
     const searchBtn = document.querySelector('.search-btn');
