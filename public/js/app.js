@@ -257,69 +257,67 @@ class MovieSearchApp {
         const ratingCount = movie.ratings?.count || 0;
 
         detailsContainer.innerHTML = `
-            <div class="movie-detail-card">
-                <button class="close-btn" onclick="movieAppInstance.closeMovieDetails()">✖️</button>
-
-                <div class="movie-detail-content">
-                    <div class="movie-detail-poster">
-                        <img src="${poster}" 
-                             alt="${this.escapeHtml(movie.title || movie.Title)}"
-                             onerror="this.src='/public/assets/images/no-image.png'">
+            <div class="movie-card">
+                <button class="movie-details-close-btn" onclick="movieAppInstance.closeMovieDetails()" title="Close Details">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+                <div class="movie-poster">
+                    <img src="${poster}" 
+                         alt="${this.escapeHtml(movie.title || movie.Title)}"
+                         onerror="this.src='/public/assets/images/no-image.png'">
+                    <div class="movie-overlay">
+                        <button class="play-button">👁️ Show Details</button>
                     </div>
-
-                    <div class="movie-detail-info">
-                        <h2>${this.escapeHtml(movie.title || movie.Title)} (${movie.year || movie.Year})</h2>
-
-                        <div class="movie-meta">
-                            <span class="meta-badge">Rated: ${movie.rated || 'NR'}</span>
-                            <span class="meta-badge">${movie.runtime || 'Unknown'}</span>
-                            <span class="meta-badge">⭐ ${movie.rating || 'N/A'}/10</span>
-                        </div>
-
-                        <div class="movie-genres">
-                            ${movie.genre ? movie.genre.split(',').map(genre => 
-                                `<span class="genre-tag">${genre.trim()}</span>`
-                            ).join('') : ''}
-                        </div>
-
-                        <div class="plot-section">
-                            <h4>Plot</h4>
-                            <p>${movie.plot && movie.plot !== 'N/A' ? movie.plot : 'No plot available.'}</p>
-                        </div>
-
-                        <div class="cast-crew">
-                            ${movie.director && movie.director !== 'N/A' ? `<p><strong>Director:</strong> ${movie.director}</p>` : ''}
-                            ${movie.actors && movie.actors !== 'N/A' ? `<p><strong>Cast:</strong> ${movie.actors}</p>` : ''}
-                        </div>
-
+                </div>
+                <div class="movie-content">
+                    <h2>${this.escapeHtml(movie.title || movie.Title)} (${movie.year || movie.Year})</h2>
+                    <div class="movie-meta">
+                        <span class="meta-item">Rated: ${movie.rated || 'NR'}</span>
+                        <span class="meta-item">${movie.runtime || 'Unknown'}</span>
+                        <span class="meta-item">⭐ ${movie.rating || 'N/A'}/10</span>
+                    </div>
+                    <div class="movie-genres">
+                        ${movie.genre ? movie.genre.split(',').map(genre => 
+                            `<span class="genre-tag">${genre.trim()}</span>`
+                        ).join('') : ''}
+                    </div>
+                    <div class="plot-section">
+                        <h4>Plot</h4>
+                        <p>${movie.plot && movie.plot !== 'N/A' ? movie.plot : 'No plot available.'}</p>
+                    </div>
+                    <div class="cast-crew">
+                        ${movie.director && movie.director !== 'N/A' ? `<p><strong>Director:</strong> ${movie.director}</p>` : ''}
+                        ${movie.actors && movie.actors !== 'N/A' ? `<p><strong>Cast:</strong> ${movie.actors}</p>` : ''}
+                    </div>
+                    ${isAuthenticated ? `
+                    <div class="rating-section">
+                        <h4>Rate this movie:</h4>
+                        ${this.createRatingHTML(movie.user_rating || 0, movie.id)}
+                        ${ratingCount > 0 ? `<p class="rating-info">Average: ${rating}/5 (${ratingCount} ratings)</p>` : ''}
+                    </div>
+                    ` : ''}
+                    <div class="movie-actions">
                         ${isAuthenticated ? `
-                        <div class="rating-section">
-                            <h4>Rate this movie:</h4>
-                            ${this.createRatingHTML(movie.user_rating || 0, movie.id)}
-                            ${ratingCount > 0 ? `<p class="rating-info">Average: ${rating}/5 (${ratingCount} ratings)</p>` : ''}
-                        </div>
-                        ` : ''}
-
-                        <div class="movie-actions">
-                            ${isAuthenticated ? `
-                                <button class="btn btn-primary" onclick="movieAppInstance.addToWatchlist(${movie.id})">
-                                    <span>📝</span> Add to Watchlist
-                                </button>
-                                <button class="btn btn-secondary" onclick="movieAppInstance.markAsWatched(${movie.id})">
-                                    <span>✅</span> Mark as Watched
-                                </button>
-                            ` : `
-                                <a href="/login" class="btn btn-primary">
-                                    <span>🔐</span> Login to Add to Watchlist
-                                </a>
-                                <a href="/register" class="btn btn-secondary">
-                                    <span>👑</span> Join to Rate Movies
-                                </a>
-                            `}
-                            <button class="btn btn-secondary" onclick="movieAppInstance.generateReview(${movie.id})">
-                                <span>🤖</span> AI Review
+                            <button class="btn btn-primary" onclick="movieAppInstance.addToWatchlist(${movie.id})">
+                                <span>📝</span> Add to Watchlist
                             </button>
-                        </div>
+                            <button class="btn btn-secondary" onclick="movieAppInstance.markAsWatched(${movie.id})">
+                                <span>✅</span> Mark as Watched
+                            </button>
+                        ` : `
+                            <a href="/login" class="btn btn-primary">
+                                <span>🔐</span> Login to Add to Watchlist
+                            </a>
+                            <a href="/register" class="btn btn-secondary">
+                                <span>👑</span> Join to Rate Movies
+                            </a>
+                        `}
+                        <button class="btn btn-secondary" onclick="movieAppInstance.generateReview(${movie.id})">
+                            <span>🤖</span> AI Review
+                        </button>
                     </div>
                 </div>
             </div>
