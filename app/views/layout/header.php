@@ -1096,8 +1096,8 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
                         });
 
                         if (response.ok) {
-                            // Redirect to login page
-                            window.location.href = '/login';
+                            // Redirect to movies index (public landing page)
+                            window.location.href = '/';
                         } else {
                             throw new Error('Logout failed');
                         }
