@@ -44,8 +44,8 @@ class MovieController extends BaseController {
         error_log("Raw input: " . file_get_contents('php://input'));
 
         try {
-            // Get query from POST data
-            $query = $_POST['query'] ?? '';
+            // Get query from POST data, GET parameters, or JSON input
+            $query = $_POST['query'] ?? $_GET['q'] ?? $_GET['query'] ?? '';
 
             // Also check for JSON input (in case frontend sends JSON)
             if (empty($query)) {

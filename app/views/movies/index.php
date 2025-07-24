@@ -60,7 +60,8 @@ $isLoggedIn = isset($_SESSION['user']) && !empty($_SESSION['user']['id']);
                     <input type="text" 
                            id="searchInput" 
                            class="search-input" 
-                           placeholder="Search for films, directors, or actors..." 
+                           placeholder="Search for films, directors, or actors..."
+                        style="width: 100%; min-width: 0;"
                            autocomplete="off" />
                     <button class="search-btn" aria-label="Search movies">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

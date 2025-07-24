@@ -135,7 +135,8 @@ try {
     $router->get('/watched', 'Controllers\UserController@watchedMovies');
 
     // Movie API routes
-    $router->post('/api/search', 'Controllers\MovieController@search');
+    $router->get('/api/search', 'Controllers\MovieController@search'); // Support GET for direct access
+    $router->post('/api/search', 'Controllers\MovieController@search'); // Support POST for AJAX
     $router->post('/api/movie', 'Controllers\MovieController@getMovie');
     $router->post('/api/rate', 'Controllers\RatingController@addRating');
     $router->post('/api/review', 'Controllers\ReviewController@generateReview');
