@@ -13,10 +13,10 @@ $isAuthPage = in_array($currentPath, ['/login', '/register']);
     left: 0;
     right: 0;
     z-index: 1000;
-    background: <?php echo $isAuthPage ? 'rgba(0, 0, 0, 0.95)' : 'rgba(255, 255, 255, 0.98)'; ?>;
+    background: <?php echo $isAuthPage ? 'rgba(25, 35, 96, 0.95)' : 'rgba(25, 35, 96, 0.98)'; ?>;
     backdrop-filter: blur(20px) saturate(180%);
-    border-bottom: 1px solid <?php echo $isAuthPage ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'; ?>;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid <?php echo $isAuthPage ? 'rgba(255, 215, 0, 0.3)' : 'rgba(255, 215, 0, 0.4)'; ?>;
+    box-shadow: 0 2px 20px rgba(25, 35, 96, 0.3);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -47,15 +47,17 @@ body {
     align-items: center;
     gap: 10px;
     text-decoration: none;
-    color: <?php echo $isAuthPage ? 'white' : '#6366f1'; ?>;
+    color: <?php echo $isAuthPage ? '#FFD700' : '#FFD700'; ?>;
     font-size: 1.5rem;
     font-weight: 900;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .brand-link:hover {
     transform: scale(1.02);
-    color: <?php echo $isAuthPage ? 'rgba(255, 255, 255, 0.8)' : '#4f46e5'; ?>;
+    color: <?php echo $isAuthPage ? '#FFF8DC' : '#FFF8DC'; ?>;
+    text-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
 }
 
 .brand-icon {
@@ -72,8 +74,8 @@ body {
 .header-search {
     display: <?php echo $isAuthPage ? 'none' : 'flex'; ?>;
     align-items: center;
-    background: rgba(255, 255, 255, 0.9);
-    border: 2px solid rgba(99, 102, 241, 0.1);
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 215, 0, 0.3);
     border-radius: 50px;
     padding: 12px 20px;
     gap: 12px;
@@ -81,12 +83,13 @@ body {
     min-width: 300px;
     max-width: 450px;
     width: 100%;
+    backdrop-filter: blur(10px);
 }
 
 .header-search:focus-within {
-    background: white;
-    border-color: #6366f1;
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1), 0 8px 25px rgba(99, 102, 241, 0.15);
+    background: rgba(255, 255, 255, 0.25);
+    border-color: #FFD700;
+    box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.2), 0 8px 25px rgba(255, 215, 0, 0.3);
     transform: translateY(-2px);
 }
 
@@ -96,17 +99,17 @@ body {
     outline: none;
     flex: 1;
     font-size: 1rem;
-    color: #374151;
+    color: white;
     font-weight: 500;
 }
 
 .search-input::placeholder {
-    color: #9ca3af;
+    color: rgba(255, 255, 255, 0.7);
     font-weight: 400;
 }
 
 .search-btn {
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    background: linear-gradient(135deg, #FFD700, #DAA520);
     border: none;
     border-radius: 50%;
     width: 38px;
@@ -114,15 +117,17 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: #192360;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-size: 1rem;
+    font-weight: bold;
 }
 
 .search-btn:hover {
     transform: scale(1.1);
-    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+    background: linear-gradient(135deg, #FFF8DC, #FFD700);
 }
 
 /* Auth Page Header Info */
@@ -130,9 +135,10 @@ body {
     display: <?php echo $isAuthPage ? 'flex' : 'none'; ?>;
     align-items: center;
     gap: 12px;
-    color: rgba(255, 255, 255, 0.9);
+    color: #FFD700;
     font-weight: 600;
     font-size: 1.1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .auth-info-icon {
@@ -159,7 +165,7 @@ body {
     padding: 10px 16px;
     border-radius: 14px;
     text-decoration: none;
-    color: #374151;
+    color: rgba(255, 255, 255, 0.9);
     font-weight: 600;
     font-size: 0.95rem;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -174,7 +180,7 @@ body {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(99,102,241,0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255,215,0,0.2), transparent);
     transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -184,10 +190,10 @@ body {
 
 .nav-link:hover,
 .nav-link.active {
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    color: white;
+    background: linear-gradient(135deg, #FFD700, #DAA520);
+    color: #192360;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
 }
 
 .nav-icon {
@@ -216,26 +222,28 @@ body {
 }
 
 .btn-secondary {
-    background: <?php echo $isAuthPage ? 'rgba(255, 255, 255, 0.15)' : 'rgba(99, 102, 241, 0.1)'; ?>;
-    color: <?php echo $isAuthPage ? 'white' : '#6366f1'; ?>;
-    border: 2px solid <?php echo $isAuthPage ? 'rgba(255, 255, 255, 0.3)' : 'rgba(99, 102, 241, 0.2)'; ?>;
+    background: <?php echo $isAuthPage ? 'rgba(255, 215, 0, 0.15)' : 'rgba(255, 215, 0, 0.1)'; ?>;
+    color: <?php echo $isAuthPage ? '#FFD700' : '#FFD700'; ?>;
+    border: 2px solid <?php echo $isAuthPage ? 'rgba(255, 215, 0, 0.4)' : 'rgba(255, 215, 0, 0.3)'; ?>;
 }
 
 .btn-secondary:hover {
-    background: <?php echo $isAuthPage ? 'rgba(255, 255, 255, 0.25)' : 'rgba(99, 102, 241, 0.15)'; ?>;
+    background: <?php echo $isAuthPage ? 'rgba(255, 215, 0, 0.25)' : 'rgba(255, 215, 0, 0.2)'; ?>;
     transform: translateY(-2px);
-    box-shadow: <?php echo $isAuthPage ? '0 8px 25px rgba(255, 255, 255, 0.2)' : '0 8px 25px rgba(99, 102, 241, 0.2)'; ?>;
+    box-shadow: <?php echo $isAuthPage ? '0 8px 25px rgba(255, 215, 0, 0.3)' : '0 8px 25px rgba(255, 215, 0, 0.4)'; ?>;
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    color: white;
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+    background: linear-gradient(135deg, #FFD700, #DAA520);
+    color: #192360;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    font-weight: 700;
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+    background: linear-gradient(135deg, #FFF8DC, #FFD700);
 }
 
 /* Mobile Menu Toggle */
@@ -254,13 +262,15 @@ body {
 .hamburger-line {
     width: 24px;
     height: 3px;
-    background: <?php echo $isAuthPage ? 'white' : '#374151'; ?>;
+    background: <?php echo $isAuthPage ? '#FFD700' : '#FFD700'; ?>;
     border-radius: 2px;
     transition: all 0.3s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .mobile-toggle:hover .hamburger-line {
-    background: <?php echo $isAuthPage ? 'rgba(255, 255, 255, 0.8)' : '#6366f1'; ?>;
+    background: <?php echo $isAuthPage ? '#FFF8DC' : '#FFF8DC'; ?>;
+    box-shadow: 0 2px 4px rgba(255, 215, 0, 0.3);
 }
 
 /* Mobile Menu */
@@ -268,11 +278,12 @@ body {
     display: none;
     grid-column: 1 / -1;
     margin-top: 20px;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(25, 35, 96, 0.95);
     backdrop-filter: blur(20px);
     border-radius: 16px;
     padding: 20px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 215, 0, 0.2);
 }
 
 .mobile-search {
