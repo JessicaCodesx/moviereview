@@ -1,5 +1,4 @@
 <?php
-// Professional Regal Header - Full Width Design
 $config = require CONFIG_PATH . '/app.php';
 $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
 $isAuthPage = in_array($currentPath, ['/login', '/register']);
@@ -586,7 +585,7 @@ body {
                 <?php endif; ?>
                 <?php if ($currentPath !== '/register'): ?>
                     <a href="/register" class="btn btn-primary">
-                        <span>👑</span>Join Elite
+                        <span>👑</span>Join 
                     </a>
                 <?php endif; ?>
             </div>
