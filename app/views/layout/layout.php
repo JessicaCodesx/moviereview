@@ -630,12 +630,20 @@ $canonicalUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https
             window.addEventListener('load', function() {
                 navigator.serviceWorker.register('/sw.js')
                     .then(function(registration) {
-                        console.log('SW registered: ', registration);
+                        console.log('Service Worker registered successfully:', registration.scope);
+
+                        // Check for updates
+                        registration.addEventListener('updatefound', function() {
+                            console.log('Service Worker update found');
+                        });
                     })
-                    .catch(function(registrationError) {
-                        console.log('SW registration failed: ', registrationError);
+                    .catch(function(error) {
+                        console.warn('Service Worker registration failed (this is non-critical):', error.message);
+                        // Don't throw or show errors to users - SW is optional enhancement
                     });
             });
+        } else {
+            console.log('Service Worker not supported in this browser');
         }
     </script>
 </body>
