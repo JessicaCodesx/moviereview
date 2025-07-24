@@ -652,13 +652,14 @@ $isLoggedIn = isset($_SESSION['user']) && !empty($_SESSION['user']['id']);
     font-weight: 700;
     color: var(--regal-accent);
     margin-bottom: 15px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .search-header p {
     font-size: 1.1rem;
-    color: var(--regal-text-muted);
+    color: rgba(255, 255, 255, 0.8);
     line-height: 1.6;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .search-box {
@@ -682,11 +683,12 @@ $isLoggedIn = isset($_SESSION['user']) && !empty($_SESSION['user']['id']);
     position: relative;
     display: flex;
     align-items: center;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
     border: 2px solid var(--regal-border);
     border-radius: 20px;
     padding: 8px;
     transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
 }
 
 .search-field:focus-within {
@@ -699,24 +701,25 @@ $isLoggedIn = isset($_SESSION['user']) && !empty($_SESSION['user']['id']);
 
 .search-input {
     flex: 1;
-    background: transparent;
+    background: rgba(0, 0, 0, 0.3);
     border: none;
     padding: 16px 20px;
     font-size: 1.1rem;
-    color: var(--regal-text);
+    color: #ffffff;
     font-weight: 500;
     outline: none;
+    border-radius: 12px;
 }
 
 .search-input::placeholder {
-    color: var(--regal-text-muted);
+    color: rgba(255, 255, 255, 0.6);
     font-weight: 400;
 }
 
 .search-btn {
     background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
     border: none;
-    border-radius: 50%;
+    border-radius: 12px;
     width: 48px;
     height: 48px;
     display: flex;
@@ -726,15 +729,23 @@ $isLoggedIn = isset($_SESSION['user']) && !empty($_SESSION['user']['id']);
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 
-        0 4px 12px rgba(218, 165, 32, 0.3),
+        0 4px 12px rgba(218, 165, 32, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    margin-left: 8px;
 }
 
 .search-btn:hover {
-    transform: scale(1.1);
+    transform: scale(1.05) translateY(-1px);
     box-shadow: 
-        0 8px 25px rgba(218, 165, 32, 0.5),
+        0 8px 25px rgba(218, 165, 32, 0.6),
         inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.search-btn:active {
+    transform: scale(0.98);
+    box-shadow: 
+        0 2px 8px rgba(218, 165, 32, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .search-enhancement {
@@ -763,10 +774,11 @@ $isLoggedIn = isset($_SESSION['user']) && !empty($_SESSION['user']['id']);
 
 .suggestions-label {
     font-size: 0.9rem;
-    color: var(--regal-text-muted);
+    color: rgba(255, 255, 255, 0.7);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .suggestion-tags {
@@ -780,7 +792,7 @@ $isLoggedIn = isset($_SESSION['user']) && !empty($_SESSION['user']['id']);
     display: flex;
     align-items: center;
     gap: 8px;
-    background: rgba(218, 165, 32, 0.15);
+    background: rgba(218, 165, 32, 0.2);
     color: var(--regal-accent);
     padding: 10px 16px;
     border-radius: 20px;
@@ -789,7 +801,8 @@ $isLoggedIn = isset($_SESSION['user']) && !empty($_SESSION['user']['id']);
     border: 1px solid var(--regal-border);
     cursor: pointer;
     transition: all 0.3s ease;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
 }
 
 .suggestion-tag:hover {
