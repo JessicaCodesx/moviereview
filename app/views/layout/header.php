@@ -1,5 +1,4 @@
 <?php
-// Professional Regal Authenticated User Header - Full Width Design
 $config = require CONFIG_PATH . '/app.php';
 $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
 
@@ -7,48 +6,15 @@ $currentPath = $_SERVER['REQUEST_URI'] ?? '/';
 $user = $_SESSION['user'] ?? null;
 $userName = $user['username'] ?? $user['email'] ?? 'User';
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $config['app_name']; ?><?php echo $currentPath !== '/' ? ' - ' . ucfirst(trim($currentPath, '/')) : ''; ?></title>
 
-    <!-- Essential Meta Tags -->
-    <meta name="description" content="Discover, rate, and review your favorite movies. Track your watchlist and get personalized recommendations.">
-    <meta name="keywords" content="movies, reviews, ratings, watchlist, cinema, films">
-    <meta name="author" content="<?php echo $config['app_name']; ?>">
-    <meta name="user-authenticated" content="<?php echo $user ? 'true' : 'false'; ?>">
-    <meta property="og:title" content="<?php echo $config['app_name']; ?>">
-    <meta property="og:description" content="Your ultimate movie discovery and rating platform">
-    <meta property="og:type" content="website">
-    <link rel="icon" type="image/x-icon" href="/public/assets/images/favicon.ico">
-    <meta name="theme-color" content="#1a1f3a">
-
-    <!-- Professional Regal Header CSS -->
-    <style>
+<!-- Professional Regal Header CSS -->
+<style>
         /* CRITICAL: Inline essential styles for immediate rendering */
         * {
             box-sizing: border-box;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif !important;
-            background: linear-gradient(135deg, #0f1419 0%, #1a1f3a 50%, #0f1419 100%) !important;
-            min-height: 100vh !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            padding-top: 96px !important; /* Account for fixed header */
-            color: white !important;
-            line-height: 1.6 !important;
-            transform: translate3d(0, 0, 0) !important;
-        }
-
-        .container {
-            max-width: 1400px !important;
-            margin: 0 auto !important;
-            padding: 20px !important;
-        }
+        /* Body styles are handled by the main layout */
 
         /* Professional Regal Header Wrapper */
         .regal-auth-header-wrapper {
@@ -829,8 +795,7 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
             animation: brandGlow 2s ease-in-out infinite;
         }
     </style>
-</head>
-<body class="loaded">
+
     <div class="regal-auth-header-wrapper" id="regalAuthHeader">
         <header class="regal-auth-header" role="banner">
             <!-- Brand Section -->
@@ -1002,9 +967,8 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
         </header>
     </div>
 
-    <div class="container">
-        <!-- Enhanced Search Functionality -->
-        <script>
+    <!-- Enhanced Search Functionality -->
+    <script>
             // Performance-optimized search functions
             let searchTimeout;
 
@@ -1335,6 +1299,3 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
                 });
             }
         </script>
-    </div>
-</body>
-</html>

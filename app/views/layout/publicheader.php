@@ -56,9 +56,7 @@ $isAuthPage = in_array($currentPath, ['/login', '/register']);
     border-radius: 1px;
 }
 
-body {
-    padding-top: 96px; /* Account for fixed header */
-}
+/* Body padding is handled by .page-main in the main layout */
 
 /* Brand Section */
 .header-brand {
@@ -456,9 +454,7 @@ body {
         font-size: 2rem;
     }
 
-    body {
-        padding-top: 88px;
-    }
+    /* Body padding is handled by .page-main in the main layout */
 }
 
 @media (max-width: 480px) {
@@ -480,9 +476,7 @@ body {
         padding: 10px 18px;
     }
 
-    body {
-        padding-top: 84px;
-    }
+    /* Body padding is handled by .page-main in the main layout */
 }
 
 /* Show mobile menu when active */
