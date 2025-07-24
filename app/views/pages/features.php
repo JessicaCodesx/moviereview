@@ -328,6 +328,9 @@ document.addEventListener('DOMContentLoaded', () => {
     background: linear-gradient(135deg, var(--regal-secondary) 0%, var(--regal-primary) 50%, var(--regal-secondary) 100%);
     position: relative;
     overflow-x: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 /* Background Animation */
@@ -608,11 +611,12 @@ document.addEventListener('DOMContentLoaded', () => {
 /* Elite Content Container */
 .elite-features-content {
     width: 100%;
-    margin: 0;
+    margin: 0 auto;
     padding: 0 40px 60px;
     display: flex;
     flex-direction: column;
     gap: 60px;
+    max-width: 1600px;
 }
 
 /* Royal Features Grid */
