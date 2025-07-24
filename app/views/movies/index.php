@@ -1228,8 +1228,12 @@ function displayError(message) {
 
 function loadMovieDetails(imdbId) {
     console.log('Loading details for movie:', imdbId);
-    // Your existing movie details functionality
-    movieAppInstance.loadMovieDetails(imdbId);
+    if (window.movieAppInstance && typeof window.movieAppInstance.loadMovieDetails === 'function') {
+        window.movieAppInstance.loadMovieDetails(imdbId);
+    } else {
+        console.warn('movieAppInstance not available, redirecting to movie details page');
+        window.location.href = `/movie/${imdbId}`;
+    }
 }
 
 // Enhanced Statistics Counter Animation
