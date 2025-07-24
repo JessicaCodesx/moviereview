@@ -343,6 +343,8 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2) !important;
             position: relative !important;
             overflow: hidden !important;
+            border: none !important;
+            background: transparent !important;
         }
 
         .user-trigger::before {
@@ -407,6 +409,166 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
 
         .user-trigger:hover .user-name {
             color: #f4d03f !important;
+        }
+
+        /* User Dropdown Menu */
+        .user-dropdown {
+            position: absolute !important;
+            top: calc(100% + 10px) !important;
+            right: 0 !important;
+            background: linear-gradient(135deg, rgba(26, 31, 58, 0.98), rgba(15, 20, 25, 0.98)) !important;
+            backdrop-filter: blur(25px) saturate(180%) !important;
+            border: 2px solid rgba(218, 165, 32, 0.4) !important;
+            border-radius: 18px !important;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.5),
+                0 8px 25px rgba(218, 165, 32, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+            min-width: 220px !important;
+            z-index: 1001 !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            transform: translateY(-10px) scale(0.95) !important;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1) !important;
+        }
+
+        .user-dropdown::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            right: 24px;
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, rgba(26, 31, 58, 0.98), rgba(15, 20, 25, 0.98));
+            border: 2px solid rgba(218, 165, 32, 0.4);
+            border-bottom: none;
+            border-right: none;
+            transform: rotate(45deg);
+            backdrop-filter: blur(25px);
+        }
+
+        .user-section:hover .user-dropdown,
+        .user-dropdown:hover {
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: translateY(0) scale(1) !important;
+        }
+
+        .dropdown-header {
+            padding: 20px 20px 15px 20px !important;
+            border-bottom: 1px solid rgba(218, 165, 32, 0.2) !important;
+            text-align: center !important;
+        }
+
+        .dropdown-user-avatar {
+            width: 48px !important;
+            height: 48px !important;
+            background: linear-gradient(135deg, #daa520, #f4d03f) !important;
+            border-radius: 50% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            color: #1a1f3a !important;
+            font-weight: 800 !important;
+            font-size: 1.2rem !important;
+            margin: 0 auto 12px auto !important;
+            box-shadow: 
+                0 4px 12px rgba(218, 165, 32, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+            border: 2px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .dropdown-user-name {
+            color: #daa520 !important;
+            font-weight: 700 !important;
+            font-size: 1rem !important;
+            margin-bottom: 5px !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .dropdown-user-role {
+            color: rgba(255, 255, 255, 0.7) !important;
+            font-size: 0.85rem !important;
+            font-weight: 500 !important;
+        }
+
+        .dropdown-menu {
+            padding: 8px !important;
+        }
+
+        .dropdown-item {
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            padding: 12px 16px !important;
+            border-radius: 12px !important;
+            text-decoration: none !important;
+            color: rgba(255, 255, 255, 0.85) !important;
+            font-weight: 600 !important;
+            font-size: 0.95rem !important;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1) !important;
+            position: relative !important;
+            overflow: hidden !important;
+            border: none !important;
+            background: transparent !important;
+            width: 100% !important;
+            cursor: pointer !important;
+        }
+
+        .dropdown-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(218, 165, 32, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .dropdown-item:hover::before {
+            left: 100%;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(218, 165, 32, 0.15) !important;
+            color: #f4d03f !important;
+            transform: translateX(4px) !important;
+        }
+
+        .dropdown-item-icon {
+            font-size: 1.1rem !important;
+            opacity: 0.8 !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .dropdown-item:hover .dropdown-item-icon {
+            opacity: 1 !important;
+            transform: scale(1.1) !important;
+        }
+
+        .dropdown-divider {
+            height: 1px !important;
+            background: linear-gradient(90deg, transparent, rgba(218, 165, 32, 0.3), transparent) !important;
+            margin: 8px 12px !important;
+            border: none !important;
+        }
+
+        .dropdown-item.danger {
+            color: rgba(255, 107, 107, 0.9) !important;
+        }
+
+        .dropdown-item.danger:hover {
+            background: rgba(255, 107, 107, 0.15) !important;
+            color: #ff6b6b !important;
+        }
+
+        .dropdown-item.danger .dropdown-item-icon {
+            color: rgba(255, 107, 107, 0.8) !important;
+        }
+
+        .dropdown-item.danger:hover .dropdown-item-icon {
+            color: #ff6b6b !important;
         }
 
         /* Mobile Toggle */
@@ -732,13 +894,50 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
 
                 <!-- Elite User Menu -->
                 <div class="user-section">
-                    <a href="/profile" class="user-trigger" aria-label="User menu">
+                    <button class="user-trigger" aria-label="User menu" onclick="toggleUserDropdown(event)">
                         <div class="user-avatar">
                             <?php echo strtoupper(substr($userName, 0, 1)); ?>
                         </div>
                         <span class="user-name"><?php echo htmlspecialchars($userName); ?></span>
                         <span class="dropdown-icon">▼</span>
-                    </a>
+                    </button>
+
+                    <!-- User Dropdown Menu -->
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="dropdown-header">
+                            <div class="dropdown-user-avatar">
+                                <?php echo strtoupper(substr($userName, 0, 1)); ?>
+                            </div>
+                            <div class="dropdown-user-name"><?php echo htmlspecialchars($userName); ?></div>
+                            <div class="dropdown-user-role">Elite Member</div>
+                        </div>
+
+                        <div class="dropdown-menu">
+                            <a href="/profile" class="dropdown-item">
+                                <span class="dropdown-item-icon">👤</span>
+                                <span>My Profile</span>
+                            </a>
+                            <a href="/watchlist" class="dropdown-item">
+                                <span class="dropdown-item-icon">📜</span>
+                                <span>My Watchlist</span>
+                            </a>
+                            <a href="/watched" class="dropdown-item">
+                                <span class="dropdown-item-icon">✨</span>
+                                <span>Watched Movies</span>
+                            </a>
+                            <a href="/settings" class="dropdown-item">
+                                <span class="dropdown-item-icon">⚙️</span>
+                                <span>Settings</span>
+                            </a>
+
+                            <hr class="dropdown-divider">
+
+                            <button onclick="signOut()" class="dropdown-item danger">
+                                <span class="dropdown-item-icon">🚪</span>
+                                <span>Sign Out</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Mobile Menu Toggle -->
@@ -792,6 +991,11 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
                         </div>
                         <span class="user-name"><?php echo htmlspecialchars($userName); ?></span>
                     </a>
+
+                    <!-- Mobile Sign Out -->
+                    <button onclick="signOut()" class="nav-link" style="color: rgba(255, 107, 107, 0.9); margin-top: 12px; border: 1px solid rgba(255, 107, 107, 0.3);">
+                        <span class="nav-icon">🚪</span>Sign Out
+                    </button>
                 </div>
             </div>
         </header>
@@ -849,6 +1053,65 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
                 }
             }
 
+            // User dropdown toggle functionality
+            function toggleUserDropdown(event) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                const dropdown = document.getElementById('userDropdown');
+                const isVisible = dropdown.style.opacity === '1' || dropdown.classList.contains('show');
+
+                if (isVisible) {
+                    dropdown.style.opacity = '0';
+                    dropdown.style.visibility = 'hidden';
+                    dropdown.style.transform = 'translateY(-10px) scale(0.95)';
+                    dropdown.classList.remove('show');
+                } else {
+                    dropdown.style.opacity = '1';
+                    dropdown.style.visibility = 'visible';
+                    dropdown.style.transform = 'translateY(0) scale(1)';
+                    dropdown.classList.add('show');
+                }
+            }
+
+            // Sign out functionality
+            async function signOut() {
+                if (confirm('Are you sure you want to sign out?')) {
+                    try {
+                        // Show loading state
+                        const signOutBtn = event.target.closest('.dropdown-item');
+                        const originalText = signOutBtn.innerHTML;
+                        signOutBtn.innerHTML = '<span class="dropdown-item-icon">⏳</span><span>Signing out...</span>';
+                        signOutBtn.style.pointerEvents = 'none';
+
+                        // Make logout request
+                        const response = await fetch('/logout', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-Requested-With': 'XMLHttpRequest'
+                            },
+                            credentials: 'same-origin'
+                        });
+
+                        if (response.ok) {
+                            // Redirect to login page
+                            window.location.href = '/login';
+                        } else {
+                            throw new Error('Logout failed');
+                        }
+                    } catch (error) {
+                        console.error('Logout error:', error);
+                        alert('Error signing out. Please try again.');
+
+                        // Reset button
+                        const signOutBtn = event.target.closest('.dropdown-item');
+                        signOutBtn.innerHTML = '<span class="dropdown-item-icon">🚪</span><span>Sign Out</span>';
+                        signOutBtn.style.pointerEvents = 'auto';
+                    }
+                }
+            }
+
             // Debounced search suggestions
             function setupSearchSuggestions() {
                 const searchInput = document.getElementById('headerSearchInput');
@@ -902,16 +1165,28 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
             // Throttled scroll listener
             window.addEventListener('scroll', handleScroll, { passive: true });
 
-            // Close mobile menu when clicking outside
+            // Close mobile menu and user dropdown when clicking outside
             document.addEventListener('click', function(event) {
                 const mobileMenu = document.getElementById('mobileMenu');
                 const mobileToggle = document.getElementById('mobileToggle');
+                const userDropdown = document.getElementById('userDropdown');
+                const userSection = document.querySelector('.user-section');
 
+                // Close mobile menu
                 if (mobileMenu && mobileToggle && 
                     !mobileMenu.contains(event.target) && 
                     !mobileToggle.contains(event.target)) {
                     mobileMenu.classList.remove('active');
                     mobileToggle.classList.remove('active');
+                }
+
+                // Close user dropdown
+                if (userDropdown && userSection && 
+                    !userSection.contains(event.target)) {
+                    userDropdown.style.opacity = '0';
+                    userDropdown.style.visibility = 'hidden';
+                    userDropdown.style.transform = 'translateY(-10px) scale(0.95)';
+                    userDropdown.classList.remove('show');
                 }
             });
 
