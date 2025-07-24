@@ -1,5 +1,4 @@
 <?php
-// Professional Layout Configuration
 if (!isset($config)) {
     $config = require CONFIG_PATH . '/app.php';
 }
@@ -170,9 +169,16 @@ $canonicalUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https
             padding: 0;
             width: 100%;
         }
-        
+
         .content-wrapper {
             padding: 40px 0;
+        }
+
+        /* Full Width Container for special pages */
+        .full-width-container {
+            width: 100%;
+            margin: 0;
+            padding: 0;
         }
 
         .auth-content-wrapper {
@@ -317,12 +323,23 @@ $canonicalUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https
                     <?php echo $content; ?>
                 </div>
             <?php else: ?>
-                <!-- Regular Pages - Contained -->
-                <div class="container">
-                    <div class="content-wrapper">
+                <!-- Regular Pages - Check if page needs full width -->
+                <?php 
+    $fullWidthPages = ['/features', '/about', '/contact', '/', '/dashboard', '/register', '/login'];                $isFullWidthPage = in_array($currentPath, $fullWidthPages);
+                ?>
+                <?php if ($isFullWidthPage): ?>
+                    <!-- Full Width Pages -->
+                    <div class="full-width-container">
                         <?php echo $content; ?>
                     </div>
-                </div>
+                <?php else: ?>
+                    <!-- Regular Pages - Contained -->
+                    <div class="container">
+                        <div class="content-wrapper">
+                            <?php echo $content; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
             <?php endif; ?>
         </main>
 

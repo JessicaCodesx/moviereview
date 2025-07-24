@@ -140,7 +140,6 @@ body {
     min-height: 100vh;
     margin: 0;
     padding: 0;
-    padding-top: 86px; /* Account for fixed header */
     overflow-x: hidden;
     position: relative;
     transform: translate3d(0, 0, 0);
@@ -195,6 +194,15 @@ body {
     max-width: 1400px;
     margin: 0 auto;
     padding: var(--space-4);
+    position: relative;
+    z-index: 1;
+}
+
+/* Full width container for special pages */
+.full-width-container {
+    width: 100%;
+    margin: 0;
+    padding: 0;
     position: relative;
     z-index: 1;
 }
