@@ -1342,6 +1342,15 @@ document.addEventListener('DOMContentLoaded', () => {
     animateCounters();
     setupSearchFunctionality();
     setupCategoryButtons();
+
+    // Auto-search if query is provided via URL
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput && searchInput.value.trim()) {
+        console.log('Auto-searching for:', searchInput.value);
+        setTimeout(() => {
+            performSearch();
+        }, 500); // Small delay to ensure everything is loaded
+    }
 });
 </script>
 
