@@ -22,7 +22,7 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
     <meta property="og:description" content="Your ultimate movie discovery and rating platform">
     <meta property="og:type" content="website">
     <link rel="icon" type="image/x-icon" href="/public/assets/images/favicon.ico">
-    <meta name="theme-color" content="#6366f1">
+    <meta name="theme-color" content="#192360">
 
     <!-- Professional Full-Width Header CSS -->
     <style>
@@ -33,7 +33,7 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif !important;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%) !important;
+            background: linear-gradient(135deg, #192360 0%, #1e3a5f 50%, #2a4e7a 100%) !important;
             min-height: 100vh !important;
             margin: 0 !important;
             padding: 0 !important;
@@ -56,10 +56,10 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
             left: 0 !important;
             right: 0 !important;
             z-index: 1000 !important;
-            background: rgba(255, 255, 255, 0.98) !important;
+            background: rgba(25, 35, 96, 0.98) !important;
             backdrop-filter: blur(20px) saturate(180%) !important;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1) !important;
+            border-bottom: 1px solid rgba(196, 130, 27, 0.4) !important;
+            box-shadow: 0 2px 20px rgba(25, 35, 96, 0.3) !important;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
 
@@ -100,9 +100,10 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
             align-items: center !important;
             gap: 10px !important;
             text-decoration: none !important;
-            color: #6366f1 !important;
+            color: #c4821b !important;
             font-size: 1.5rem !important;
             font-weight: 900 !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
             /* FASTER: Reduced transition time */
             transition: all 0.2s ease !important;
             /* ADD: Hardware acceleration */
@@ -110,7 +111,8 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
         }
 
         .brand-link:hover {
-            color: #4f46e5 !important;
+            color: #d4a574 !important;
+            text-shadow: 0 4px 8px rgba(196, 130, 27, 0.3) !important;
             /* REMOVED: transform: scale() - can cause layout shifts */
         }
 
@@ -129,10 +131,11 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
         .header-search {
             display: flex !important;
             align-items: center !important;
-            background: rgba(248, 250, 252, 0.8) !important;
-            border: 2px solid rgba(226, 232, 240, 0.6) !important;
+            background: rgba(255, 255, 255, 0.15) !important;
+            border: 2px solid rgba(196, 130, 27, 0.3) !important;
             border-radius: 14px !important;
             padding: 4px !important;
+            backdrop-filter: blur(10px) !important;
             /* FASTER: Reduced transition */
             transition: all 0.2s ease !important;
             min-width: 280px !important;
@@ -140,9 +143,9 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
         }
 
         .header-search:focus-within {
-            background: white !important;
-            border-color: #6366f1 !important;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1) !important;
+            background: rgba(255, 255, 255, 0.25) !important;
+            border-color: #c4821b !important;
+            box-shadow: 0 0 0 3px rgba(196, 130, 27, 0.2) !important;
         }
 
         .search-input {
@@ -150,7 +153,7 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
             background: transparent !important;
             padding: 10px 16px !important;
             font-size: 0.95rem !important;
-            color: #334155 !important;
+            color: white !important;
             width: 100% !important;
             /* FASTER: Reduced transition */
             transition: all 0.2s ease !important;
@@ -158,17 +161,18 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
         }
 
         .search-input::placeholder {
-            color: #94a3b8 !important;
+            color: rgba(255, 255, 255, 0.7) !important;
         }
 
         .search-btn {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+            background: linear-gradient(135deg, #c4821b, #d4a574) !important;
             border: none !important;
             border-radius: 10px !important;
             padding: 10px 12px !important;
-            color: white !important;
+            color: #192360 !important;
             cursor: pointer !important;
             font-size: 1rem !important;
+            font-weight: bold !important;
             /* FASTER: Reduced transition */
             transition: all 0.2s ease !important;
             /* ADD: Hardware acceleration */
@@ -177,8 +181,9 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
 
         .search-btn:hover {
             /* SIMPLIFIED: Remove complex transforms */
-            background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
+            background: linear-gradient(135deg, #d4a574, #e0b88a) !important;
             transform: translate3d(0, -1px, 0) !important;
+            box-shadow: 0 4px 12px rgba(196, 130, 27, 0.3) !important;
         }
 
         /* Navigation & User Section */
@@ -201,7 +206,7 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
             padding: 10px 16px !important;
             border-radius: 14px !important;
             text-decoration: none !important;
-            color: #374151 !important;
+            color: rgba(255, 255, 255, 0.9) !important;
             font-weight: 600 !important;
             font-size: 0.95rem !important;
             /* FASTER: Simplified transition */
@@ -214,10 +219,10 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
 
         .nav-link:hover,
         .nav-link.active {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
-            color: white !important;
+            background: linear-gradient(135deg, #c4821b, #d4a574) !important;
+            color: #192360 !important;
             /* SIMPLIFIED: Remove translateY transform to avoid reflows */
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3) !important;
+            box-shadow: 0 4px 12px rgba(196, 130, 27, 0.4) !important;
         }
 
         .nav-icon {
@@ -233,8 +238,8 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
             display: flex !important;
             align-items: center !important;
             gap: 12px !important;
-            background: rgba(99, 102, 241, 0.1) !important;
-            border: 2px solid rgba(99, 102, 241, 0.15) !important;
+            background: rgba(196, 130, 27, 0.15) !important;
+            border: 2px solid rgba(196, 130, 27, 0.3) !important;
             border-radius: 50px !important;
             padding: 8px 16px !important;
             cursor: pointer !important;
@@ -246,40 +251,41 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
         }
 
         .user-trigger:hover {
-            background: rgba(99, 102, 241, 0.15) !important;
-            border-color: rgba(99, 102, 241, 0.25) !important;
+            background: rgba(196, 130, 27, 0.25) !important;
+            border-color: rgba(196, 130, 27, 0.4) !important;
             /* SIMPLIFIED: Remove complex transforms */
             transform: translate3d(0, -1px, 0) !important;
+            box-shadow: 0 4px 12px rgba(196, 130, 27, 0.2) !important;
         }
 
         .user-avatar {
             width: 32px !important;
             height: 32px !important;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+            background: linear-gradient(135deg, #c4821b, #d4a574) !important;
             border-radius: 50% !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
-            color: white !important;
+            color: #192360 !important;
             font-weight: 700 !important;
             font-size: 0.9rem !important;
         }
 
         .user-name {
-            color: #374151 !important;
+            color: #c4821b !important;
             font-weight: 600 !important;
             font-size: 0.95rem !important;
         }
 
         .dropdown-icon {
-            color: #94a3b8 !important;
+            color: rgba(196, 130, 27, 0.7) !important;
             font-size: 0.8rem !important;
             /* SIMPLIFIED: Remove rotation animation */
             transition: color 0.2s ease !important;
         }
 
         .user-trigger:hover .dropdown-icon {
-            color: #6366f1 !important;
+            color: #c4821b !important;
         }
 
         /* CRITICAL: Mobile Performance Optimization */
