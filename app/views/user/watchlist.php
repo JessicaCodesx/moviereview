@@ -1,501 +1,1343 @@
 <?php
 ?>
-<div class="user-page-container">
-    <div class="page-header">
-        <h2>📝 Your Watchlist</h2>
-        <p>Movies you want to watch</p>
+<div class="regal-watchlist-container">
+    <!-- Regal Background Animation -->
+    <div class="watchlist-background">
+        <div class="regal-gradient"></div>
+        <div class="floating-elements">
+            <div class="floating-shape shape-1"></div>
+            <div class="floating-shape shape-2"></div>
+            <div class="floating-shape shape-3"></div>
+            <div class="floating-shape shape-4"></div>
+            <div class="floating-shape shape-5"></div>
+            <div class="floating-shape shape-6"></div>
+        </div>
+        <div class="regal-particles">
+            <span class="particle particle-1">📝</span>
+            <span class="particle particle-2">⭐</span>
+            <span class="particle particle-3">🎬</span>
+            <span class="particle particle-4">✨</span>
+            <span class="particle particle-5">👑</span>
+            <span class="particle particle-6">🎭</span>
+        </div>
+    </div>
+
+    <!-- Elite Page Header -->
+    <div class="elite-page-header">
+        <div class="header-crown-animation">
+            <div class="header-crown">📝</div>
+            <div class="crown-sparkles">
+                <span class="sparkle">⭐</span>
+                <span class="sparkle">🎬</span>
+                <span class="sparkle">⭐</span>
+            </div>
+        </div>
+        <div class="header-content-royal">
+            <h1>Your Royal Watchlist</h1>
+            <p class="header-subtitle">Curated cinematic experiences awaiting your distinguished attention</p>
+            <div class="wishlist-badge">
+                <span class="badge-icon">📋</span>
+                <span class="badge-text">Elite Queue</span>
+            </div>
+        </div>
     </div>
 
     <?php if (!empty($data['watchlist'])): ?>
-        <div class="movies-grid">
-            <?php foreach ($data['watchlist'] as $movie): ?>
-                <div class="movie-card watchlist-card" onclick="movieAppInstance.loadMovieDetails('<?php echo $movie['imdb_id']; ?>')">
-                    <div class="movie-poster">
+        <!-- Royal Statistics Section -->
+        <div class="royal-stats-section">
+            <div class="stats-crown-header">
+                <div class="stats-crown">📊</div>
+                <h2>Watchlist Statistics</h2>
+            </div>
+            <div class="royal-stats-grid">
+                <div class="royal-stat-item">
+                    <div class="stat-crown">📝</div>
+                    <div class="stat-number"><?php echo count($data['watchlist']); ?></div>
+                    <div class="stat-label">Queued Films</div>
+                </div>
+                <div class="royal-stat-item">
+                    <div class="stat-crown">🎭</div>
+                    <div class="stat-number">
+                        <?php 
+                        $genres = [];
+                        foreach($data['watchlist'] as $movie) {
+                            $movieGenres = explode(',', $movie['genre']);
+                            foreach($movieGenres as $genre) {
+                                $genre = trim($genre);
+                                if($genre && !in_array($genre, $genres)) {
+                                    $genres[] = $genre;
+                                }
+                            }
+                        }
+                        echo count($genres);
+                        ?>
+                    </div>
+                    <div class="stat-label">Genres</div>
+                </div>
+                <div class="royal-stat-item">
+                    <div class="stat-crown">⭐</div>
+                    <div class="stat-number">
+                        <?php 
+                        $totalRating = 0;
+                        $ratedCount = 0;
+                        foreach($data['watchlist'] as $movie) {
+                            if($movie['imdb_rating'] && $movie['imdb_rating'] !== 'N/A') {
+                                $totalRating += floatval($movie['imdb_rating']);
+                                $ratedCount++;
+                            }
+                        }
+                        echo $ratedCount > 0 ? number_format($totalRating / $ratedCount, 1) : '0';
+                        ?>
+                    </div>
+                    <div class="stat-label">Avg IMDb</div>
+                </div>
+                <div class="royal-stat-item">
+                    <div class="stat-crown">👑</div>
+                    <div class="stat-number">Elite</div>
+                    <div class="stat-label">Curation</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="elite-movies-grid">
+            <?php foreach ($data['watchlist'] as $index => $movie): ?>
+                <div class="elite-movie-card watchlist-card animate-card" 
+                     data-animation-delay="<?php echo $index * 0.1; ?>"
+                     onclick="movieAppInstance.loadMovieDetails('<?php echo $movie['imdb_id']; ?>')">
+
+                    <div class="card-crown-indicator">📝</div>
+
+                    <div class="elite-movie-poster">
                         <img src="<?php echo $movie['poster'] !== 'N/A' ? $movie['poster'] : '/public/assets/images/no-image.png'; ?>" 
                              alt="<?php echo htmlspecialchars($movie['title']); ?>"
                              onerror="this.src='/public/assets/images/no-image.png'">
 
-                        <div class="movie-overlay">
-                            <div class="overlay-actions">
-                                <button class="overlay-btn btn-success" onclick="event.stopPropagation(); markWatched(<?php echo $movie['movie_id']; ?>)">
-                                    ✅ Mark Watched
+                        <div class="elite-movie-overlay">
+                            <div class="overlay-crown">👑</div>
+                            <div class="elite-overlay-actions">
+                                <button class="elite-action-btn btn-watch" onclick="event.stopPropagation(); markWatched(<?php echo $movie['movie_id']; ?>)">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="9,11 12,14 22,4"></polyline>
+                                        <path d="M21,12v7a2,2 0 0,1 -2,2H5a2,2 0 0,1 -2,-2V5a2,2 0 0,1 2,-2h11"></path>
+                                    </svg>
+                                    <span>Mark Watched</span>
                                 </button>
-                                <button class="overlay-btn btn-danger" onclick="event.stopPropagation(); removeFromWatchlist(<?php echo $movie['movie_id']; ?>)">
-                                    🗑️ Remove
+                                <button class="elite-action-btn btn-remove" onclick="event.stopPropagation(); removeFromWatchlist(<?php echo $movie['movie_id']; ?>)">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="3,6 5,6 21,6"></polyline>
+                                        <path d="M8,6V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+                                    </svg>
+                                    <span>Remove</span>
                                 </button>
                             </div>
                         </div>
 
-                        <div class="movie-badge">
+                        <div class="elite-movie-status">
                             <?php if ($movie['imdb_rating'] && $movie['imdb_rating'] !== 'N/A'): ?>
-                                <span class="imdb-badge">IMDb <?php echo $movie['imdb_rating']; ?></span>
+                                <span class="elite-imdb-badge">
+                                    <span class="imdb-crown">⭐</span>
+                                    IMDb <?php echo $movie['imdb_rating']; ?>
+                                </span>
                             <?php endif; ?>
+                        </div>
+
+                        <div class="movie-quality-badge">
+                            <span class="badge-crown">📋</span>
+                            Queued
                         </div>
                     </div>
 
-                    <div class="movie-card-info">
-                        <h4><?php echo htmlspecialchars($movie['title']); ?></h4>
-                        <p><?php echo $movie['year']; ?> • <?php echo htmlspecialchars($movie['genre']); ?></p>
-                        <small class="added-date">Added on <?php echo date('M j, Y', strtotime($movie['created_at'])); ?></small>
+                    <div class="elite-movie-info">
+                        <div class="movie-title-crown">
+                            <h4><?php echo htmlspecialchars($movie['title']); ?></h4>
+                            <span class="title-crown">✨</span>
+                        </div>
+                        <p class="movie-details"><?php echo $movie['year']; ?> • <?php echo htmlspecialchars($movie['genre']); ?></p>
+
+                        <div class="watchlist-priority">
+                            <span class="priority-crown">👑</span>
+                            <span class="priority-text">Priority Viewing</span>
+                        </div>
+
+                        <small class="added-date-royal">
+                            <span class="date-crown">📅</span>
+                            Added <?php echo date('M j, Y', strtotime($movie['created_at'])); ?>
+                        </small>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
 
-        <!-- Pagination if needed -->
+        <!-- Royal Pagination -->
         <?php if (count($data['watchlist']) >= 20): ?>
-        <div class="pagination">
-            <a href="/watchlist?page=<?php echo max(1, $data['current_page'] - 1); ?>" class="btn btn-secondary">
-                ← Previous
+        <div class="royal-pagination">
+            <a href="/watchlist?page=<?php echo max(1, $data['current_page'] - 1); ?>" class="btn-royal btn-secondary-royal">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15,18 9,12 15,6"></polyline>
+                </svg>
+                <span>Previous</span>
             </a>
-            <span class="page-info">Page <?php echo $data['current_page']; ?></span>
-            <a href="/watchlist?page=<?php echo $data['current_page'] + 1; ?>" class="btn btn-secondary">
-                Next →
+            <div class="page-info-royal">
+                <span class="page-crown">👑</span>
+                <span>Page <?php echo $data['current_page']; ?></span>
+            </div>
+            <a href="/watchlist?page=<?php echo $data['current_page'] + 1; ?>" class="btn-royal btn-secondary-royal">
+                <span>Next</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9,18 15,12 9,6"></polyline>
+                </svg>
             </a>
         </div>
         <?php endif; ?>
 
     <?php else: ?>
-        <div class="empty-state">
-            <div class="empty-state-icon">📝</div>
-            <h3>Your Watchlist is Empty</h3>
-            <p>Start adding movies you want to watch to your watchlist.</p>
-            <a href="/" class="btn btn-primary">Search Movies</a>
+        <div class="elite-empty-state">
+            <div class="empty-crown-animation">
+                <div class="empty-crown">📝</div>
+                <div class="empty-particles">
+                    <span class="particle">⭐</span>
+                    <span class="particle">✨</span>
+                    <span class="particle">🏆</span>
+                    <span class="particle">👑</span>
+                    <span class="particle">🎬</span>
+                </div>
+            </div>
+            <div class="empty-content-elite">
+                <h3>Your Royal Watchlist Awaits</h3>
+                <p>Begin curating your distinguished queue of cinematic experiences yet to be discovered</p>
+                <a href="/" class="btn-royal btn-primary-royal btn-large-royal">
+                    <span class="btn-icon">🔍</span>
+                    <span class="btn-text">Discover Films</span>
+                </a>
+            </div>
         </div>
     <?php endif; ?>
 </div>
 
 <style>
-/* Enhanced Watchlist Styles */
-.user-page-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 var(--space-4);
+/* Elite Cinema Watchlist - Royal Design System */
+:root {
+    --regal-primary: #1a1f3a;
+    --regal-secondary: #0f1419;
+    --regal-accent: #daa520;
+    --regal-accent-light: #f4d03f;
+    --regal-text: #ffffff;
+    --regal-text-muted: rgba(255, 255, 255, 0.7);
+    --regal-border: rgba(218, 165, 32, 0.3);
+    --regal-backdrop: rgba(26, 31, 58, 0.8);
+    --regal-glass: rgba(26, 31, 58, 0.9);
+    --regal-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    --regal-glow: 0 0 30px rgba(218, 165, 32, 0.3);
 }
 
-.page-header {
-    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%);
-    backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: var(--radius-2xl);
-    padding: var(--space-8);
-    margin-bottom: var(--space-8);
-    text-align: center;
-    box-shadow: var(--shadow-2xl);
+.regal-watchlist-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--regal-secondary) 0%, var(--regal-primary) 50%, var(--regal-secondary) 100%);
     position: relative;
+    overflow-x: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Background Animation */
+.watchlist-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
     overflow: hidden;
 }
 
-.page-header::before {
-    content: '';
+.regal-gradient {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: var(--gradient-primary);
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(218, 165, 32, 0.1), transparent),
+        radial-gradient(circle at 80% 20%, rgba(218, 165, 32, 0.08), transparent),
+        radial-gradient(circle at 40% 80%, rgba(218, 165, 32, 0.12), transparent);
 }
 
-.page-header h2 {
-    font-size: var(--font-size-4xl);
-    color: var(--neutral-800);
-    margin-bottom: var(--space-2);
+.floating-elements {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.floating-shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.08;
+    animation: regalFloat 30s ease-in-out infinite;
+}
+
+.shape-1 {
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
+    top: -10%;
+    left: -10%;
+    animation-delay: 0s;
+}
+
+.shape-2 {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(135deg, var(--regal-primary), var(--regal-accent));
+    top: 70%;
+    right: -5%;
+    animation-delay: 10s;
+}
+
+.shape-3 {
+    width: 150px;
+    height: 150px;
+    background: linear-gradient(135deg, var(--regal-accent-light), var(--regal-accent));
+    top: 30%;
+    left: 10%;
+    animation-delay: 20s;
+}
+
+.shape-4 {
+    width: 250px;
+    height: 250px;
+    background: linear-gradient(135deg, var(--regal-accent), var(--regal-primary));
+    top: 10%;
+    right: 20%;
+    animation-delay: 5s;
+}
+
+.shape-5 {
+    width: 180px;
+    height: 180px;
+    background: linear-gradient(135deg, var(--regal-accent-light), var(--regal-primary));
+    bottom: -10%;
+    left: 40%;
+    animation-delay: 15s;
+}
+
+.shape-6 {
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
+    top: 60%;
+    right: 50%;
+    animation-delay: 25s;
+}
+
+@keyframes regalFloat {
+    0%, 100% { 
+        transform: translateY(0px) translateX(0px) rotate(0deg) scale(1); 
+    }
+    25% { 
+        transform: translateY(-30px) translateX(20px) rotate(90deg) scale(1.1); 
+    }
+    50% { 
+        transform: translateY(-15px) translateX(-15px) rotate(180deg) scale(0.9); 
+    }
+    75% { 
+        transform: translateY(20px) translateX(-30px) rotate(270deg) scale(1.05); 
+    }
+}
+
+.regal-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    font-size: 1.5rem;
+    opacity: 0.4;
+    animation: particleFloat 20s linear infinite;
+    filter: drop-shadow(0 2px 4px rgba(218, 165, 32, 0.3));
+}
+
+.particle-1 { animation-delay: 0s; left: 10%; }
+.particle-2 { animation-delay: 4s; left: 30%; }
+.particle-3 { animation-delay: 8s; left: 60%; }
+.particle-4 { animation-delay: 12s; left: 80%; }
+.particle-5 { animation-delay: 16s; left: 40%; }
+.particle-6 { animation-delay: 20s; left: 70%; }
+
+@keyframes particleFloat {
+    0% { 
+        transform: translateY(100vh) translateX(0px) rotate(0deg); 
+        opacity: 0; 
+    }
+    10% { 
+        opacity: 0.4; 
+    }
+    90% { 
+        opacity: 0.4; 
+    }
+    100% { 
+        transform: translateY(-100px) translateX(50px) rotate(360deg); 
+        opacity: 0; 
+    }
+}
+
+/* Elite Page Header */
+.elite-page-header {
+    text-align: center;
+    padding: 80px 40px 60px;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.header-crown-animation {
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.header-crown {
+    font-size: 5rem;
+    filter: drop-shadow(0 4px 12px rgba(218, 165, 32, 0.4));
+    animation: crownFloat 6s ease-in-out infinite;
+}
+
+@keyframes crownFloat {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg); 
+    }
+    50% { 
+        transform: translateY(-10px) rotate(3deg); 
+    }
+}
+
+.crown-sparkles {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+}
+
+.sparkle {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: sparkleOrbit 8s linear infinite;
+}
+
+.sparkle:nth-child(1) { animation-delay: 0s; }
+.sparkle:nth-child(2) { animation-delay: 2.5s; }
+.sparkle:nth-child(3) { animation-delay: 5s; }
+
+@keyframes sparkleOrbit {
+    0% { transform: rotate(0deg) translateX(120px) rotate(0deg); }
+    100% { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+}
+
+.header-content-royal h1 {
+    font-size: clamp(3rem, 8vw, 5rem);
     font-weight: 900;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 25px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.page-header p {
-    color: var(--neutral-600);
-    font-size: var(--font-size-lg);
+.header-subtitle {
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    color: var(--regal-text-muted);
+    margin-bottom: 30px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
     font-weight: 500;
+    font-style: italic;
 }
 
-.movies-grid {
+.wishlist-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--regal-glass);
+    backdrop-filter: blur(20px);
+    border: 2px solid var(--regal-border);
+    border-radius: 20px;
+    padding: 12px 20px;
+    color: var(--regal-accent);
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: var(--regal-glow);
+}
+
+.badge-icon {
+    font-size: 1.2rem;
+}
+
+/* Royal Statistics Section */
+.royal-stats-section {
+    background: var(--regal-glass);
+    backdrop-filter: blur(25px);
+    border: 2px solid var(--regal-border);
+    border-radius: 25px;
+    padding: 40px;
+    margin: 0 40px 60px;
+    box-shadow: var(--regal-shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-crown-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.stats-crown {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 4px 12px rgba(218, 165, 32, 0.4));
+    animation: crownFloat 6s ease-in-out infinite;
+}
+
+.stats-crown-header h2 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin: 0;
+    background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.royal-stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: var(--space-6);
-    margin-bottom: var(--space-8);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px;
 }
 
-.watchlist-card {
-    background: white;
-    border-radius: var(--radius-xl);
+.royal-stat-item {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    border: 2px solid var(--regal-border);
+    border-radius: 18px;
+    padding: 30px 25px;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
     overflow: hidden;
+}
+
+.royal-stat-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(218, 165, 32, 0.1), transparent);
+    transition: left 0.8s ease;
+}
+
+.royal-stat-item:hover::before {
+    left: 100%;
+}
+
+.royal-stat-item:hover {
+    transform: translateY(-8px);
+    border-color: var(--regal-accent);
+    box-shadow: 0 12px 30px rgba(218, 165, 32, 0.3);
+}
+
+.stat-crown {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 2px 8px rgba(218, 165, 32, 0.4));
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--regal-accent);
+    margin-bottom: 8px;
+    text-shadow: 0 2px 8px rgba(218, 165, 32, 0.3);
+}
+
+.stat-label {
+    font-size: 1rem;
+    color: var(--regal-text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Elite Movies Grid */
+.elite-movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 0 40px;
+    margin-bottom: 60px;
+}
+
+.elite-movie-card {
+    background: var(--regal-glass);
+    backdrop-filter: blur(25px);
+    border: 2px solid var(--regal-border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: var(--shadow-md);
-    border: 1px solid rgba(255, 255, 255, 0.2);
     position: relative;
-    animation: fadeInUp 0.6s ease-out;
+    box-shadow: var(--regal-shadow);
 }
 
-.watchlist-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: var(--shadow-2xl);
+.elite-movie-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(218, 165, 32, 0.1), transparent);
+    transition: left 0.8s ease;
+    z-index: 1;
 }
 
-.movie-poster {
+.elite-movie-card:hover::before {
+    left: 100%;
+}
+
+.elite-movie-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: var(--regal-accent);
+    box-shadow: 0 20px 40px rgba(218, 165, 32, 0.3);
+}
+
+.card-crown-indicator {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.2rem;
+    z-index: 2;
+    opacity: 0.8;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+.elite-movie-poster {
     position: relative;
-    height: 280px;
+    aspect-ratio: 2/3;
     overflow: hidden;
 }
 
-.movie-poster img {
+.elite-movie-poster img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s ease;
 }
 
-.watchlist-card:hover .movie-poster img {
-    transform: scale(1.1);
+.elite-movie-card:hover .elite-movie-poster img {
+    transform: scale(1.05);
 }
 
-.movie-overlay {
+.elite-movie-overlay {
     position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.8);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(26, 31, 58, 0.9), rgba(15, 20, 25, 0.95));
+    backdrop-filter: blur(10px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: var(--space-3);
+    gap: 20px;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: all 0.4s ease;
 }
 
-.watchlist-card:hover .movie-overlay {
+.elite-movie-card:hover .elite-movie-overlay {
     opacity: 1;
 }
 
-.overlay-actions {
+.overlay-crown {
+    font-size: 2.5rem;
+    filter: drop-shadow(0 4px 12px rgba(218, 165, 32, 0.6));
+    animation: crownFloat 6s ease-in-out infinite;
+}
+
+.elite-overlay-actions {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
+    gap: 15px;
 }
 
-.overlay-btn {
-    background: rgba(255,255,255,0.95);
-    color: var(--neutral-800);
-    border: none;
-    padding: var(--space-2) var(--space-4);
-    border-radius: var(--radius-lg);
+.elite-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--regal-glass);
+    backdrop-filter: blur(20px);
+    border: 2px solid var(--regal-border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    color: var(--regal-text);
     font-weight: 600;
-    font-size: var(--font-size-sm);
+    font-size: 0.9rem;
     cursor: pointer;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-    backdrop-filter: blur(10px);
-    min-width: 120px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    min-width: 140px;
+    justify-content: center;
 }
 
-.overlay-btn.btn-success {
-    background: var(--success-500);
-    color: white;
-}
-
-.overlay-btn.btn-danger {
-    background: var(--error-500);
-    color: white;
-}
-
-.overlay-btn:hover {
+.elite-action-btn:hover {
+    background: rgba(218, 165, 32, 0.2);
+    border-color: var(--regal-accent);
     transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 8px 20px rgba(218, 165, 32, 0.3);
 }
 
-.overlay-btn.btn-success:hover {
-    background: var(--success-600);
+.btn-watch {
+    border-color: rgba(34, 197, 94, 0.5);
 }
 
-.overlay-btn.btn-danger:hover {
-    background: var(--error-600);
+.btn-watch:hover {
+    background: rgba(34, 197, 94, 0.2);
+    border-color: #22c55e;
+    box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3);
 }
 
-.movie-badge {
+.btn-remove {
+    border-color: rgba(239, 68, 68, 0.5);
+}
+
+.btn-remove:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: #ef4444;
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+}
+
+.elite-movie-status {
     position: absolute;
-    top: var(--space-3);
-    right: var(--space-3);
-    z-index: 10;
+    top: 15px;
+    left: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 2;
 }
 
-.imdb-badge {
-    background: #f59e0b;
-    color: black;
-    padding: var(--space-1) var(--space-2);
-    border-radius: var(--radius-md);
-    font-size: var(--font-size-xs);
+.elite-imdb-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--regal-glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--regal-border);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 0.8rem;
     font-weight: 700;
-    box-shadow: var(--shadow-sm);
+    color: var(--regal-accent);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.movie-card-info {
-    padding: var(--space-4);
-    background: white;
+.imdb-crown {
+    font-size: 0.9rem;
 }
 
-.movie-card-info h4 {
-    font-size: var(--font-size-base);
+.movie-quality-badge {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 0.8rem;
     font-weight: 700;
-    color: var(--neutral-800);
-    margin-bottom: var(--space-2);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    z-index: 2;
+}
+
+.badge-crown {
+    font-size: 0.9rem;
+}
+
+.elite-movie-info {
+    padding: 25px 20px;
+    color: var(--regal-text);
+}
+
+.movie-title-crown {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.movie-title-crown h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--regal-text);
+    margin: 0;
     line-height: 1.3;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    flex: 1;
 }
 
-.movie-card-info p {
-    color: var(--neutral-600);
-    font-size: var(--font-size-sm);
-    margin-bottom: var(--space-2);
+.title-crown {
+    font-size: 1rem;
+    margin-left: 8px;
+    opacity: 0.8;
+    flex-shrink: 0;
+}
+
+.movie-details {
+    color: var(--regal-text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 15px;
     font-weight: 500;
 }
 
-.added-date {
-    color: var(--neutral-400);
-    font-size: var(--font-size-xs);
+.watchlist-priority {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(218, 165, 32, 0.1);
+    border: 1px solid var(--regal-border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 15px;
+}
+
+.priority-crown {
+    font-size: 1rem;
+}
+
+.priority-text {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--regal-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.added-date-royal {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--regal-text-muted);
+    font-size: 0.85rem;
     font-weight: 500;
-    display: block;
+    font-style: italic;
 }
 
-.empty-state {
-    text-align: center;
-    padding: var(--space-16) var(--space-8);
-    background: white;
-    border-radius: var(--radius-2xl);
-    box-shadow: var(--shadow-lg);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+.date-crown {
+    font-size: 0.9rem;
 }
 
-.empty-state-icon {
-    font-size: 4rem;
-    margin-bottom: var(--space-4);
-    opacity: 0.5;
+/* Royal Pagination */
+.royal-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    padding: 0 40px 60px;
 }
 
-.empty-state h3 {
-    font-size: var(--font-size-2xl);
-    color: var(--neutral-700);
-    margin-bottom: var(--space-3);
+.btn-royal {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--regal-glass);
+    backdrop-filter: blur(25px);
+    border: 2px solid var(--regal-border);
+    border-radius: 15px;
+    padding: 15px 25px;
+    color: var(--regal-text);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.4s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.btn-royal:hover {
+    background: rgba(218, 165, 32, 0.2);
+    border-color: var(--regal-accent);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(218, 165, 32, 0.3);
+    color: var(--regal-accent);
+}
+
+.page-info-royal {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--regal-glass);
+    backdrop-filter: blur(25px);
+    border: 2px solid var(--regal-border);
+    border-radius: 15px;
+    padding: 15px 25px;
+    color: var(--regal-accent);
     font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
-.empty-state p {
-    color: var(--neutral-500);
-    font-size: var(--font-size-lg);
-    margin-bottom: var(--space-6);
-    max-width: 400px;
+.page-crown {
+    font-size: 1.2rem;
+}
+
+/* Elite Empty State */
+.elite-empty-state {
+    text-align: center;
+    padding: 80px 40px;
+    color: var(--regal-text);
+}
+
+.empty-crown-animation {
+    position: relative;
+    margin-bottom: 50px;
+}
+
+.empty-crown {
+    font-size: 6rem;
+    filter: drop-shadow(0 4px 12px rgba(218, 165, 32, 0.4));
+    animation: crownFloat 6s ease-in-out infinite;
+}
+
+.empty-particles {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
+}
+
+.empty-particles .particle {
+    position: absolute;
+    font-size: 2rem;
+    animation: particleOrbit 10s linear infinite;
+}
+
+.empty-particles .particle:nth-child(1) { animation-delay: 0s; }
+.empty-particles .particle:nth-child(2) { animation-delay: 2s; }
+.empty-particles .particle:nth-child(3) { animation-delay: 4s; }
+.empty-particles .particle:nth-child(4) { animation-delay: 6s; }
+.empty-particles .particle:nth-child(5) { animation-delay: 8s; }
+
+@keyframes particleOrbit {
+    0% { transform: rotate(0deg) translateX(150px) rotate(0deg); }
+    100% { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
+}
+
+.empty-content-elite h3 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.empty-content-elite p {
+    font-size: 1.2rem;
+    color: var(--regal-text-muted);
+    margin-bottom: 40px;
+    font-style: italic;
+    font-weight: 500;
+    max-width: 600px;
     margin-left: auto;
     margin-right: auto;
 }
 
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: var(--space-6);
-    margin-top: var(--space-8);
-    padding: var(--space-6);
-    background: rgba(255,255,255,0.1);
-    border-radius: var(--radius-xl);
-    backdrop-filter: blur(10px);
+.btn-primary-royal {
+    background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
+    color: var(--regal-primary);
+    border-color: var(--regal-accent);
+    padding: 18px 30px;
+    border-radius: 18px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 8px 25px rgba(218, 165, 32, 0.4);
+    text-decoration: none;
 }
 
-.page-info {
-    color: white;
-    font-weight: 600;
-    font-size: var(--font-size-base);
+.btn-primary-royal:hover {
+    background: linear-gradient(135deg, var(--regal-accent-light), var(--regal-accent));
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(218, 165, 32, 0.5);
 }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
+.btn-icon {
+    font-size: 1.3rem;
+}
+
+.btn-text {
+    font-weight: 700;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .elite-page-header {
+        padding: 60px 20px 40px;
     }
+
+    .royal-stats-section {
+        margin: 0 20px 40px;
+        padding: 30px 20px;
+    }
+
+    .royal-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .elite-movies-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 0 20px;
+        margin-bottom: 40px;
+    }
+
+    .royal-pagination {
+        padding: 0 20px 40px;
+        gap: 15px;
+    }
+
+    .btn-royal {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+    }
+
+    .page-info-royal {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+    }
+
+    .elite-empty-state {
+        padding: 60px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .elite-page-header {
+        padding: 40px 20px;
+    }
+
+    .header-content-royal h1 {
+        font-size: 2.5rem;
+    }
+
+    .header-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .royal-stats-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .elite-movies-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .royal-pagination {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .btn-royal {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .empty-particles {
+        width: 250px;
+        height: 250px;
+    }
+
+    .empty-content-elite h3 {
+        font-size: 2rem;
+    }
+
+    .elite-overlay-actions {
+        gap: 10px;
+    }
+
+    .elite-action-btn {
+        padding: 10px 14px;
+        font-size: 0.8rem;
+        min-width: 120px;
+    }
+}
+
+/* Animation for card entrance */
+.animate-card {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: cardEntrance 0.6s ease forwards;
+}
+
+@keyframes cardEntrance {
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-/* Stagger animation for cards */
-.watchlist-card:nth-child(1) { animation-delay: 0.1s; }
-.watchlist-card:nth-child(2) { animation-delay: 0.2s; }
-.watchlist-card:nth-child(3) { animation-delay: 0.3s; }
-.watchlist-card:nth-child(4) { animation-delay: 0.4s; }
-.watchlist-card:nth-child(5) { animation-delay: 0.5s; }
-.watchlist-card:nth-child(6) { animation-delay: 0.6s; }
-
-@media (max-width: 768px) {
-    .movies-grid {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: var(--space-4);
-    }
-    
-    .movie-poster {
-        height: 240px;
-    }
-    
-    .overlay-btn {
-        font-size: var(--font-size-xs);
-        padding: var(--space-1) var(--space-3);
-        min-width: 100px;
-    }
-    
-    .page-header {
-        padding: var(--space-6);
-    }
-    
-    .page-header h2 {
-        font-size: var(--font-size-3xl);
-    }
-}
-
-@media (max-width: 480px) {
-    .movies-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .overlay-actions {
-        flex-direction: row;
-        gap: var(--space-1);
-    }
-    
-    .overlay-btn {
-        font-size: var(--font-size-xs);
-        padding: var(--space-1) var(--space-2);
-        min-width: 80px;
-    }
-}
+.animate-card:nth-child(1) { animation-delay: 0.1s; }
+.animate-card:nth-child(2) { animation-delay: 0.2s; }
+.animate-card:nth-child(3) { animation-delay: 0.3s; }
+.animate-card:nth-child(4) { animation-delay: 0.4s; }
+.animate-card:nth-child(5) { animation-delay: 0.5s; }
+.animate-card:nth-child(6) { animation-delay: 0.6s; }
 </style>
 
 <script>
-// Enhanced watchlist functionality with smooth animations
-class WatchlistManager {
+// Enhanced Watchlist Manager with Royal Animations
+class RoyalWatchlistManager {
     constructor() {
         this.isProcessing = false;
+        this.initializeRoyalAnimations();
     }
 
-    // Animate card removal with smooth transitions
-    animateCardRemoval(cardElement, callback) {
+    initializeRoyalAnimations() {
+        const particles = document.querySelectorAll('.particle');
+        particles.forEach((particle, index) => {
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+        });
+
+        // Initialize card animations
+        const cards = document.querySelectorAll('.animate-card');
+        cards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+        });
+    }
+
+    // Enhanced card removal with royal animation
+    animateRoyalCardRemoval(cardElement, callback) {
         if (!cardElement) {
             callback?.();
             return;
         }
 
-        // Add removal animation class
-        cardElement.style.transition = 'all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
-        cardElement.style.transform = 'scale(0.8) rotateY(90deg)';
+        // Add royal removal animation
+        cardElement.style.transition = 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+        cardElement.style.transform = 'scale(0.8) rotateY(180deg) translateY(-30px)';
         cardElement.style.opacity = '0';
-        cardElement.style.filter = 'blur(5px)';
+        cardElement.style.filter = 'blur(8px)';
+        cardElement.style.borderColor = 'rgba(218, 165, 32, 0.6)';
+
+        // Add sparkle effect
+        this.createSparkleEffect(cardElement);
 
         // Remove card after animation
         setTimeout(() => {
             cardElement.style.height = cardElement.offsetHeight + 'px';
             cardElement.style.overflow = 'hidden';
-            
+
             setTimeout(() => {
                 cardElement.style.height = '0';
                 cardElement.style.margin = '0';
                 cardElement.style.padding = '0';
-                
+
                 setTimeout(() => {
                     cardElement.remove();
-                    this.checkEmptyState();
+                    this.checkRoyalEmptyState();
                     callback?.();
-                }, 300);
-            }, 100);
-        }, 500);
+                }, 400);
+            }, 200);
+        }, 800);
     }
 
-    // Check if watchlist is empty and show empty state
-    checkEmptyState() {
-        const moviesGrid = document.querySelector('.movies-grid');
-        const remainingCards = moviesGrid?.querySelectorAll('.watchlist-card').length || 0;
-        
-        if (remainingCards === 0) {
-            // Show empty state with animation
-            setTimeout(() => {
-                const container = document.querySelector('.user-page-container');
-                if (container) {
-                    const emptyState = this.createEmptyStateHTML();
-                    moviesGrid.replaceWith(emptyState);
+    createSparkleEffect(element) {
+        const rect = element.getBoundingClientRect();
+        const sparkles = ['✨', '⭐', '👑', '🎬'];
+
+        for (let i = 0; i < 6; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+            sparkle.style.position = 'fixed';
+            sparkle.style.left = `${rect.left + Math.random() * rect.width}px`;
+            sparkle.style.top = `${rect.top + Math.random() * rect.height}px`;
+            sparkle.style.fontSize = '1.5rem';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.zIndex = '10000';
+            sparkle.style.animation = 'sparkleDisappear 1s ease-out forwards';
+
+            document.body.appendChild(sparkle);
+
+            setTimeout(() => sparkle.remove(), 1000);
+        }
+
+        // Add sparkle animation CSS
+        if (!document.querySelector('style[data-sparkle-animation]')) {
+            const style = document.createElement('style');
+            style.setAttribute('data-sparkle-animation', 'true');
+            style.textContent = `
+                @keyframes sparkleDisappear {
+                    0% { 
+                        opacity: 1; 
+                        transform: translateY(0) scale(1) rotate(0deg); 
+                    }
+                    100% { 
+                        opacity: 0; 
+                        transform: translateY(-100px) scale(0.3) rotate(360deg); 
+                    }
                 }
-            }, 600);
+            `;
+            document.head.appendChild(style);
         }
     }
 
-    // Create empty state HTML
-    createEmptyStateHTML() {
+    checkRoyalEmptyState() {
+        const moviesGrid = document.querySelector('.elite-movies-grid');
+        const remainingCards = moviesGrid?.querySelectorAll('.elite-movie-card').length || 0;
+
+        if (remainingCards === 0) {
+            setTimeout(() => {
+                const container = document.querySelector('.regal-watchlist-container');
+                const statsSection = document.querySelector('.royal-stats-section');
+                if (container && statsSection) {
+                    // Hide stats section with animation
+                    statsSection.style.transition = 'all 0.6s ease';
+                    statsSection.style.transform = 'translateY(-50px)';
+                    statsSection.style.opacity = '0';
+
+                    setTimeout(() => {
+                        statsSection.remove();
+                        const emptyState = this.createRoyalEmptyState();
+                        moviesGrid.replaceWith(emptyState);
+                    }, 600);
+                }
+            }, 800);
+        }
+    }
+
+    createRoyalEmptyState() {
         const emptyStateDiv = document.createElement('div');
-        emptyStateDiv.className = 'empty-state';
+        emptyStateDiv.className = 'elite-empty-state';
         emptyStateDiv.style.opacity = '0';
-        emptyStateDiv.style.transform = 'translateY(20px)';
-        
+        emptyStateDiv.style.transform = 'translateY(50px)';
+
         emptyStateDiv.innerHTML = `
-            <div class="empty-state-icon">📝</div>
-            <h3>Your Watchlist is Empty</h3>
-            <p>All movies have been processed! Start adding new movies you want to watch.</p>
-            <a href="/" class="btn btn-primary">Search Movies</a>
+            <div class="empty-crown-animation">
+                <div class="empty-crown">📝</div>
+                <div class="empty-particles">
+                    <span class="particle">⭐</span>
+                    <span class="particle">✨</span>
+                    <span class="particle">🏆</span>
+                    <span class="particle">👑</span>
+                    <span class="particle">🎬</span>
+                </div>
+            </div>
+            <div class="empty-content-elite">
+                <h3>Your Royal Watchlist Awaits</h3>
+                <p>All queued films have been processed! Your cinematic journey continues with new discoveries.</p>
+                <a href="/" class="btn-royal btn-primary-royal btn-large-royal">
+                    <span class="btn-icon">🔍</span>
+                    <span class="btn-text">Discover Films</span>
+                </a>
+            </div>
         `;
-        
-        // Animate in
+
+        // Animate in with royal flourish
         setTimeout(() => {
-            emptyStateDiv.style.transition = 'all 0.6s ease';
+            emptyStateDiv.style.transition = 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
             emptyStateDiv.style.opacity = '1';
             emptyStateDiv.style.transform = 'translateY(0)';
-        }, 100);
-        
+        }, 200);
+
         return emptyStateDiv;
     }
 
-    // Show loading state on button
-    setButtonLoading(button, loading = true) {
+    setRoyalButtonLoading(button, loading = true) {
         if (!button) return;
-        
+
         if (loading) {
             button.disabled = true;
             button.style.opacity = '0.7';
             button.style.transform = 'scale(0.95)';
-            const originalText = button.textContent;
-            button.setAttribute('data-original-text', originalText);
-            
+            const originalHTML = button.innerHTML;
+            button.setAttribute('data-original-html', originalHTML);
+
             if (button.textContent.includes('Mark Watched')) {
-                button.innerHTML = '⏳ Processing...';
+                button.innerHTML = `
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                    </svg>
+                    <span>Processing...</span>
+                `;
+                // Add spinning animation to the circle
+                const svg = button.querySelector('svg circle');
+                if (svg) {
+                    svg.style.animation = 'spin 1s linear infinite';
+                }
             } else if (button.textContent.includes('Remove')) {
-                button.innerHTML = '⏳ Removing...';
+                button.innerHTML = `
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                    </svg>
+                    <span>Removing...</span>
+                `;
+                const svg = button.querySelector('svg circle');
+                if (svg) {
+                    svg.style.animation = 'spin 1s linear infinite';
+                }
             }
         } else {
             button.disabled = false;
             button.style.opacity = '1';
             button.style.transform = 'scale(1)';
-            const originalText = button.getAttribute('data-original-text');
-            if (originalText) {
-                button.textContent = originalText;
+            const originalHTML = button.getAttribute('data-original-html');
+            if (originalHTML) {
+                button.innerHTML = originalHTML;
             }
         }
     }
 }
 
-// Initialize watchlist manager
-const watchlistManager = new WatchlistManager();
+// Initialize royal watchlist manager
+const royalWatchlistManager = new RoyalWatchlistManager();
 
-// Enhanced mark watched function
+// Enhanced mark watched function with royal treatment
 async function markWatched(movieId) {
-    if (watchlistManager.isProcessing) return;
-    
-    const button = event?.target;
-    const card = button?.closest('.watchlist-card');
+    if (royalWatchlistManager.isProcessing) return;
+
+    const button = event?.target.closest('.elite-action-btn');
+    const card = button?.closest('.elite-movie-card');
     const movieTitle = card?.querySelector('h4')?.textContent || 'Movie';
-    
+
     try {
-        watchlistManager.isProcessing = true;
-        watchlistManager.setButtonLoading(button, true);
-        
-        movieAppInstance.showToast(`Marking "${movieTitle}" as watched...`, 'info');
-        
+        royalWatchlistManager.isProcessing = true;
+        royalWatchlistManager.setRoyalButtonLoading(button, true);
+
+        movieAppInstance.showToast(`Adding "${movieTitle}" to your royal collection...`, 'info');
+
         const formData = new FormData();
         formData.append('movieId', movieId);
 
@@ -510,59 +1352,59 @@ async function markWatched(movieId) {
         const data = await response.json();
 
         if (data.success) {
-            movieAppInstance.showToast(`"${movieTitle}" marked as watched! 🎉`, 'success');
-            
-            // Add success animation
+            movieAppInstance.showToast(`"${movieTitle}" added to your watched collection! 👑`, 'success');
+
+            // Add royal success animation
             if (card) {
-                card.style.backgroundColor = '#d4edda';
-                card.style.borderColor = '#c3e6cb';
-                
+                card.style.backgroundColor = 'rgba(34, 197, 94, 0.1)';
+                card.style.borderColor = 'rgba(34, 197, 94, 0.5)';
+                card.style.boxShadow = '0 8px 25px rgba(34, 197, 94, 0.3)';
+
                 setTimeout(() => {
-                    watchlistManager.animateCardRemoval(card, () => {
-                        // Show completion message
-                        movieAppInstance.showToast('Movie moved to watched list!', 'success');
+                    royalWatchlistManager.animateRoyalCardRemoval(card, () => {
+                        movieAppInstance.showToast('Movie transferred to your royal collection!', 'success');
                     });
-                }, 800);
+                }, 1200);
             }
         } else {
             movieAppInstance.showToast('Error: ' + (data.error || 'Unknown error'), 'error');
-            watchlistManager.setButtonLoading(button, false);
+            royalWatchlistManager.setRoyalButtonLoading(button, false);
         }
     } catch (error) {
         console.error('Mark watched error:', error);
-        movieAppInstance.showToast('Error marking movie as watched', 'error');
-        watchlistManager.setButtonLoading(button, false);
+        movieAppInstance.showToast('Error processing your request', 'error');
+        royalWatchlistManager.setRoyalButtonLoading(button, false);
     } finally {
         setTimeout(() => {
-            watchlistManager.isProcessing = false;
-        }, 1000);
+            royalWatchlistManager.isProcessing = false;
+        }, 1500);
     }
 }
 
-// Enhanced remove from watchlist function
+// Enhanced remove from watchlist with royal confirmation
 async function removeFromWatchlist(movieId) {
-    if (watchlistManager.isProcessing) return;
-    
-    const button = event?.target;
-    const card = button?.closest('.watchlist-card');
+    if (royalWatchlistManager.isProcessing) return;
+
+    const button = event?.target.closest('.elite-action-btn');
+    const card = button?.closest('.elite-movie-card');
     const movieTitle = card?.querySelector('h4')?.textContent || 'Movie';
-    
-    // Custom confirmation dialog with better styling
-    const confirmed = await showCustomConfirm(
-        'Remove from Watchlist', 
-        `Are you sure you want to remove "${movieTitle}" from your watchlist?`,
+
+    // Royal confirmation dialog
+    const confirmed = await showRoyalConfirm(
+        'Remove from Royal Watchlist', 
+        `Are you certain you wish to remove "${movieTitle}" from your distinguished queue?`,
         'Remove',
-        'Cancel'
+        'Keep'
     );
-    
+
     if (!confirmed) return;
 
     try {
-        watchlistManager.isProcessing = true;
-        watchlistManager.setButtonLoading(button, true);
-        
-        movieAppInstance.showToast(`Removing "${movieTitle}" from watchlist...`, 'info');
-        
+        royalWatchlistManager.isProcessing = true;
+        royalWatchlistManager.setRoyalButtonLoading(button, true);
+
+        movieAppInstance.showToast(`Removing "${movieTitle}" from your royal watchlist...`, 'info');
+
         const formData = new FormData();
         formData.append('movieId', movieId);
 
@@ -577,122 +1419,169 @@ async function removeFromWatchlist(movieId) {
         const data = await response.json();
 
         if (data.success) {
-            movieAppInstance.showToast(`"${movieTitle}" removed from watchlist`, 'success');
-            
-            // Animate removal
-            watchlistManager.animateCardRemoval(card);
+            movieAppInstance.showToast(`"${movieTitle}" removed from your royal watchlist`, 'success');
+
+            // Animate royal removal
+            royalWatchlistManager.animateRoyalCardRemoval(card);
         } else {
             movieAppInstance.showToast('Error: ' + (data.error || 'Unknown error'), 'error');
-            watchlistManager.setButtonLoading(button, false);
+            royalWatchlistManager.setRoyalButtonLoading(button, false);
         }
     } catch (error) {
         console.error('Remove from watchlist error:', error);
         movieAppInstance.showToast('Error removing movie from watchlist', 'error');
-        watchlistManager.setButtonLoading(button, false);
+        royalWatchlistManager.setRoyalButtonLoading(button, false);
     } finally {
         setTimeout(() => {
-            watchlistManager.isProcessing = false;
-        }, 1000);
+            royalWatchlistManager.isProcessing = false;
+        }, 1500);
     }
 }
 
-// Custom confirmation dialog
-function showCustomConfirm(title, message, confirmText = 'Confirm', cancelText = 'Cancel') {
+// Royal confirmation dialog with enhanced styling
+function showRoyalConfirm(title, message, confirmText = 'Confirm', cancelText = 'Cancel') {
     return new Promise((resolve) => {
         const modal = document.createElement('div');
-        modal.className = 'custom-confirm-modal';
+        modal.className = 'royal-confirm-modal';
         modal.innerHTML = `
-            <div class="confirm-modal-content">
+            <div class="royal-modal-content">
+                <div class="royal-modal-crown">👑</div>
                 <h3>${title}</h3>
                 <p>${message}</p>
-                <div class="confirm-actions">
-                    <button class="btn btn-secondary" data-action="cancel">${cancelText}</button>
-                    <button class="btn btn-danger" data-action="confirm">${confirmText}</button>
+                <div class="royal-modal-actions">
+                    <button class="btn-royal btn-secondary-royal" data-action="cancel">${cancelText}</button>
+                    <button class="btn-royal btn-danger-royal" data-action="confirm">${confirmText}</button>
                 </div>
             </div>
         `;
-        
-        // Add styles
-        const style = document.createElement('style');
-        style.textContent = `
-            .custom-confirm-modal {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.7);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 10000;
-                animation: fadeIn 0.3s ease;
-            }
-            .confirm-modal-content {
-                background: white;
-                border-radius: 16px;
-                padding: 2rem;
-                max-width: 400px;
-                width: 90%;
-                text-align: center;
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-                animation: slideIn 0.3s ease;
-            }
-            .confirm-modal-content h3 {
-                margin: 0 0 1rem 0;
-                color: #333;
-                font-size: 1.25rem;
-            }
-            .confirm-modal-content p {
-                margin: 0 0 2rem 0;
-                color: #666;
-                line-height: 1.5;
-            }
-            .confirm-actions {
-                display: flex;
-                gap: 1rem;
-                justify-content: center;
-            }
-            .confirm-actions .btn {
-                padding: 0.75rem 1.5rem;
-                border-radius: 8px;
-                border: none;
-                cursor: pointer;
-                font-weight: 600;
-                transition: all 0.2s ease;
-            }
-            .confirm-actions .btn-secondary {
-                background: #f3f4f6;
-                color: #374151;
-            }
-            .confirm-actions .btn-secondary:hover {
-                background: #e5e7eb;
-            }
-            .confirm-actions .btn-danger {
-                background: #ef4444;
-                color: white;
-            }
-            .confirm-actions .btn-danger:hover {
-                background: #dc2626;
-                transform: translateY(-1px);
-            }
-            @keyframes fadeIn {
-                from { opacity: 0; }
-                to { opacity: 1; }
-            }
-            @keyframes slideIn {
-                from { transform: translateY(-50px) scale(0.9); opacity: 0; }
-                to { transform: translateY(0) scale(1); opacity: 1; }
-            }
-        `;
-        
-        if (!document.querySelector('style[data-confirm-modal]')) {
-            style.setAttribute('data-confirm-modal', 'true');
+
+        // Add royal modal styles
+        if (!document.querySelector('style[data-royal-modal]')) {
+            const style = document.createElement('style');
+            style.setAttribute('data-royal-modal', 'true');
+            style.textContent = `
+                .royal-confirm-modal {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(26, 31, 58, 0.9);
+                    backdrop-filter: blur(10px);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 10000;
+                    animation: royalModalFadeIn 0.4s ease;
+                }
+                .royal-modal-content {
+                    background: var(--regal-glass);
+                    backdrop-filter: blur(25px);
+                    border: 2px solid var(--regal-border);
+                    border-radius: 25px;
+                    padding: 3rem 2.5rem;
+                    max-width: 500px;
+                    width: 90%;
+                    text-align: center;
+                    box-shadow: var(--regal-shadow);
+                    animation: royalModalSlideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                    position: relative;
+                    overflow: hidden;
+                }
+                .royal-modal-content::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(90deg, transparent, rgba(218, 165, 32, 0.1), transparent);
+                    animation: royalShimmer 2s ease-in-out infinite;
+                }
+                .royal-modal-crown {
+                    font-size: 3rem;
+                    margin-bottom: 1.5rem;
+                    filter: drop-shadow(0 4px 12px rgba(218, 165, 32, 0.4));
+                    animation: crownFloat 6s ease-in-out infinite;
+                }
+                .royal-modal-content h3 {
+                    margin: 0 0 1.5rem 0;
+                    color: var(--regal-text);
+                    font-size: 1.5rem;
+                    font-weight: 900;
+                    background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                }
+                .royal-modal-content p {
+                    margin: 0 0 2.5rem 0;
+                    color: var(--regal-text-muted);
+                    line-height: 1.6;
+                    font-size: 1.1rem;
+                    font-weight: 500;
+                }
+                .royal-modal-actions {
+                    display: flex;
+                    gap: 1.5rem;
+                    justify-content: center;
+                }
+                .royal-modal-actions .btn-royal {
+                    padding: 1rem 2rem;
+                    border-radius: 12px;
+                    border: 2px solid var(--regal-border);
+                    cursor: pointer;
+                    font-weight: 700;
+                    font-size: 1rem;
+                    transition: all 0.3s ease;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                    min-width: 120px;
+                }
+                .btn-secondary-royal {
+                    background: rgba(255, 255, 255, 0.1);
+                    color: var(--regal-text-muted);
+                }
+                .btn-secondary-royal:hover {
+                    background: rgba(255, 255, 255, 0.2);
+                    border-color: var(--regal-accent);
+                    transform: translateY(-2px);
+                }
+                .btn-danger-royal {
+                    background: linear-gradient(135deg, #ef4444, #dc2626);
+                    color: white;
+                    border-color: #ef4444;
+                }
+                .btn-danger-royal:hover {
+                    background: linear-gradient(135deg, #dc2626, #b91c1c);
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+                }
+                @keyframes royalModalFadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                @keyframes royalModalSlideIn {
+                    from { 
+                        transform: translateY(-100px) scale(0.8); 
+                        opacity: 0; 
+                    }
+                    to { 
+                        transform: translateY(0) scale(1); 
+                        opacity: 1; 
+                    }
+                }
+                @keyframes royalShimmer {
+                    0% { left: -100%; }
+                    50% { left: 100%; }
+                    100% { left: 100%; }
+                }
+            `;
             document.head.appendChild(style);
         }
-        
+
         document.body.appendChild(modal);
-        
+
         // Handle button clicks
         modal.addEventListener('click', (e) => {
             const action = e.target.getAttribute('data-action');
@@ -701,96 +1590,107 @@ function showCustomConfirm(title, message, confirmText = 'Confirm', cancelText =
             } else if (action === 'cancel' || e.target === modal) {
                 resolve(false);
             }
-            modal.remove();
+
+            // Add exit animation
+            modal.style.animation = 'royalModalFadeIn 0.3s ease reverse';
+            setTimeout(() => modal.remove(), 300);
         });
-        
+
         // Focus the confirm button
         setTimeout(() => {
             modal.querySelector('[data-action="confirm"]')?.focus();
-        }, 100);
+        }, 200);
     });
 }
 
-// Add some enhancement styles for better interactions
-const enhancementStyles = document.createElement('style');
-enhancementStyles.textContent = `
-    .watchlist-card {
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    }
-    
-    .watchlist-card:hover {
-        transform: translateY(-8px) scale(1.02) !important;
-    }
-    
-    .overlay-btn {
-        transition: all 0.2s ease !important;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .overlay-btn:hover {
-        transform: translateY(-2px) scale(1.05) !important;
-    }
-    
-    .overlay-btn:active {
-        transform: translateY(0) scale(0.98) !important;
-    }
-    
-    .overlay-btn:disabled {
-        cursor: not-allowed !important;
-        transform: scale(0.95) !important;
-    }
-    
-    /* Pulse animation for processing */
-    .overlay-btn:disabled::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-        animation: shimmer 1.5s infinite;
-    }
-    
-    @keyframes shimmer {
-        0% { left: -100%; }
-        100% { left: 100%; }
-    }
-`;
-document.head.appendChild(enhancementStyles);
+// Add spinning animation for loading states
+if (!document.querySelector('style[data-spin-animation]')) {
+    const style = document.createElement('style');
+    style.setAttribute('data-spin-animation', 'true');
+    style.textContent = `
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    `;
+    document.head.appendChild(style);
+}
 
-// Add keyboard shortcuts
+// Initialize page with royal enhancements
+document.addEventListener('DOMContentLoaded', () => {
+    // Add scroll-triggered animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '50px'
+    });
+
+    // Observe elements for scroll animations
+    document.querySelectorAll('.royal-stats-section, .elite-movies-grid, .royal-pagination').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+        observer.observe(el);
+    });
+
+    // Enhanced hover effects for cards
+    document.querySelectorAll('.elite-movie-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.zIndex = '10';
+        });
+
+        card.addEventListener('mouseleave', function() {
+            this.style.zIndex = '1';
+        });
+    });
+
+    // Parallax effect for floating shapes
+    let ticking = false;
+
+    function updateRoyalParallax() {
+        const scrolled = window.pageYOffset;
+        const parallaxElements = document.querySelectorAll('.floating-shape');
+
+        parallaxElements.forEach((el, index) => {
+            const rate = scrolled * (-0.2 - (index * 0.05));
+            el.style.transform = `translateY(${rate}px)`;
+        });
+
+        ticking = false;
+    }
+
+    function requestRoyalParallaxUpdate() {
+        if (!ticking) {
+            requestAnimationFrame(updateRoyalParallax);
+            ticking = true;
+        }
+    }
+
+    window.addEventListener('scroll', requestRoyalParallaxUpdate);
+});
+
+// Keyboard shortcuts for royal navigation
 document.addEventListener('keydown', (e) => {
-    // Escape key to close any modals
+    // Escape key to close modals
     if (e.key === 'Escape') {
-        const modal = document.querySelector('.custom-confirm-modal');
+        const modal = document.querySelector('.royal-confirm-modal');
         if (modal) {
             modal.querySelector('[data-action="cancel"]')?.click();
         }
     }
-});
 
-// Initialize page enhancements
-document.addEventListener('DOMContentLoaded', () => {
-    // Add loading states to buttons on page load
-    const overlayBtns = document.querySelectorAll('.overlay-btn');
-    overlayBtns.forEach(btn => {
-        btn.style.transition = 'all 0.2s ease';
-    });
-    
-    // Add hover effects to cards
-    const cards = document.querySelectorAll('.watchlist-card');
-    cards.forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            card.style.transform = 'translateY(-8px) scale(1.02)';
-        });
-        
-        card.addEventListener('mouseleave', () => {
-            if (!card.style.transform.includes('scale(0.8)')) {
-                card.style.transform = 'translateY(0) scale(1)';
-            }
-        });
-    });
+    // Enter key to confirm in modals
+    if (e.key === 'Enter') {
+        const modal = document.querySelector('.royal-confirm-modal');
+        if (modal) {
+            modal.querySelector('[data-action="confirm"]')?.click();
+        }
+    }
 });
 </script>
