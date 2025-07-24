@@ -203,4 +203,25 @@ footer a {
 }
 </style>
 
+<script>
+// Handle progress bar animations
+document.addEventListener('DOMContentLoaded', function() {
+    // Set progress bar widths from data attributes
+    const progressElements = document.querySelectorAll('[data-progress]');
+    progressElements.forEach(element => {
+        const progress = element.getAttribute('data-progress');
+        element.style.setProperty('--progress-width', progress + '%');
+        element.style.width = progress + '%';
+    });
+
+    // Set animation delays from data attributes
+    const animatedElements = document.querySelectorAll('[data-animation-delay]');
+    animatedElements.forEach(element => {
+        const delay = element.getAttribute('data-animation-delay');
+        element.style.setProperty('--animation-delay', delay + 's');
+        element.style.animationDelay = delay + 's';
+    });
+});
+</script>
+
 <script src="/public/js/app.js"></script>
