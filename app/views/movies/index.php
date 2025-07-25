@@ -7,6 +7,9 @@
 </head>
 <body>
 
+<!-- Smooth Page Wrapper -->
+<div class="smooth-page-wrapper">
+
 <!-- Regal Hero Section -->
 <div class="regal-hero-section">
     <div class="hero-background">
@@ -47,34 +50,38 @@
     </div>
 </div>
 
-                    <!-- Professional Search Section -->
-                    <div class="regal-search-section">
-                        <div class="search-container">
-                            <div class="search-header">
-                                <div class="search-icon-wrapper">
-                                    <span class="search-icon">🔍</span>
-                                </div>
-                                <h2>Explore Our Cinematic Collection</h2>
-                                <p>Search through our curated library of exceptional films, acclaimed directors, and renowned performers</p>
-                            </div>
-                            <div class="search-box">
-                                    <div class="search-input-wrapper">
-                                    <form onsubmit="return false;" style="display: contents;">
-                                        <div class="search-field">
-                                            <input type="text" 
-                                                   id="searchInput" 
-                                                   class="search-input" 
-placeholder="Search for films"
-                                                   value="<?php echo isset($search_query) ? htmlspecialchars($search_query) : ''; ?>"
-                                                   autocomplete="off" />
-                                            <button type="button" class="search-btn" aria-label="Search movies" onclick="performSearch()">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <circle cx="11" cy="11" r="8"></circle>
-                                                    <path d="M21 21l-4.35-4.35"></path>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </form>
+<!-- Professional Search Section with Smooth Transition -->
+<div class="section-transition">
+    <div class="transition-curve"></div>
+</div>
+
+<div class="regal-search-section">
+    <div class="search-container">
+        <div class="search-header">
+            <div class="search-icon-wrapper">
+                <span class="search-icon">🔍</span>
+            </div>
+            <h2>Explore Our Cinematic Collection</h2>
+            <p>Search through our curated library of exceptional films, acclaimed directors, and renowned performers</p>
+        </div>
+        <div class="search-box">
+            <div class="search-input-wrapper">
+                <form onsubmit="return false;" style="display: contents;">
+                    <div class="search-field">
+                        <input type="text" 
+                               id="searchInput" 
+                               class="search-input" 
+                               placeholder="Search for films"
+                               value="<?php echo isset($search_query) ? htmlspecialchars($search_query) : ''; ?>"
+                               autocomplete="off" />
+                        <button type="button" class="search-btn" aria-label="Search movies" onclick="performSearch()">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="M21 21l-4.35-4.35"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
                 <div class="search-enhancement"></div>
             </div>
         </div>
@@ -87,7 +94,11 @@ placeholder="Search for films"
     <!-- Movie Details Container -->
     <div id="movieDetails" class="movie-details"></div>
 
-    <!-- Recently Rated Films Section -->
+    <!-- Recently Rated Films Section with Smooth Transition -->
+    <div class="section-transition">
+        <div class="transition-curve"></div>
+    </div>
+
     <div class="regal-recent-section">
       <div class="section-container">
         <div class="section-header">
@@ -111,7 +122,11 @@ placeholder="Search for films"
       </div>
     </div>
 
-    <!-- Popular Movies Section -->
+    <!-- Popular Movies Section with Smooth Transition -->
+    <div class="section-transition">
+        <div class="transition-curve"></div>
+    </div>
+
     <div class="regal-popular-section">
       <div class="section-container">
         <div class="section-header">
@@ -244,11 +259,10 @@ placeholder="Search for films"
       </div>
     </div>
 
-
-
+</div> <!-- /smooth-page-wrapper -->
 
 <style>
-/* Professional Regal Homepage Styles - WIDER LAYOUT */
+/* Professional Regal Homepage Styles - SMOOTH & COHESIVE */
 :root {
     --regal-primary: #1a1f3a;
     --regal-secondary: #0f1419;
@@ -259,6 +273,11 @@ placeholder="Search for films"
     --regal-border: rgba(218, 165, 32, 0.3);
     --regal-backdrop: rgba(26, 31, 58, 0.6);
     --regal-glass: rgba(26, 31, 58, 0.8);
+
+    /* Smooth transitions */
+    --transition-smooth: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-medium: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
@@ -271,15 +290,52 @@ body {
     background: linear-gradient(135deg, var(--regal-secondary) 0%, var(--regal-primary) 100%);
     min-height: 100vh;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    overflow-x: hidden;
 }
 
-/* Regal Hero Section - WIDER */
+/* Smooth Page Wrapper for better flow */
+.smooth-page-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Smooth Section Transitions */
+.section-transition {
+    position: relative;
+    height: 80px;
+    margin: -40px 0;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.transition-curve {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: radial-gradient(ellipse at center top, rgba(218, 165, 32, 0.1) 0%, transparent 70%);
+}
+
+.transition-curve::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(218, 165, 32, 0.2), transparent);
+}
+
+/* Regal Hero Section - SMOOTHER */
 .regal-hero-section {
     position: relative;
-    padding: 80px 0 60px;
+    padding: 80px 0 100px; /* Increased bottom padding */
     text-align: center;
     overflow: hidden;
-    margin-bottom: 40px;
+    margin-bottom: 0; /* Removed margin for smoother flow */
+    transition: var(--transition-smooth);
 }
 
 .hero-background {
@@ -441,17 +497,33 @@ body {
     background: linear-gradient(to bottom, transparent, var(--regal-border), transparent);
 }
 
-    /* Professional Search Section - MUCH WIDER */
+    /* Professional Search Section - SMOOTHER INTEGRATION */
     .regal-search-section {
-        margin-bottom: 60px;
-        padding: 0 20px; /* Add padding to the section itself */
+        margin-bottom: 0; /* Remove margin for smoother flow */
+        padding: 60px 20px 100px; /* Adjusted padding */
+        position: relative;
+        background: linear-gradient(180deg, transparent 0%, rgba(26, 31, 58, 0.1) 50%, transparent 100%);
+        transition: var(--transition-smooth);
     }
 
 .search-container {
-    max-width: 2000px; /* INCREASED from 1400px - EXTRA WIDE */
+    max-width: 1800px; /* Slightly reduced for better proportion */
     margin: 0 auto;
-    padding: 0 60px; /* INCREASED from 40px */
-    background: transparent; /* Ensure no white background */
+    padding: 0 60px;
+    background: transparent;
+    transition: var(--transition-medium);
+    animation: fadeInScale 0.8s ease-out;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
 }
 
 
@@ -496,15 +568,26 @@ body {
 }
 
 .search-box {
-    background: rgba(26, 31, 58, 0.8); /* Dark semi-transparent background */
-    backdrop-filter: blur(25px);
-    border-radius: 25px;
-    padding: 40px; /* INCREASED from 30px */
+    background: rgba(26, 31, 58, 0.75);
+    backdrop-filter: blur(30px) saturate(150%);
+    border-radius: 30px;
+    padding: 45px;
     border: 2px solid var(--regal-border);
     box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        0 20px 40px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 0 60px rgba(218, 165, 32, 0.05);
     position: relative;
+    transition: var(--transition-medium);
+    transform: translateY(0);
+}
+
+.search-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        0 0 80px rgba(218, 165, 32, 0.08);
 }
 
     .search-input-wrapper {
@@ -618,23 +701,50 @@ body {
 }
 
 
-/* Section Containers - WIDER */
+/* Section Containers - SMOOTHER FLOW */
+.regal-recent-section,
 .regal-popular-section {
-    margin-bottom: 60px;
+    margin-bottom: 0;
+    padding: 60px 20px 80px;
+    position: relative;
+    background: linear-gradient(180deg, transparent 0%, rgba(26, 31, 58, 0.05) 50%, transparent 100%);
+    transition: var(--transition-smooth);
 }
 
 .section-container {
-    max-width: 1600px; /* INCREASED from 1200px - MAJOR CHANGE */
+    max-width: 1600px;
     margin: 0 auto;
-    padding: 40px; /* INCREASED from 40px 20px */
+    padding: 50px;
     background: var(--regal-glass);
-    backdrop-filter: blur(25px);
-    border-radius: 25px;
+    backdrop-filter: blur(30px) saturate(120%);
+    border-radius: 30px;
     border: 2px solid var(--regal-border);
     box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        0 20px 40px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 0 60px rgba(218, 165, 32, 0.03);
     position: relative;
+    transition: var(--transition-medium);
+    animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        0 0 80px rgba(218, 165, 32, 0.05);
 }
 
 .section-header {
@@ -715,24 +825,44 @@ body {
 
 .movie-card {
     background: var(--regal-glass);
-    backdrop-filter: blur(20px);
-    border-radius: 20px;
+    backdrop-filter: blur(25px) saturate(120%);
+    border-radius: 24px;
     overflow: hidden;
     box-shadow: 
-        0 10px 30px rgba(0, 0, 0, 0.3),
-        0 2px 8px rgba(0, 0, 0, 0.2);
-    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        0 12px 32px rgba(0, 0, 0, 0.2),
+        0 2px 8px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    transition: var(--transition-medium);
     cursor: pointer;
     position: relative;
-    border: 2px solid var(--regal-border);
+    border: 2px solid rgba(218, 165, 32, 0.2);
+    transform: translateY(0) scale(1);
 }
 
 .movie-card:hover {
-    transform: translateY(-8px) scale(1.02);
+    transform: translateY(-10px) scale(1.03);
     box-shadow: 
-        0 20px 40px rgba(0, 0, 0, 0.3),
-        0 8px 20px rgba(218, 165, 32, 0.2);
-    border-color: var(--regal-border);
+        0 25px 50px rgba(0, 0, 0, 0.25),
+        0 10px 25px rgba(218, 165, 32, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border-color: rgba(218, 165, 32, 0.4);
+}
+
+.movie-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, transparent 0%, rgba(218, 165, 32, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.movie-card:hover::after {
+    opacity: 1;
 }
 
 .movie-poster {
@@ -903,25 +1033,30 @@ body {
     box-shadow: 0 4px 12px rgba(218, 165, 32, 0.3);
 }
 
-/* Search Results Styling */
+/* Search Results Styling - SMOOTHER APPEARANCE */
 .search-results {
-    margin-top: 40px;
+    margin-top: 50px;
     opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.6s ease;
+    transform: translateY(30px) scale(0.98);
+    transition: var(--transition-smooth);
     background: var(--regal-glass);
-    backdrop-filter: blur(25px);
-    border-radius: 25px;
-    padding: 40px;
+    backdrop-filter: blur(30px) saturate(120%);
+    border-radius: 30px;
+    padding: 50px;
     border: 2px solid var(--regal-border);
     box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        0 20px 40px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 0 60px rgba(218, 165, 32, 0.03);
 }
 
 .search-results.show {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
+}
+
+.search-results:empty {
+    display: none;
 }
 
 .results-header {
@@ -1062,15 +1197,24 @@ body {
 }
 
 
-    /* Recently Rated Section Styles */
+    /* Recently Rated Section Styles - SMOOTHER */
     .regal-recent-section {
-        margin-bottom: 60px;
+        margin-bottom: 0;
+        opacity: 0;
+        animation: fadeInSection 1s ease-out 0.3s forwards;
+    }
+
+    @keyframes fadeInSection {
+        to {
+            opacity: 1;
+        }
     }
 
     .recent-movies-grid {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
         gap: 30px;
+        transition: var(--transition-medium);
     }
 
     @media (max-width: 1200px) {
@@ -1095,24 +1239,44 @@ body {
 
     .recent-movie-card {
         background: var(--regal-glass);
-        backdrop-filter: blur(20px);
-        border-radius: 20px;
+        backdrop-filter: blur(25px) saturate(120%);
+        border-radius: 24px;
         overflow: hidden;
         box-shadow: 
-            0 10px 30px rgba(0, 0, 0, 0.3),
-            0 2px 8px rgba(0, 0, 0, 0.2);
-        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            0 12px 32px rgba(0, 0, 0, 0.2),
+            0 2px 8px rgba(0, 0, 0, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        transition: var(--transition-medium);
         cursor: pointer;
         position: relative;
-        border: 2px solid var(--regal-border);
+        border: 2px solid rgba(218, 165, 32, 0.2);
+        transform: translateY(0) scale(1);
     }
 
     .recent-movie-card:hover {
-        transform: translateY(-8px) scale(1.02);
+        transform: translateY(-10px) scale(1.03);
         box-shadow: 
-            0 20px 40px rgba(0, 0, 0, 0.3),
-            0 8px 20px rgba(218, 165, 32, 0.2);
-        border-color: var(--regal-accent);
+            0 25px 50px rgba(0, 0, 0, 0.25),
+            0 10px 25px rgba(218, 165, 32, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        border-color: rgba(218, 165, 32, 0.4);
+    }
+
+    .recent-movie-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at center, transparent 0%, rgba(218, 165, 32, 0.05) 100%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+    }
+
+    .recent-movie-card:hover::after {
+        opacity: 1;
     }
 
     .recent-rating-badge {
@@ -1183,18 +1347,31 @@ body {
         text-decoration: underline;
     }
 
-/* Animation classes */
+/* Animation classes - SMOOTHER */
 .animate-card {
     opacity: 0;
-    transform: translateY(20px);
-    animation: slideInUp 0.6s ease forwards;
+    transform: translateY(30px) scale(0.95);
+    animation: smoothSlideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-@keyframes slideInUp {
+@keyframes smoothSlideIn {
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
     }
+}
+
+/* Stagger animation for cards */
+.movie-card:nth-child(1) { animation-delay: 0.1s; }
+.movie-card:nth-child(2) { animation-delay: 0.15s; }
+.movie-card:nth-child(3) { animation-delay: 0.2s; }
+.movie-card:nth-child(4) { animation-delay: 0.25s; }
+.movie-card:nth-child(5) { animation-delay: 0.3s; }
+.movie-card:nth-child(6) { animation-delay: 0.35s; }
+
+/* Smooth scroll behavior */
+html {
+    scroll-behavior: smooth;
 }
 
 /* Performance optimizations */
@@ -1204,6 +1381,23 @@ body {
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
+
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* Loading states for smoother transitions */
+.loading-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--regal-text-muted);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
 }
 
     /* Enhanced Search Section Visual Design */

@@ -1,5 +1,4 @@
 <?php
-// Elite Cinema Profile - app/views/profile/index.php
 ?>
 <div class="regal-profile-container">
     <!-- Regal Background Animation -->
@@ -183,7 +182,7 @@
                                 <div class="poster-glow-mini"></div>
                             </div>
                             <div class="chronicle-info-royal">
-                                <p><?php echo $rating['year']; ?> • <?php echo htmlspecialchars($rating['genre']); ?></p>
+                                <p><?php echo $rating['year']; ?><?php echo isset($rating['genre']) && !empty($rating['genre']) ? ' • ' . htmlspecialchars($rating['genre']) : ''; ?></p>
                                 <div class="royal-rating-display">
                                     <span class="royal-constellation-mini">
                                         <?php for ($i = 1; $i <= 5; $i++): ?>
@@ -194,20 +193,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="chronicle-actions-royal">
-                        <button class="royal-action-btn" onclick="editRating(<?php echo $rating['movie_id']; ?>)" title="Refine critique">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                <path d="m18.5 2.5 3 3L12 15l-4 1 1-4z"></path>
-                            </svg>
-                        </button>
-                        <button class="royal-action-btn danger-royal" onclick="deleteRating(<?php echo $rating['movie_id']; ?>)" title="Remove critique">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="3,6 5,6 21,6"></polyline>
-                                <path d="M19,6v14a2,2 0 0,1-2,2H7a2,2 0 0,1-2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
-                            </svg>
-                        </button>
                     </div>
                 </div>
             <?php endforeach; ?>
