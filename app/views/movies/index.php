@@ -1756,11 +1756,128 @@ function searchForMovie(title) {
     }
 }
 
+    / Load recently rated movies
+    async function loadRecentlyRatedMovies() {
+        const container = document.getElementById('recentlyRatedMovies');
+        if (!container) return;
+
+        try {
+            const response = await fetch('/api/ratings/recent?limit=5', {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            if (data.success && data.movies && data.movies.length > 0) {
+                displayRecentlyRatedMovies(data.movies);
+            } else {
+                displayNoRecentRatings();
+            }
+        } catch (error) {
+            console.error('Error loading recently rated movies:', error);
+            displayRecentRatingsError();
+        }
+    }
+
+    function displayRecentlyRatedMovies(movies) {
+        const container = document.getElementById('recentlyRatedMovies');
+
+        const moviesHTML = movies.map((movie, index) => {
+            const poster = movie.poster && movie.poster !== 'N/A' ? movie.poster : '/public/assets/images/no-image.png';
+            const avgRating = movie.avg_rating ? parseFloat(movie.avg_rating).toFixed(1) : 'N/A';
+            const ratingDate = movie.last_rated ? formatTimeAgo(movie.last_rated) : 'Recently';
+
+            return `
+                <div class="recent-movie-card animate-card" style="animation-delay: ${index * 0.1}s;" onclick="loadMovieDetails('${movie.imdb_id}')">
+                    <div class="movie-poster">
+                        <img src="${poster}" 
+                             alt="${movie.title}" 
+                             onerror="this.src='/public/assets/images/no-image.png'"
+                             loading="lazy">
+                        <div class="recent-rating-badge">
+                            <span>⭐ ${avgRating}</span>
+                        </div>
+                        <div class="time-badge">${ratingDate}</div>
+                        <div class="movie-overlay">
+                            <button class="overlay-btn">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                                </svg>
+                                <span>View Details</span>
+                            </button>
+                        </div>
+                        <div class="regal-frame"></div>
+                    </div>
+                    <div class="movie-card-info">
+                        <h4>${movie.title}</h4>
+                        <p>${movie.year} • ${movie.genre ? movie.genre.split(',')[0] : 'Movie'}</p>
+                        <div class="movie-stats">
+                            <span class="rating-count">${movie.rating_count || 1} rating${movie.rating_count > 1 ? 's' : ''}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        container.innerHTML = moviesHTML;
+    }
+
+    function displayNoRecentRatings() {
+        const container = document.getElementById('recentlyRatedMovies');
+        container.innerHTML = `
+            <div class="no-results" style="grid-column: 1 / -1;">
+                <div class="no-results-icon">🎬</div>
+                <h3>No Recent Ratings Yet</h3>
+                <p>Be the first to rate a movie! Search for your favorite films and share your ratings.</p>
+            </div>
+        `;
+    }
+
+    function displayRecentRatingsError() {
+        const container = document.getElementById('recentlyRatedMovies');
+        container.innerHTML = `
+            <div class="no-results" style="grid-column: 1 / -1;">
+                <div class="no-results-icon">⚠️</div>
+                <h3>Unable to Load Recent Ratings</h3>
+                <p>Please try again later.</p>
+            </div>
+        `;
+    }
+
+    function formatTimeAgo(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const seconds = Math.floor((now - date) / 1000);
+
+        if (seconds < 60) return 'Just now';
+        if (seconds < 3600) return Math.floor(seconds / 60) + ' min ago';
+        if (seconds < 86400) return Math.floor(seconds / 3600) + ' hours ago';
+        if (seconds < 604800) return Math.floor(seconds / 86400) + ' days ago';
+        return date.toLocaleDateString();
+    }
+
+    function loadMoreRecentRatings() {
+        // This could open a modal or navigate to a dedicated page
+        console.log('Load more recent ratings');
+        // For now, just reload with more items
+        window.location.href = '/dashboard';
+    }
+
 // Initialize everything
 document.addEventListener('DOMContentLoaded', () => {
     animateCounters();
     setupSearchFunctionality();
     setupCategoryButtons();
+    loadRecentlyRatedMovies(); // Load recent ratings on page load
 });
 </script>
 
