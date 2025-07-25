@@ -126,6 +126,7 @@ try {
     $router->delete('/api/ratings/delete', 'Controllers\RatingController@deleteRating');
     $router->get('/api/ratings/stats', 'Controllers\RatingController@getRatingStats');
     $router->get('/api/ratings/top', 'Controllers\RatingController@getTopRated');
+    $router->get('/api/ratings/recent', 'Controllers\RatingController@getRecentlyRated');
 
     // User dashboard routes
     $router->get('/dashboard', 'Controllers\UserController@dashboard');
