@@ -310,9 +310,6 @@ class MovieSearchApp {
                             <a href="/login" class="btn btn-primary">
                                 <span>🔐</span> Login to Add to Watchlist
                             </a>
-                            <a href="/register" class="btn btn-secondary">
-                                <span>👑</span> Join to Rate Movies
-                            </a>
                         `}
                         <button class="btn btn-secondary" onclick="movieAppInstance.generateReview(${movie.id})">
                             <span>🤖</span> AI Review

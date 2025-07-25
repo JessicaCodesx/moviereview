@@ -447,16 +447,18 @@ body {
         padding: 0 20px; /* Add padding to the section itself */
     }
 
-    .search-container {
-        max-width: 2000px; /* INCREASED from 1400px - EXTRA WIDE */
-        margin: 0 auto;
-        padding: 0 60px; /* INCREASED from 40px */
-    }
+.search-container {
+    max-width: 2000px; /* INCREASED from 1400px - EXTRA WIDE */
+    margin: 0 auto;
+    padding: 0 60px; /* INCREASED from 40px */
+    background: transparent; /* Ensure no white background */
+}
 
 
 .search-header {
     text-align: center;
     margin-bottom: 40px;
+    background: transparent; /* Ensure no white background */
 }
 
 .search-icon-wrapper {
@@ -494,7 +496,7 @@ body {
 }
 
 .search-box {
-    background: var(--regal-glass);
+    background: rgba(26, 31, 58, 0.8); /* Dark semi-transparent background */
     backdrop-filter: blur(25px);
     border-radius: 25px;
     padding: 40px; /* INCREASED from 30px */
@@ -1307,7 +1309,7 @@ body {
 
         /* Enhanced search box */
         .search-box {
-            background: rgba(26, 31, 58, 0.85);
+            background: rgba(26, 31, 58, 0.85) !important; /* Force dark background */
             backdrop-filter: blur(30px) saturate(150%);
             border-radius: 30px;
             padding: 50px;
@@ -1511,28 +1513,27 @@ body {
 </style>
 
 <script>
-// Wait for the page to fully load including external scripts
-window.addEventListener('load', function() {
-    console.log('Page fully loaded, initializing movie page...');
+// Define all functions in global scope
+console.log('Movie page script loading...');
 
-    // Check if movieAppInstance exists from app.js
-    if (typeof window.movieAppInstance === 'undefined') {
-        console.log('Creating fallback movieAppInstance');
-        // Fallback movie app instance if main app.js is not loaded
-        window.movieAppInstance = {
-            loadMovieDetails: function(imdbId) {
-                console.log('Loading movie details for:', imdbId);
-                // Your existing movie details functionality
-            },
+// Movie App Instance - Check if already exists from app.js
+if (typeof window.movieAppInstance === 'undefined') {
+    console.log('Creating fallback movieAppInstance');
+    // Fallback movie app instance if main app.js is not loaded
+    window.movieAppInstance = {
+        loadMovieDetails: function(imdbId) {
+            console.log('Loading movie details for:', imdbId);
+            // Your existing movie details functionality
+        },
 
-            showToast: function(message, type) {
-                console.log(`Toast [${type}]:`, message);
-                // Your existing toast functionality
-            }
-        };
-    } else {
-        console.log('Using existing movieAppInstance from app.js');
-    }
+        showToast: function(message, type) {
+            console.log(`Toast [${type}]:`, message);
+            // Your existing toast functionality
+        }
+    };
+} else {
+    console.log('Using existing movieAppInstance from app.js');
+}
 
 async function performSearch() {
     const searchInput = document.getElementById('searchInput');
@@ -1880,7 +1881,6 @@ function formatTimeAgo(dateString) {
 }
 
 function loadMoreRecentRatings() {
-    // This could open a modal or navigate to a dedicated page
     console.log('Load more recent ratings');
     // For now, just reload with more items
     window.location.href = '/dashboard';
@@ -1897,10 +1897,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         console.log('Delayed initialization - loading recent movies...');
         loadRecentlyRatedMovies();
-    }, 100);
+    }, 10); // Increased delay to 500ms
 });
-
-}); // Close the window.load event listener
 </script>
 
 </body>
