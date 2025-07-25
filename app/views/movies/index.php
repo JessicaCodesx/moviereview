@@ -64,7 +64,7 @@
                                             <input type="text" 
                                                    id="searchInput" 
                                                    class="search-input" 
-                                                   placeholder="Search for films, directors, actors..."
+placeholder="Search for films"
                                                    value="<?php echo isset($search_query) ? htmlspecialchars($search_query) : ''; ?>"
                                                    autocomplete="off" />
                                             <button type="button" class="search-btn" aria-label="Search movies" onclick="performSearch()">
@@ -76,26 +76,6 @@
                                         </div>
                                     </form>
                 <div class="search-enhancement"></div>
-            </div>
-            <div class="search-suggestions">
-                <div class="suggestions-label">Popular Genres:</div>
-                <div class="suggestion-tags">
-                    <span class="suggestion-tag" onclick="searchSuggestion('Action')">
-                        <span class="tag-icon">⚔️</span>Action
-                    </span>
-                    <span class="suggestion-tag" onclick="searchSuggestion('Comedy')">
-                        <span class="tag-icon">😄</span>Comedy
-                    </span>
-                    <span class="suggestion-tag" onclick="searchSuggestion('Drama')">
-                        <span class="tag-icon">🎭</span>Drama
-                    </span>
-                    <span class="suggestion-tag" onclick="searchSuggestion('Thriller')">
-                        <span class="tag-icon">🔪</span>Thriller
-                    </span>
-                    <span class="suggestion-tag" onclick="searchSuggestion('Sci-Fi')">
-                        <span class="tag-icon">🚀</span>Sci-Fi
-                    </span>
-                </div>
             </div>
         </div>
 
@@ -241,7 +221,7 @@
     </div>
 
 
-    
+
 
 <style>
 /* Professional Regal Homepage Styles - WIDER LAYOUT */
@@ -596,56 +576,6 @@ body {
     opacity: 1;
 }
 
-.search-suggestions {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    align-items: center;
-}
-
-.suggestions-label {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.7);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.suggestion-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px; /* INCREASED from 10px */
-    justify-content: center;
-}
-
-.suggestion-tag {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(218, 165, 32, 0.2);
-    color: var(--regal-accent);
-    padding: 12px 18px; /* INCREASED from 10px 16px */
-    border-radius: 20px;
-    font-size: 0.95rem; /* INCREASED from 0.9rem */
-    font-weight: 600;
-    border: 1px solid var(--regal-border);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
-}
-
-.suggestion-tag:hover {
-    background: rgba(218, 165, 32, 0.25);
-    border-color: var(--regal-accent);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(218, 165, 32, 0.3);
-}
-
-.tag-icon {
-    font-size: 1rem;
-}
 
 /* Section Containers - WIDER */
 .regal-popular-section {
@@ -1275,66 +1205,6 @@ body {
             filter: blur(0);
         }
 
-        /* Enhanced suggestion tags */
-        .suggestion-tag {
-            background: linear-gradient(135deg, rgba(218, 165, 32, 0.3), rgba(218, 165, 32, 0.2));
-            padding: 14px 24px;
-            border-radius: 25px;
-            font-size: 1rem;
-            border: 1.5px solid rgba(218, 165, 32, 0.4);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 
-                0 4px 15px rgba(218, 165, 32, 0.25),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15);
-        }
-
-        /* Shimmer effect for tags */
-        .suggestion-tag::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg, 
-                transparent, 
-                rgba(255, 255, 255, 0.3), 
-                transparent
-            );
-            transition: left 0.5s;
-        }
-
-        .suggestion-tag:hover {
-            background: linear-gradient(135deg, rgba(218, 165, 32, 0.4), rgba(218, 165, 32, 0.3));
-            border-color: #daa520;
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 
-                0 8px 25px rgba(218, 165, 32, 0.45),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                0 0 30px rgba(218, 165, 32, 0.25);
-            color: #f4d03f;
-        }
-
-        .suggestion-tag:hover::before {
-            left: 100%;
-        }
-
-        .suggestion-tag:active {
-            transform: translateY(-1px) scale(1.02);
-        }
-
-        .tag-icon {
-            font-size: 1.15rem;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-            transition: transform 0.3s ease;
-        }
-
-        .suggestion-tag:hover .tag-icon {
-            transform: scale(1.2) rotate(10deg);
-        }
 
         /* Add floating particles animation */
         .search-box::before,
@@ -1401,12 +1271,8 @@ body {
             height: 50px;
         }
 
-        .suggestion-tag {
-            padding: 10px 16px;
-            font-size: 0.85rem;
-        }
     }
-    
+
 </style>
 
 <script>
@@ -1486,7 +1352,7 @@ async function performSearch() {
 function displaySearchResults(results, query) {
     const searchResults = document.getElementById('searchResults');
 
-    if (results.length === 0) {
+    if (!results || results.length === 0) {
         displayNoResults(query);
         return;
     }
@@ -1497,13 +1363,23 @@ function displaySearchResults(results, query) {
             <p>Found ${results.length} films matching "${query}"</p>
         </div>
         <div class="movies-grid">
-            ${results.map(movie => `
-                <div class="movie-card" onclick="loadMovieDetails('${movie.imdbID || movie.imdb_id}')">
+            ${results.map(movie => {
+                // Handle both API response formats (OMDB and database)
+                const imdbId = movie.imdbID || movie.imdb_id || movie.imdbId;
+                const title = movie.Title || movie.title;
+                const year = movie.Year || movie.year;
+                const poster = movie.Poster || movie.poster;
+                const type = movie.Type || movie.type || 'movie';
+                const avgRating = movie.avg_rating ? parseFloat(movie.avg_rating).toFixed(1) : null;
+
+                return `
+                <div class="movie-card" onclick="loadMovieDetails('${imdbId}')">
                     <div class="movie-poster">
-                        <img src="${movie.Poster !== 'N/A' ? movie.Poster : '/public/assets/images/no-image.png'}" 
-                             alt="${movie.Title}" 
+                        <img src="${poster && poster !== 'N/A' ? poster : '/public/assets/images/no-image.png'}" 
+                             alt="${title}" 
                              onerror="this.src='/public/assets/images/no-image.png'"
                              loading="lazy">
+                        ${avgRating ? `<div class="movie-badge"><span class="avg-badge">⭐ ${avgRating}</span></div>` : ''}
                         <div class="movie-overlay">
                             <button class="overlay-btn">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -1515,11 +1391,12 @@ function displaySearchResults(results, query) {
                         <div class="regal-frame"></div>
                     </div>
                     <div class="movie-card-info">
-                        <h4>${movie.Title}</h4>
-                        <p>${movie.Year} • <span class="movie-type">${movie.Type}</span></p>
+                        <h4>${title}</h4>
+                        <p>${year} • <span class="movie-type">${type}</span></p>
                     </div>
                 </div>
-            `).join('')}
+                `;
+            }).join('')}
         </div>
     `;
 
@@ -1593,29 +1470,6 @@ function animateCounters() {
     });
 }
 
-// Enhanced Search Suggestions
-function searchSuggestion(genre) {
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.value = genre;
-        searchInput.focus();
-
-        // Add visual feedback
-        const suggestion = event.target;
-        suggestion.style.transform = 'scale(1.1)';
-        suggestion.style.background = 'rgba(218, 165, 32, 0.4)';
-
-        setTimeout(() => {
-            suggestion.style.transform = '';
-            suggestion.style.background = '';
-        }, 200);
-
-        // Trigger search after brief delay
-        setTimeout(() => {
-            performSearch();
-        }, 300);
-    }
-}
 
 // Enhanced search input event listeners
 function setupSearchFunctionality() {
@@ -1652,6 +1506,15 @@ function setupCategoryButtons() {
             console.log('Filter by category:', this.dataset.category);
         });
     });
+}
+
+// Search for a specific movie by title
+function searchForMovie(title) {
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.value = title;
+        performSearch();
+    }
 }
 
 // Initialize everything
