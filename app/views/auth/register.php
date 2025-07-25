@@ -221,22 +221,6 @@
                 <h4>Elite Community</h4>
                 <p>Connect with fellow connoisseurs and film critics in our distinguished society</p>
             </div>
-            <div class="benefit-item regal-benefit">
-                <div class="benefit-icon-wrapper">
-                    <div class="benefit-icon">🏆</div>
-                    <div class="icon-glow"></div>
-                </div>
-                <h4>Recognition System</h4>
-                <p>Earn prestigious badges and climb the ranks in our merit-based hierarchy</p>
-            </div>
-            <div class="benefit-item regal-benefit">
-                <div class="benefit-icon-wrapper">
-                    <div class="benefit-icon">🤖</div>
-                    <div class="icon-glow"></div>
-                </div>
-                <h4>AI Sommelier</h4>
-                <p>Receive sophisticated recommendations tailored to your refined cinematic palate</p>
-            </div>
         </div>
 
         <div class="testimonial-regal">
