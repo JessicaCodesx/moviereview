@@ -201,4 +201,21 @@ class RatingController extends BaseController {
             $this->jsonResponse(['error' => 'Failed to get top rated movies: ' . $e->getMessage()], 500);
         }
     }
-}
+
+        public function getRecentlyRated() {
+            try {
+                $limit = (int)($_GET['limit'] ?? 5);
+
+                $recentlyRated = $this->ratingModel->getRecentlyRatedMovies($limit);
+
+                $this->jsonResponse([
+                    'success' => true,
+                    'movies' => $recentlyRated,
+                    'count' => count($recentlyRated)
+                ]);
+
+            } catch (\Exception $e) {
+                $this->jsonResponse(['error' => 'Failed to get recently rated movies: ' . $e->getMessage()], 500);
+            }
+        }
+    }
