@@ -178,7 +178,7 @@ class MovieSearchApp {
                          loading="lazy">
                     <div class="movie-overlay">
                         <button class="overlay-btn">
-                            <span>👁️</span> View Details
+                            View Details
                         </button>
                     </div>
                 </div>
@@ -539,25 +539,47 @@ class MovieSearchApp {
             position: 'fixed',
             top: `${headerHeight}px`,
             right: '20px',
-            padding: '16px 20px',
+            padding: '16px 24px',
             borderRadius: '12px',
             color: 'white',
-            fontWeight: '600',
+            fontWeight: '500',
+            fontSize: '14px',
+            letterSpacing: '0.02em',
             zIndex: '10000',
             transform: 'translateX(400px)',
-            transition: 'transform 0.3s ease',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
             maxWidth: '350px',
-            boxShadow: '0 10px 25px rgba(0,0,0,0.2)'
+            boxShadow: '0 10px 25px rgba(10, 22, 40, 0.3), 0 6px 12px rgba(10, 22, 40, 0.15)',
+            backdropFilter: 'blur(10px)',
+            fontFamily: 'Poppins, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
         });
 
-        // Set background based on type
-        const colors = {
-            success: '#10b981',
-            error: '#ef4444',
-            warning: '#f59e0b',
-            info: '#6366f1'
+        // Set background and styling based on type - matching theme colors
+        const styles = {
+            success: {
+                background: 'linear-gradient(135deg, rgba(212, 165, 116, 0.95) 0%, rgba(196, 130, 27, 0.95) 100%)',
+                border: '1px solid rgba(212, 165, 116, 0.3)',
+                boxShadow: '0 10px 25px rgba(212, 165, 116, 0.3), 0 6px 12px rgba(212, 165, 116, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+            },
+            error: {
+                background: 'linear-gradient(135deg, rgba(198, 40, 40, 0.95) 0%, rgba(183, 28, 28, 0.95) 100%)',
+                border: '1px solid rgba(198, 40, 40, 0.3)',
+                boxShadow: '0 10px 25px rgba(198, 40, 40, 0.2), 0 6px 12px rgba(198, 40, 40, 0.1)'
+            },
+            warning: {
+                background: 'linear-gradient(135deg, rgba(249, 168, 37, 0.95) 0%, rgba(245, 127, 23, 0.95) 100%)',
+                border: '1px solid rgba(249, 168, 37, 0.3)',
+                boxShadow: '0 10px 25px rgba(249, 168, 37, 0.2), 0 6px 12px rgba(249, 168, 37, 0.1)'
+            },
+            info: {
+                background: 'linear-gradient(135deg, rgba(30, 58, 95, 0.95) 0%, rgba(42, 78, 122, 0.95) 100%)',
+                border: '1px solid rgba(99, 102, 241, 0.3)',
+                boxShadow: '0 10px 25px rgba(30, 58, 95, 0.3), 0 6px 12px rgba(30, 58, 95, 0.15)'
+            }
         };
-        toast.style.backgroundColor = colors[type] || colors.info;
+
+        const selectedStyle = styles[type] || styles.info;
+        Object.assign(toast.style, selectedStyle);
 
         document.body.appendChild(toast);
 
