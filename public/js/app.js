@@ -292,13 +292,12 @@ class MovieSearchApp {
                         ${movie.director && movie.director !== 'N/A' ? `<p><strong>Director:</strong> ${movie.director}</p>` : ''}
                         ${movie.actors && movie.actors !== 'N/A' ? `<p><strong>Cast:</strong> ${movie.actors}</p>` : ''}
                     </div>
-                    ${isAuthenticated ? `
                     <div class="rating-section">
                         <h4>Rate this movie:</h4>
                         ${this.createRatingHTML(movie.user_rating || 0, movie.id)}
                         ${ratingCount > 0 ? `<p class="rating-info">Average: ${rating}/5 (${ratingCount} ratings)</p>` : ''}
+                        ${!isAuthenticated ? `<p class="rating-note">Your rating is saved anonymously. <a href="/login">Login</a> to track your ratings.</p>` : ''}
                     </div>
-                    ` : ''}
                     <div class="movie-actions">
                         ${isAuthenticated ? `
                             <button class="btn btn-primary" onclick="movieAppInstance.addToWatchlist(${movie.id})">
