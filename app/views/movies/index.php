@@ -87,6 +87,32 @@ placeholder="Search for films"
     <!-- Movie Details Container -->
     <div id="movieDetails" class="movie-details"></div>
 
+    <!-- Recently Rated Films Section -->
+    <div class="regal-recent-section">
+      <div class="section-container">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="title-icon">🎯</div>
+            <div class="title-content">
+              <h3>Recently Rated Films</h3>
+              <p class="section-subtitle">Fresh perspectives from our community</p>
+            </div>
+          </div>
+          <div class="section-actions">
+            <button class="view-all-btn" onclick="loadMoreRecentRatings()">View All</button>
+          </div>
+        </div>
+
+        <!-- Recently Rated Movies Grid -->
+        <div id="recentlyRatedMovies" class="recent-movies-grid">
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Loading recently rated films...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Popular Movies Section -->
     <div class="regal-popular-section">
       <div class="section-container">
@@ -510,37 +536,37 @@ body {
     transform: translateY(-2px);
 }
 
-    /* Specific override for this page's search input */
-    .regal-search-section .search-input {
-        flex: 1;
-        background: rgba(0, 0, 0, 0.3);
-        border: none;
-        padding: 20px 24px; /* INCREASED from 16px 20px - MAJOR CHANGE */
-        font-size: 1.2rem; /* INCREASED from 1.1rem */
-        color: #ffffff !important;
-        font-weight: 500;
-        outline: none;
-        border-radius: 12px;
-        -webkit-text-fill-color: #ffffff !important; /* Force white text in webkit browsers */
-    }
+/* Specific override for this page's search input */
+.regal-search-section .search-input {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.3);
+    border: none;
+    padding: 20px 24px; /* INCREASED from 16px 20px - MAJOR CHANGE */
+    font-size: 1.2rem; /* INCREASED from 1.1rem */
+    color: #ffffff !important;
+    font-weight: 500;
+    outline: none;
+    border-radius: 12px;
+    -webkit-text-fill-color: #ffffff !important; /* Force white text in webkit browsers */
+}
 
-    /* Additional fix for autofill styling */
-    .regal-search-section .search-input:-webkit-autofill,
-    .regal-search-section .search-input:-webkit-autofill:hover,
-    .regal-search-section .search-input:-webkit-autofill:focus,
-    .regal-search-section .search-input:-webkit-autofill:active {
-        -webkit-text-fill-color: #ffffff !important;
-        -webkit-box-shadow: 0 0 0 30px rgba(0, 0, 0, 0.3) inset !important;
-        box-shadow: 0 0 0 30px rgba(0, 0, 0, 0.3) inset !important;
-        background-color: transparent !important;
-        color: #ffffff !important;
-    }
+/* Additional fix for autofill styling */
+.regal-search-section .search-input:-webkit-autofill,
+.regal-search-section .search-input:-webkit-autofill:hover,
+.regal-search-section .search-input:-webkit-autofill:focus,
+.regal-search-section .search-input:-webkit-autofill:active {
+    -webkit-text-fill-color: #ffffff !important;
+    -webkit-box-shadow: 0 0 0 30px rgba(0, 0, 0, 0.3) inset !important;
+    box-shadow: 0 0 0 30px rgba(0, 0, 0, 0.3) inset !important;
+    background-color: transparent !important;
+    color: #ffffff !important;
+}
 
-    /* Override placeholder color as well */
-    .regal-search-section .search-input::placeholder {
-        color: rgba(255, 255, 255, 0.6) !important;
-        opacity: 1;
-    }
+/* Override placeholder color as well */
+.regal-search-section .search-input::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+    opacity: 1;
+}
 
 .search-btn {
     background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
@@ -688,16 +714,17 @@ body {
 }
 
 .movie-card {
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--regal-glass);
+    backdrop-filter: blur(20px);
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 
-        0 10px 30px rgba(0, 0, 0, 0.2),
-        0 2px 8px rgba(0, 0, 0, 0.1);
+        0 10px 30px rgba(0, 0, 0, 0.3),
+        0 2px 8px rgba(0, 0, 0, 0.2);
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     cursor: pointer;
     position: relative;
-    border: 2px solid transparent;
+    border: 2px solid var(--regal-border);
 }
 
 .movie-card:hover {
@@ -747,16 +774,19 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
+    background: linear-gradient(135deg, rgba(26, 31, 58, 0.85) 0%, rgba(218, 165, 32, 0.2) 100%);
+    backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(0.95);
 }
 
 .movie-card:hover .movie-overlay {
     opacity: 1;
+    transform: scale(1);
 }
 
 .play-button {
@@ -816,18 +846,20 @@ body {
 .movie-card-info {
     padding: 20px;
     text-align: center;
+    background: rgba(26, 31, 58, 0.6);
 }
 
 .movie-card-info h4 {
     font-size: 1rem;
     font-weight: 700;
-    color: var(--regal-primary);
+    color: var(--regal-accent);
     margin-bottom: 8px;
     line-height: 1.3;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .movie-card-info p {
-    color: #6b7280;
+    color: var(--regal-text-muted);
     font-size: 0.85rem;
     margin-bottom: 10px;
 }
@@ -841,7 +873,7 @@ body {
 
 .rating-count,
 .popularity-score {
-    color: #9ca3af;
+    color: rgba(218, 165, 32, 0.7);
     font-weight: 500;
 }
 
@@ -877,6 +909,14 @@ body {
     opacity: 0;
     transform: translateY(20px);
     transition: all 0.6s ease;
+    background: var(--regal-glass);
+    backdrop-filter: blur(25px);
+    border-radius: 25px;
+    padding: 40px;
+    border: 2px solid var(--regal-border);
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .search-results.show {
@@ -961,65 +1001,186 @@ body {
     margin: 0 auto;
 }
 
+/* Overlay Button Styling */
+.overlay-btn {
+    background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 30px;
+    padding: 12px 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--regal-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 4px 15px rgba(218, 165, 32, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    backdrop-filter: blur(10px);
+    transform: scale(0.9);
+    opacity: 0.9;
+}
 
-    /* Overlay Button Styling */
-    .overlay-btn {
+.overlay-btn:hover {
+    background: linear-gradient(135deg, var(--regal-accent-light), var(--regal-accent));
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 
+        0 8px 25px rgba(218, 165, 32, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        0 0 30px rgba(218, 165, 32, 0.4);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.overlay-btn:active {
+    transform: scale(0.95);
+    box-shadow: 
+        0 2px 8px rgba(218, 165, 32, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.overlay-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--regal-primary);
+    stroke-width: 2.5;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+    transition: transform 0.3s ease;
+}
+
+.overlay-btn:hover svg {
+    transform: rotate(5deg) scale(1.1);
+}
+
+.overlay-btn span {
+    font-size: 0.9rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+
+    /* Recently Rated Section Styles */
+    .regal-recent-section {
+        margin-bottom: 60px;
+    }
+
+    .recent-movies-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 30px;
+    }
+
+    @media (max-width: 1200px) {
+        .recent-movies-grid {
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        }
+    }
+
+    @media (max-width: 768px) {
+        .recent-movies-grid {
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .recent-movies-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+    }
+
+    .recent-movie-card {
+        background: var(--regal-glass);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 
+            0 10px 30px rgba(0, 0, 0, 0.3),
+            0 2px 8px rgba(0, 0, 0, 0.2);
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        cursor: pointer;
+        position: relative;
+        border: 2px solid var(--regal-border);
+    }
+
+    .recent-movie-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 
+            0 20px 40px rgba(0, 0, 0, 0.3),
+            0 8px 20px rgba(218, 165, 32, 0.2);
+        border-color: var(--regal-accent);
+    }
+
+    .recent-rating-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
         background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
-        border: 2px solid rgba(255, 255, 255, 0.2);
-        border-radius: 30px;
-        padding: 12px 28px;
+        color: var(--regal-primary);
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 1.1rem;
+        font-weight: 700;
         display: flex;
         align-items: center;
-        gap: 10px;
-        color: var(--regal-primary);
-        font-size: 1rem;
+        gap: 4px;
+        box-shadow: 0 4px 12px rgba(218, 165, 32, 0.4);
+    }
+
+    .time-badge {
+        position: absolute;
+        bottom: 12px;
+        left: 12px;
+        background: rgba(0, 0, 0, 0.8);
+        color: var(--regal-text-muted);
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        backdrop-filter: blur(10px);
+    }
+
+    .view-all-btn {
+        background: transparent;
+        color: var(--regal-accent);
+        border: 2px solid var(--regal-border);
+        padding: 10px 24px;
+        border-radius: 25px;
+        font-size: 0.95rem;
         font-weight: 600;
         cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 
-            0 4px 15px rgba(218, 165, 32, 0.5),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        transition: all 0.3s ease;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        backdrop-filter: blur(10px);
-        transform: scale(0.9);
-        opacity: 0.9;
     }
 
-    .overlay-btn:hover {
-        background: linear-gradient(135deg, var(--regal-accent-light), var(--regal-accent));
-        transform: scale(1);
-        opacity: 1;
-        box-shadow: 
-            0 8px 25px rgba(218, 165, 32, 0.6),
-            inset 0 1px 0 rgba(255, 255, 255, 0.4),
-            0 0 30px rgba(218, 165, 32, 0.4);
-        border-color: rgba(255, 255, 255, 0.3);
+    .view-all-btn:hover {
+        background: var(--regal-accent);
+        color: var(--regal-primary);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(218, 165, 32, 0.4);
     }
 
-    .overlay-btn:active {
-        transform: scale(0.95);
-        box-shadow: 
-            0 2px 8px rgba(218, 165, 32, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    .rating-note {
+        margin-top: 10px;
+        font-size: 0.85rem;
+        color: var(--regal-text-muted);
+        font-style: italic;
     }
 
-    .overlay-btn svg {
-        width: 20px;
-        height: 20px;
-        stroke: var(--regal-primary);
-        stroke-width: 2.5;
-        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
-        transition: transform 0.3s ease;
+    .rating-note a {
+        color: var(--regal-accent);
+        text-decoration: none;
+        font-weight: 600;
+        transition: opacity 0.3s ease;
     }
 
-    .overlay-btn:hover svg {
-        transform: rotate(5deg) scale(1.1);
-    }
-
-    .overlay-btn span {
-        font-size: 0.9rem;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    .rating-note a:hover {
+        opacity: 0.8;
+        text-decoration: underline;
     }
 
 /* Animation classes */
@@ -1458,10 +1619,12 @@ function displaySearchResults(results, query) {
                         ${avgRating ? `<div class="movie-badge"><span class="avg-badge">⭐ ${avgRating}</span></div>` : ''}
                         <div class="movie-overlay">
                             <button class="overlay-btn">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <polygon points="5,3 19,12 5,21"></polygon>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
                                 </svg>
-                                View Details
+                                <span>View Details</span>
                             </button>
                         </div>
                         <div class="regal-frame"></div>
