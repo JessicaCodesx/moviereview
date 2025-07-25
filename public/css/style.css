@@ -206,6 +206,14 @@ body {
     z-index: 1;
 }
 
+/* Auth content wrapper */
+.auth-content-wrapper {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 @media (max-width: 768px) {
     .container { 
         padding: var(--space-4); 
@@ -590,14 +598,18 @@ body {
 
 /* ===== AUTHENTICATION PAGES STYLES ===== */
 
+
 /* Auth Container - Mobile First */
 .auth-container {
-    min-height: calc(100vh - 120px);
+    min-height: 100vh;
+    width: 100vw;
+    margin: 0;
+    box-sizing: border-box;
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-8);
     align-items: center;
-    padding: var(--space-6);
+    padding: 0;
     max-width: 1400px;
     margin: 0 auto;
 }

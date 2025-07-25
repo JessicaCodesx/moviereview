@@ -417,18 +417,20 @@ document.addEventListener('keydown', (e) => {
     --regal-glow: 0 0 30px rgba(218, 165, 32, 0.3);
 }
 
-.regal-auth-container {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: 60px;
-    padding: 40px;
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(135deg, var(--regal-secondary) 0%, var(--regal-primary) 50%, var(--regal-secondary) 100%);
-}
-
+    .regal-auth-container {
+        min-height: 100vh;
+        width: 100vw;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 60px;
+        padding: 0;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(135deg, var(--regal-secondary) 0%, var(--regal-primary) 50%, var(--regal-secondary) 100%);
+        margin: 0;
+        box-sizing: border-box;
+    }
 .auth-background {
     position: fixed;
     top: 0;
@@ -537,6 +539,27 @@ document.addEventListener('keydown', (e) => {
         opacity: 0.12;
     }
 }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+        .regal-auth-container {
+            padding: 20px;
+        }
+
+        .regal-card {
+            padding: 30px;
+        }
+
+        .regal-showcase {
+            display: none;
+        }
+    }
+
+    @media (min-width: 769px) {
+        .regal-auth-container {
+            padding: 40px;
+        }
+    }
 
 .regal-particles {
     position: absolute;

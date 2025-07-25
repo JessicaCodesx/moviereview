@@ -185,15 +185,29 @@
 </footer>
 
 <style>
-/* Professional Regal Footer Styles */
 .regal-site-footer {
     background: linear-gradient(135deg, #0f1419 0%, #1a1f3a 50%, #0f1419 100%);
     border-top: 2px solid rgba(218, 165, 32, 0.3);
     margin-top: 60px;
     position: relative;
     overflow: hidden;
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
 }
 
+.page-footer {
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        overflow-x: hidden;
+}
+    
 .regal-site-footer::before {
     content: '';
     position: absolute;
