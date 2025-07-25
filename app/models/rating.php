@@ -115,4 +115,27 @@ class Rating extends BaseModel {
 
         return $result;
     }
+
+    public function getRecentlyRatedMovies($limit = 5) {
+            $stmt = $this->db->prepare("
+                SELECT DISTINCT m.*, 
+                       r.rating as last_rating,
+                       r.created_at as rated_at,
+                       AVG(r2.rating) as avg_rating,
+                       COUNT(DISTINCT r2.id) as rating_count
+                FROM ratings r
+                JOIN movies m ON r.movie_id = m.id
+                LEFT JOIN ratings r2 ON r2.movie_id = m.id
+                WHERE r.created_at IN (
+                    SELECT MAX(created_at) 
+                    FROM ratings 
+                    GROUP BY movie_id
+                )
+                GROUP BY m.id, r.rating, r.created_at
+                ORDER BY r.created_at DESC
+                LIMIT ?
+            ");
+            $stmt->execute([$limit]);
+            return $stmt->fetchAll();
+    }
 }
