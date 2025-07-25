@@ -80,7 +80,7 @@ class User extends BaseModel {
 
     public function getUserRatings($userId, $limit = 10, $offset = 0) {
         $stmt = $this->db->prepare("
-            SELECT r.*, m.title, m.year, m.poster, m.imdb_id 
+            SELECT r.*, m.title, m.year, m.poster, m.imdb_id, m.genre 
             FROM ratings r 
             JOIN movies m ON r.movie_id = m.id 
             WHERE r.user_id = ? 
