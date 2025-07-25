@@ -510,34 +510,37 @@ body {
     transform: translateY(-2px);
 }
 
-.search-input {
-    flex: 1;
-    background: rgba(0, 0, 0, 0.3);
-    border: none;
-    padding: 20px 24px; /* INCREASED from 16px 20px - MAJOR CHANGE */
-    font-size: 1.2rem; /* INCREASED from 1.1rem */
-    color: #ffffff !important;
-    font-weight: 500;
-    outline: none;
-    border-radius: 12px;
-    -webkit-text-fill-color: #ffffff !important; /* Force white text in webkit browsers */
-}
+    /* Specific override for this page's search input */
+    .regal-search-section .search-input {
+        flex: 1;
+        background: rgba(0, 0, 0, 0.3);
+        border: none;
+        padding: 20px 24px; /* INCREASED from 16px 20px - MAJOR CHANGE */
+        font-size: 1.2rem; /* INCREASED from 1.1rem */
+        color: #ffffff !important;
+        font-weight: 500;
+        outline: none;
+        border-radius: 12px;
+        -webkit-text-fill-color: #ffffff !important; /* Force white text in webkit browsers */
+    }
 
-/* Additional fix for autofill styling */
-.search-input:-webkit-autofill,
-.search-input:-webkit-autofill:hover,
-.search-input:-webkit-autofill:focus,
-.search-input:-webkit-autofill:active {
-    -webkit-text-fill-color: #ffffff !important;
-    -webkit-box-shadow: 0 0 0 30px rgba(0, 0, 0, 0.3) inset !important;
-    box-shadow: 0 0 0 30px rgba(0, 0, 0, 0.3) inset !important;
-    background-color: transparent !important;
-}
+    /* Additional fix for autofill styling */
+    .regal-search-section .search-input:-webkit-autofill,
+    .regal-search-section .search-input:-webkit-autofill:hover,
+    .regal-search-section .search-input:-webkit-autofill:focus,
+    .regal-search-section .search-input:-webkit-autofill:active {
+        -webkit-text-fill-color: #ffffff !important;
+        -webkit-box-shadow: 0 0 0 30px rgba(0, 0, 0, 0.3) inset !important;
+        box-shadow: 0 0 0 30px rgba(0, 0, 0, 0.3) inset !important;
+        background-color: transparent !important;
+        color: #ffffff !important;
+    }
 
-.search-input::placeholder {
-    color: rgba(255, 255, 255, 0.6);
-    font-weight: 400;
-}
+    /* Override placeholder color as well */
+    .regal-search-section .search-input::placeholder {
+        color: rgba(255, 255, 255, 0.6) !important;
+        opacity: 1;
+    }
 
 .search-btn {
     background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
@@ -957,6 +960,67 @@ body {
     max-width: 400px;
     margin: 0 auto;
 }
+
+
+    /* Overlay Button Styling */
+    .overlay-btn {
+        background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 30px;
+        padding: 12px 28px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--regal-primary);
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 
+            0 4px 15px rgba(218, 165, 32, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        backdrop-filter: blur(10px);
+        transform: scale(0.9);
+        opacity: 0.9;
+    }
+
+    .overlay-btn:hover {
+        background: linear-gradient(135deg, var(--regal-accent-light), var(--regal-accent));
+        transform: scale(1);
+        opacity: 1;
+        box-shadow: 
+            0 8px 25px rgba(218, 165, 32, 0.6),
+            inset 0 1px 0 rgba(255, 255, 255, 0.4),
+            0 0 30px rgba(218, 165, 32, 0.4);
+        border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .overlay-btn:active {
+        transform: scale(0.95);
+        box-shadow: 
+            0 2px 8px rgba(218, 165, 32, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .overlay-btn svg {
+        width: 20px;
+        height: 20px;
+        stroke: var(--regal-primary);
+        stroke-width: 2.5;
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+        transition: transform 0.3s ease;
+    }
+
+    .overlay-btn:hover svg {
+        transform: rotate(5deg) scale(1.1);
+    }
+
+    .overlay-btn span {
+        font-size: 0.9rem;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
 
 /* Animation classes */
 .animate-card {
