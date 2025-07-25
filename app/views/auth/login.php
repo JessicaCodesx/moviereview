@@ -46,7 +46,7 @@
                 <p>Access your exclusive cinema collection</p>
             </div>
 
-            <form id="loginForm" class="auth-form">
+            <form id="loginForm" class="auth-form" action="/api/auth/login" method="POST">
                 <div class="form-group">
                     <label for="username" class="form-label">
                         <span class="label-icon">👤</span>

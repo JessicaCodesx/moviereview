@@ -49,7 +49,7 @@
             <!-- Message Container -->
             <div id="authMessage" class="auth-message"></div>
 
-            <form id="registerForm" class="auth-form">
+            <form id="registerForm" class="auth-form" action="/api/auth/register" method="POST">
                 <div class="form-group">
                     <label for="username" class="form-label">
                         <span class="label-icon">👤</span>
