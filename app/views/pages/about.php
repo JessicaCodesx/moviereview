@@ -1,7 +1,6 @@
 <?php
 ?>
 <div class="regal-about-container">
-    <!-- Regal Background Animation -->
     <div class="about-background">
         <div class="regal-gradient"></div>
         <div class="floating-elements">
@@ -128,12 +127,6 @@
                 <p class="section-subtitle">What elevates us above ordinary platforms</p>
             </div>
             <div class="royal-features-grid">
-                <div class="feature-item-royal">
-                    <div class="feature-crown">⚡</div>
-                    <div class="feature-icon-royal">🚀</div>
-                    <h4>Lightning Performance</h4>
-                    <p>Optimized architecture delivering instantaneous search results with elegant animations and seamless interactions</p>
-                </div>
                 <div class="feature-item-royal">
                     <div class="feature-crown">🎯</div>
                     <div class="feature-icon-royal">🧠</div>
@@ -269,7 +262,6 @@
 </div>
 
 <style>
-/* Elite Cinema About Page Styles */
 :root {
     --regal-primary: #1a1f3a;
     --regal-secondary: #0f1419;
