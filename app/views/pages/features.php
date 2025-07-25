@@ -331,6 +331,8 @@ document.addEventListener('DOMContentLoaded', () => {
     width: 100%;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Background Animation */
@@ -617,6 +619,7 @@ document.addEventListener('DOMContentLoaded', () => {
     flex-direction: column;
     gap: 60px;
     max-width: 1600px;
+    flex: 1;
 }
 
 /* Royal Features Grid */

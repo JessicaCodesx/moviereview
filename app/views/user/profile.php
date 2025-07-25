@@ -87,7 +87,6 @@
                 </div>
                 <div class="metric-trend-royal">
                     <span class="trend-icon-royal">📈</span>
-                    <span class="trend-text-royal">+12 this season</span>
                 </div>
             </div>
 

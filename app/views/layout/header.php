@@ -872,10 +872,7 @@ $userName = $user['username'] ?? $user['email'] ?? 'User';
                                 <span class="dropdown-item-icon">✨</span>
                                 <span>Watched Movies</span>
                             </a>
-                            <a href="/settings" class="dropdown-item">
-                                <span class="dropdown-item-icon">⚙️</span>
-                                <span>Settings</span>
-                            </a>
+                            
 
                             <hr class="dropdown-divider">
 
