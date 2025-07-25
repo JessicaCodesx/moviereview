@@ -697,7 +697,7 @@ class MovieSearchApp {
         modal.innerHTML = `
             <div class="review-modal-content">
                 <div class="review-modal-header">
-                    <h3>🤖 AI Movie Review</h3>
+                    <h3>👑 AI Movie Review</h3>
                     <button class="review-close-btn" onclick="this.parentElement.parentElement.parentElement.remove()">✖️</button>
                 </div>
                 <div class="review-modal-body">
@@ -715,57 +715,136 @@ class MovieSearchApp {
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: rgba(0, 0, 0, 0.8);
+                background: rgba(10, 22, 40, 0.95);
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 z-index: 10000;
                 animation: fadeIn 0.3s ease;
+                backdrop-filter: blur(10px);
             }
             .review-modal-content {
-                background: white;
-                border-radius: 20px;
-                max-width: 600px;
-                width: 90%;
-                max-height: 80vh;
+                background: linear-gradient(145deg, #1e3a5f 0%, #142343 100%);
+                border-radius: 24px;
+                max-width: 900px;
+                width: 95%;
+                max-height: 90vh;
                 overflow-y: auto;
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+                box-shadow: 0 30px 60px rgba(10, 22, 40, 0.5), 
+                           0 0 40px rgba(212, 165, 116, 0.2),
+                           inset 0 1px 0 rgba(212, 165, 116, 0.3);
+                border: 1px solid rgba(212, 165, 116, 0.2);
             }
             .review-modal-header {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                padding: 1.5rem;
-                border-bottom: 1px solid #e5e7eb;
-                background: linear-gradient(135deg, #6366f1, #8b5cf6);
-                color: white;
-                border-radius: 20px 20px 0 0;
+                padding: 2rem;
+                border-bottom: 2px solid rgba(212, 165, 116, 0.3);
+                background: linear-gradient(135deg, #0a1628 0%, #1e3a5f 50%, rgba(212, 165, 116, 0.2) 100%);
+                color: #d4a574;
+                border-radius: 24px 24px 0 0;
+                position: relative;
+            }
+            .review-modal-header::after {
+                content: '';
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: linear-gradient(90deg, transparent, #d4a574, transparent);
+                animation: shimmer 3s infinite;
             }
             .review-modal-header h3 {
                 margin: 0;
-                font-size: 1.25rem;
+                font-size: 1.75rem;
                 font-weight: 700;
+                font-family: 'Playfair Display', serif;
+                letter-spacing: 0.5px;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
             }
             .review-close-btn {
-                background: none;
-                border: none;
-                color: white;
+                background: rgba(212, 165, 116, 0.1);
+                border: 1px solid rgba(212, 165, 116, 0.3);
+                color: #d4a574;
                 font-size: 1.5rem;
                 cursor: pointer;
-                padding: 0.5rem;
+                padding: 0.75rem;
                 border-radius: 50%;
-                transition: background 0.2s ease;
+                transition: all 0.3s ease;
+                width: 48px;
+                height: 48px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
             .review-close-btn:hover {
-                background: rgba(255, 255, 255, 0.2);
+                background: rgba(212, 165, 116, 0.2);
+                transform: rotate(90deg) scale(1.1);
+                box-shadow: 0 0 20px rgba(212, 165, 116, 0.4);
             }
             .review-modal-body {
-                padding: 2rem;
+                padding: 3rem;
+                overflow-y: auto;
+                max-height: calc(90vh - 120px);
+            }
+            .review-modal-body::-webkit-scrollbar {
+                width: 8px;
+            }
+            .review-modal-body::-webkit-scrollbar-track {
+                background: rgba(212, 165, 116, 0.1);
+                border-radius: 4px;
+            }
+            .review-modal-body::-webkit-scrollbar-thumb {
+                background: rgba(212, 165, 116, 0.4);
+                border-radius: 4px;
+            }
+            .review-modal-body::-webkit-scrollbar-thumb:hover {
+                background: rgba(212, 165, 116, 0.6);
             }
             .review-text {
-                line-height: 1.6;
-                color: #374151;
-                font-size: 1rem;
+                line-height: 1.8;
+                color: #f0f3f7;
+                font-size: 1.125rem;
+                font-family: 'Poppins', sans-serif;
+                text-align: justify;
+                white-space: pre-wrap;
+            }
+            .review-text br {
+                display: block;
+                margin-bottom: 1rem;
+            }
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+            @keyframes shimmer {
+                0% { opacity: 0.3; }
+                50% { opacity: 1; }
+                100% { opacity: 0.3; }
+            }
+            @media (max-width: 768px) {
+                .review-modal-content {
+                    max-width: 95%;
+                    max-height: 95vh;
+                }
+                .review-modal-header {
+                    padding: 1.5rem;
+                }
+                .review-modal-header h3 {
+                    font-size: 1.25rem;
+                }
+                .review-modal-body {
+                    padding: 1.5rem;
+                }
+                .review-text {
+                    font-size: 1rem;
+                }
             }
         `;
 

@@ -58,7 +58,7 @@ class APIClient {
             ],
             'generationConfig' => [
                 'temperature' => 0.7,
-                'maxOutputTokens' => 1024,
+                'maxOutputTokens' => 2048,
                 'topP' => 0.8,
                 'topK' => 40
             ]

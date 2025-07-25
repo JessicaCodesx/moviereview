@@ -516,10 +516,22 @@ body {
     border: none;
     padding: 20px 24px; /* INCREASED from 16px 20px - MAJOR CHANGE */
     font-size: 1.2rem; /* INCREASED from 1.1rem */
-    color: #ffffff;
+    color: #ffffff !important;
     font-weight: 500;
     outline: none;
     border-radius: 12px;
+    -webkit-text-fill-color: #ffffff !important; /* Force white text in webkit browsers */
+}
+
+/* Additional fix for autofill styling */
+.search-input:-webkit-autofill,
+.search-input:-webkit-autofill:hover,
+.search-input:-webkit-autofill:focus,
+.search-input:-webkit-autofill:active {
+    -webkit-text-fill-color: #ffffff !important;
+    -webkit-box-shadow: 0 0 0 30px rgba(0, 0, 0, 0.3) inset !important;
+    box-shadow: 0 0 0 30px rgba(0, 0, 0, 0.3) inset !important;
+    background-color: transparent !important;
 }
 
 .search-input::placeholder {

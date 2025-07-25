@@ -101,7 +101,7 @@ class Review extends BaseModel {
 
         $prompt .= "IMPORTANT: Write a completely SPOILER-FREE review that discusses the general premise, performances, direction, cinematography, and overall quality WITHOUT revealing plot twists, endings, or major story developments. ";
         $prompt .= "Focus on the filmmaking craft, acting performances, visual style, and general tone rather than specific plot details. ";
-        $prompt .= "Keep it around 200-300 words and make it interesting for movie enthusiasts who haven't seen the film yet. ";
+        $prompt .= "Keep it around 400-600 words and make it interesting for movie enthusiasts who haven't seen the film yet. ";
         $prompt .= "Be honest about both strengths and weaknesses while maintaining a professional but accessible tone. ";
         $prompt .= "Do not reveal any surprises, twists, or specific plot points beyond what would be in a trailer.";
 
