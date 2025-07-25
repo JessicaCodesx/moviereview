@@ -268,9 +268,6 @@ class MovieSearchApp {
                     <img src="${poster}" 
                          alt="${this.escapeHtml(movie.title || movie.Title)}"
                          onerror="this.src='/public/assets/images/no-image.png'">
-                    <div class="movie-overlay">
-                        <button class="play-button">👁️ Show Details</button>
-                    </div>
                 </div>
                 <div class="movie-content">
                     <h2>${this.escapeHtml(movie.title || movie.Title)} (${movie.year || movie.Year})</h2>
