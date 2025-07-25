@@ -152,14 +152,7 @@
                 <h4>Personal Collection</h4>
                 <p>Maintain your exclusive watchlist of distinguished films</p>
             </div>
-            <div class="feature-item regal-feature">
-                <div class="feature-icon-wrapper">
-                    <div class="feature-icon">🤖</div>
-                    <div class="icon-glow"></div>
-                </div>
-                <h4>AI Curation</h4>
-                <p>Receive intelligent recommendations tailored to your refined taste</p>
-            </div>
+            
         </div>
 
         <div class="elite-stats">

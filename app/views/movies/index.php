@@ -1792,8 +1792,7 @@ function searchForMovie(title) {
         const moviesHTML = movies.map((movie, index) => {
             const poster = movie.poster && movie.poster !== 'N/A' ? movie.poster : '/public/assets/images/no-image.png';
             const avgRating = movie.avg_rating ? parseFloat(movie.avg_rating).toFixed(1) : 'N/A';
-            const ratingDate = movie.last_rated ? formatTimeAgo(movie.last_rated) : 'Recently';
-
+            const ratingDate = movie.rated_at ? formatTimeAgo(movie.rated_at) : 'Recently';
             return `
                 <div class="recent-movie-card animate-card" style="animation-delay: ${index * 0.1}s;" onclick="loadMovieDetails('${movie.imdb_id}')">
                     <div class="movie-poster">
