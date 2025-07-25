@@ -59,40 +59,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="royal-actions">
-                    <button class="btn-regal btn-primary-regal" onclick="showEditProfile()">
-                        <span class="btn-icon">✏️</span>
-                        <span class="btn-text">Refine Profile</span>
-                    </button>
-                    <button class="btn-regal btn-secondary-regal" onclick="showChangePasswordModal()">
-                        <span class="btn-icon">🔐</span>
-                        <span class="btn-text">Secure Credentials</span>
-                    </button>
-                    <div class="royal-dropdown">
-                        <button class="btn-regal btn-secondary-regal dropdown-toggle-royal" onclick="toggleActionMenu()">
-                            <span class="btn-icon">⚙️</span>
-                            <svg class="dropdown-arrow-royal" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="6,9 12,15 18,9"></polyline>
-                            </svg>
-                        </button>
-                        <div class="royal-dropdown-menu" id="actionMenu">
-                            <a href="#" onclick="exportData()" class="royal-dropdown-item">
-                                <span class="item-icon-royal">📊</span>
-                                Export Royal Data
-                            </a>
-                            <a href="#" onclick="showAccountSettings()" class="royal-dropdown-item">
-                                <span class="item-icon-royal">⚙️</span>
-                                Elite Settings
-                            </a>
-                            <div class="royal-dropdown-divider"></div>
-                            <a href="#" onclick="showDeleteAccount()" class="royal-dropdown-item danger-royal">
-                                <span class="item-icon-royal">🗑️</span>
-                                Abdicate Membership
-                            </a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -191,97 +157,12 @@
         </div>
     </div>
 
-    <!-- Royal Accomplishments -->
-    <div class="royal-accomplishments animate-on-scroll">
-        <div class="accomplishments-header-royal">
-            <div class="section-crown">🏆</div>
-            <h2>Royal Accomplishments</h2>
-            <p>Honors bestowed upon your distinguished service</p>
-        </div>
-
-        <div class="accomplishments-gallery">
-            <div class="accomplishment-card-royal <?php echo ($data['stats']['ratings_count'] ?? 0) >= 10 ? 'bestowed' : 'pending'; ?>">
-                <div class="accomplishment-crown">🎬</div>
-                <div class="accomplishment-icon-royal">🎭</div>
-                <div class="accomplishment-info-royal">
-                    <h4>Cinematic Scholar</h4>
-                    <p>Critique 10 distinguished films</p>
-                    <div class="accomplishment-progress-royal">
-                        <div class="progress-track-royal">
-                            <div class="progress-advancement-royal scholar-progress" data-progress="<?php echo min(100, (($data['stats']['ratings_count'] ?? 0) / 10) * 100); ?>"></div>
-                        </div>
-                        <span class="progress-notation-royal"><?php echo min(10, $data['stats']['ratings_count'] ?? 0); ?>/10</span>
-                    </div>
-                </div>
-                <?php if (($data['stats']['ratings_count'] ?? 0) >= 10): ?>
-                    <div class="bestowed-seal">✓</div>
-                <?php endif; ?>
-            </div>
-
-            <div class="accomplishment-card-royal <?php echo ($data['stats']['watchlist_count'] ?? 0) >= 5 ? 'bestowed' : 'pending'; ?>">
-                <div class="accomplishment-crown">📚</div>
-                <div class="accomplishment-icon-royal">📜</div>
-                <div class="accomplishment-info-royal">
-                    <h4>Distinguished Curator</h4>
-                    <p>Assemble 5 masterpieces in your collection</p>
-                    <div class="accomplishment-progress-royal">
-                        <div class="progress-track-royal">
-                            <div class="progress-advancement-royal curator-progress" data-progress="<?php echo min(100, (($data['stats']['watchlist_count'] ?? 0) / 5) * 100); ?>"></div>
-                        </div>
-                        <span class="progress-notation-royal"><?php echo min(5, $data['stats']['watchlist_count'] ?? 0); ?>/5</span>
-                    </div>
-                </div>
-                <?php if (($data['stats']['watchlist_count'] ?? 0) >= 5): ?>
-                    <div class="bestowed-seal">✓</div>
-                <?php endif; ?>
-            </div>
-
-            <div class="accomplishment-card-royal <?php echo ($data['stats']['watched_count'] ?? 0) >= 20 ? 'bestowed' : 'pending'; ?>">
-                <div class="accomplishment-crown">🎪</div>
-                <div class="accomplishment-icon-royal">🎨</div>
-                <div class="accomplishment-info-royal">
-                    <h4>Cinematic Virtuoso</h4>
-                    <p>Experience 20 distinguished works</p>
-                    <div class="accomplishment-progress-royal">
-                        <div class="progress-track-royal">
-                            <div class="progress-advancement-royal virtuoso-progress" data-progress="<?php echo min(100, (($data['stats']['watched_count'] ?? 0) / 20) * 100); ?>"></div>
-                        </div>
-                        <span class="progress-notation-royal"><?php echo min(20, $data['stats']['watched_count'] ?? 0); ?>/20</span>
-                    </div>
-                </div>
-                <?php if (($data['stats']['watched_count'] ?? 0) >= 20): ?>
-                    <div class="bestowed-seal">✓</div>
-                <?php endif; ?>
-            </div>
-
-            <div class="accomplishment-card-royal pending">
-                <div class="accomplishment-crown">👑</div>
-                <div class="accomplishment-icon-royal">🏛️</div>
-                <div class="accomplishment-info-royal">
-                    <h4>Cinema Sovereign</h4>
-                    <p>Critique 100 masterpieces</p>
-                    <div class="accomplishment-progress-royal">
-                        <div class="progress-track-royal">
-                            <div class="progress-advancement-royal sovereign-progress" data-progress="<?php echo min(100, (($data['stats']['ratings_count'] ?? 0) / 100) * 100); ?>"></div>
-                        </div>
-                        <span class="progress-notation-royal"><?php echo min(100, $data['stats']['ratings_count'] ?? 0); ?>/100</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Cinematic Chronicles -->
     <?php if (!empty($data['recent_ratings'])): ?>
     <div class="cinematic-chronicles animate-on-scroll">
         <div class="chronicles-header-royal">
             <div class="section-crown">📖</div>
-            <h2>Cinematic Chronicles</h2>
-            <div class="chronicles-filters-royal">
-                <button class="filter-btn-royal active" data-filter="all">All Chronicles</button>
-                <button class="filter-btn-royal" data-filter="ratings">Critiques</button>
-                <button class="filter-btn-royal" data-filter="watchlist">Curation</button>
-            </div>
+            <h2>Recent Cinematic Chronicles</h2>
         </div>
 
         <div class="royal-chronicles-scroll">
@@ -332,154 +213,11 @@
                 </div>
             <?php endforeach; ?>
         </div>
-
-        <div class="chronicles-footer-royal">
-            <a href="/api/ratings/user" class="btn-regal btn-secondary-regal" target="_blank">
-                <span class="btn-icon">📜</span>
-                <span class="btn-text">View Complete Chronicles</span>
-            </a>
-        </div>
     </div>
     <?php endif; ?>
-
-    <!-- Royal Privileges -->
-    <div class="royal-privileges animate-on-scroll">
-        <div class="privileges-header-royal">
-            <div class="section-crown">⚡</div>
-            <h2>Royal Privileges</h2>
-            <p>Exclusive access to distinguished features</p>
-        </div>
-
-        <div class="privileges-gallery-royal">
-            <a href="/" class="privilege-card-royal">
-                <div class="privilege-crown">🔍</div>
-                <div class="privilege-icon-bg-royal">
-                    <span class="privilege-icon-royal">🎯</span>
-                </div>
-                <div class="privilege-content-royal">
-                    <h4>Discover Masterpieces</h4>
-                    <p>Explore our curated cinematic treasury</p>
-                </div>
-                <div class="privilege-arrow-royal">→</div>
-            </a>
-
-            <a href="/dashboard" class="privilege-card-royal">
-                <div class="privilege-crown">📊</div>
-                <div class="privilege-icon-bg-royal">
-                    <span class="privilege-icon-royal">🏛️</span>
-                </div>
-                <div class="privilege-content-royal">
-                    <h4>Royal Dashboard</h4>
-                    <p>Overview of your distinguished activity</p>
-                </div>
-                <div class="privilege-arrow-royal">→</div>
-            </a>
-
-            <button onclick="loadRandomMovie()" class="privilege-card-royal">
-                <div class="privilege-crown">🎲</div>
-                <div class="privilege-icon-bg-royal">
-                    <span class="privilege-icon-royal">🔮</span>
-                </div>
-                <div class="privilege-content-royal">
-                    <h4>Serendipitous Discovery</h4>
-                    <p>Uncover hidden cinematic gems</p>
-                </div>
-                <div class="privilege-arrow-royal">→</div>
-            </a>
-
-            <button onclick="shareProfile()" class="privilege-card-royal featured-privilege">
-                <div class="privilege-crown">🔗</div>
-                <div class="privilege-icon-bg-royal">
-                    <span class="privilege-icon-royal">👑</span>
-                </div>
-                <div class="privilege-content-royal">
-                    <h4>Share Royal Profile</h4>
-                    <p>Showcase your distinguished taste</p>
-                </div>
-                <div class="royal-privilege-badge">Exclusive</div>
-            </button>
-        </div>
-    </div>
-</div>
-
-<!-- Royal Credentials Modal -->
-<div id="passwordModal" class="royal-modal">
-    <div class="royal-modal-content">
-        <div class="royal-modal-header">
-            <div class="modal-crown">🔐</div>
-            <h3>Secure Your Royal Credentials</h3>
-            <button class="royal-modal-close" onclick="closeChangePasswordModal()">&times;</button>
-        </div>
-        <div class="royal-modal-body">
-            <form id="changePasswordForm">
-                <div class="royal-form-group">
-                    <label for="currentPassword" class="royal-form-label">
-                        <span class="label-icon-royal">🔒</span>
-                        Current Credentials
-                    </label>
-                    <div class="royal-input-wrapper">
-                        <input type="password" id="currentPassword" name="current_password" required class="royal-form-control">
-                        <div class="royal-input-border"></div>
-                        <div class="royal-input-glow"></div>
-                    </div>
-                </div>
-                <div class="royal-form-group">
-                    <label for="newPassword" class="royal-form-label">
-                        <span class="label-icon-royal">🔐</span>
-                        New Secure Key
-                    </label>
-                    <div class="royal-input-wrapper">
-                        <input type="password" id="newPassword" name="new_password" required class="royal-form-control" minlength="6">
-                        <div class="royal-input-border"></div>
-                        <div class="royal-input-glow"></div>
-                    </div>
-                </div>
-                <div class="royal-form-group">
-                    <label for="confirmNewPassword" class="royal-form-label">
-                        <span class="label-icon-royal">🔐</span>
-                        Confirm New Key
-                    </label>
-                    <div class="royal-input-wrapper">
-                        <input type="password" id="confirmNewPassword" name="confirm_password" required class="royal-form-control">
-                        <div class="royal-input-border"></div>
-                        <div class="royal-input-glow"></div>
-                    </div>
-                </div>
-                <div class="royal-form-actions">
-                    <button type="button" class="btn-regal btn-secondary-regal" onclick="closeChangePasswordModal()">Cancel</button>
-                    <button type="submit" class="btn-regal btn-primary-regal">Secure Credentials</button>
-                </div>
-            </form>
-        </div>
-        <div id="passwordMessage" class="royal-auth-message"></div>
-    </div>
 </div>
 
 <script>
-// Elite Profile Functionality
-function showChangePasswordModal() {
-    document.getElementById('passwordModal').style.display = 'block';
-}
-
-function closeChangePasswordModal() {
-    document.getElementById('passwordModal').style.display = 'none';
-    document.getElementById('changePasswordForm').reset();
-    document.getElementById('passwordMessage').innerHTML = '';
-}
-
-function toggleActionMenu() {
-    const dropdown = document.querySelector('.royal-dropdown');
-    dropdown.classList.toggle('open');
-}
-
-// Close dropdown when clicking outside
-document.addEventListener('click', (e) => {
-    const dropdown = document.querySelector('.royal-dropdown');
-    if (dropdown && !dropdown.contains(e.target)) {
-        dropdown.classList.remove('open');
-    }
-});
-
 // Initialize royal scroll animations
 function initRoyalScrollAnimations() {
     const observer = new IntersectionObserver((entries) => {
@@ -494,17 +232,6 @@ function initRoyalScrollAnimations() {
         observer.observe(el);
     });
 }
-
-// Chronicles filter functionality
-document.querySelectorAll('.filter-btn-royal').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn-royal').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        const filter = btn.dataset.filter;
-        console.log('Filtering royal chronicles by:', filter);
-    });
-});
 
 // Enhanced elite functionality
 async function editRating(movieId) {
@@ -535,92 +262,6 @@ async function deleteRating(movieId) {
     }
 }
 
-function loadRandomMovie() {
-    movieAppInstance.showToast('Discovering a hidden cinematic treasure...', 'info');
-    if (window.movieAppInstance && window.movieAppInstance.loadRandomMovie) {
-        window.movieAppInstance.loadRandomMovie();
-    }
-}
-
-function shareProfile() {
-    if (navigator.share) {
-        navigator.share({
-            title: 'Behold my distinguished cinematic profile!',
-            text: 'Observe my curated collection and refined critiques',
-            url: window.location.href
-        });
-    } else {
-        navigator.clipboard.writeText(window.location.href);
-        movieAppInstance.showToast('Royal profile link added to your clipboard!', 'success');
-    }
-}
-
-function exportData() {
-    movieAppInstance.showToast('Preparing your distinguished data archive...', 'info');
-    setTimeout(() => {
-        movieAppInstance.showToast('Royal data export feature arriving soon!', 'info');
-    }, 1500);
-}
-
-function showAccountSettings() {
-    movieAppInstance.showToast('Elite account settings feature arriving soon!', 'info');
-}
-
-function showDeleteAccount() {
-    if (confirm('Abdicate your distinguished membership? This action cannot be undone.')) {
-        const confirmed = confirm('This will permanently remove all your critiques, collection, and royal profile. Are you absolutely certain?');
-        if (confirmed) {
-            movieAppInstance.showToast('Membership abdication feature available in elite settings', 'info');
-        }
-    }
-}
-
-function showEditProfile() {
-    movieAppInstance.showToast('Profile refinement feature arriving soon to the royal court!', 'info');
-}
-
-// Royal credentials form
-document.getElementById('changePasswordForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.target);
-    const newPassword = formData.get('new_password');
-    const confirmPassword = formData.get('confirm_password');
-    const messageDiv = document.getElementById('passwordMessage');
-
-    if (newPassword !== confirmPassword) {
-        messageDiv.innerHTML = '<div class="royal-message royal-message-error">New credentials do not align</div>';
-        return;
-    }
-
-    const submitBtn = e.target.querySelector('button[type="submit"]');
-    submitBtn.disabled = true;
-    submitBtn.querySelector('.btn-text').textContent = 'Securing...';
-
-    try {
-        const response = await fetch('/api/auth/change-password', {
-            method: 'POST',
-            body: formData
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-            messageDiv.innerHTML = '<div class="royal-message royal-message-success">Royal credentials secured successfully!</div>';
-            setTimeout(() => {
-                closeChangePasswordModal();
-            }, 2000);
-        } else {
-            messageDiv.innerHTML = `<div class="royal-message royal-message-error">${data.error}</div>`;
-        }
-    } catch (error) {
-        messageDiv.innerHTML = '<div class="royal-message royal-message-error">Credential security update failed. Please try again.</div>';
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.querySelector('.btn-text').textContent = 'Secure Credentials';
-    }
-});
-
 // Initialize floating particles
 function initializeFloatingParticles() {
     const particles = document.querySelectorAll('.particle');
@@ -649,14 +290,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, 800);
 });
-
-// Close modal when clicking outside the royal court
-window.onclick = function(event) {
-    const modal = document.getElementById('passwordModal');
-    if (event.target === modal) {
-        closeChangePasswordModal();
-    }
-}
 </script>
 
 <style>
@@ -857,8 +490,8 @@ window.onclick = function(event) {
     position: relative;
     padding: 50px;
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+    justify-content: center;
+    align-items: center;
     gap: 40px;
     flex-wrap: wrap;
 }
@@ -875,8 +508,8 @@ window.onclick = function(event) {
 
 .royal-avatar-section {
     display: flex;
-    align-items: flex-end;
-    gap: 30px;
+    align-items: center;
+    gap: 40px;
 }
 
 @media (max-width: 768px) {
@@ -961,6 +594,7 @@ window.onclick = function(event) {
 
 .elite-profile-info {
     color: var(--regal-text);
+    text-align: center;
 }
 
 .royal-name {
@@ -969,6 +603,7 @@ window.onclick = function(event) {
     margin-bottom: 15px;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 15px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
@@ -997,6 +632,7 @@ window.onclick = function(event) {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    align-items: center;
 }
 
 .meta-item-royal {
@@ -1011,95 +647,6 @@ window.onclick = function(event) {
 .meta-icon-royal {
     font-size: 1.2rem;
     filter: drop-shadow(0 1px 2px rgba(218, 165, 32, 0.3));
-}
-
-.royal-actions {
-    display: flex;
-    gap: 15px;
-    align-items: flex-end;
-    flex-wrap: wrap;
-}
-
-@media (max-width: 768px) {
-    .royal-actions {
-        justify-content: center;
-    }
-}
-
-.royal-dropdown {
-    position: relative;
-}
-
-.dropdown-toggle-royal {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.dropdown-arrow-royal {
-    transition: transform 0.3s ease;
-}
-
-.royal-dropdown.open .dropdown-arrow-royal {
-    transform: rotate(180deg);
-}
-
-.royal-dropdown-menu {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    margin-top: 15px;
-    background: var(--regal-glass);
-    backdrop-filter: blur(25px);
-    border: 2px solid var(--regal-border);
-    border-radius: 16px;
-    box-shadow: var(--regal-shadow);
-    min-width: 250px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-15px);
-    transition: all 0.3s ease;
-    z-index: 1000;
-}
-
-.royal-dropdown.open .royal-dropdown-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.royal-dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 15px 20px;
-    color: var(--regal-text);
-    text-decoration: none;
-    transition: all 0.3s ease;
-    border-radius: 12px;
-    margin: 8px;
-    font-weight: 500;
-}
-
-.royal-dropdown-item:hover {
-    background: rgba(218, 165, 32, 0.2);
-    transform: translateX(5px);
-}
-
-.royal-dropdown-item.danger-royal:hover {
-    background: rgba(239, 68, 68, 0.2);
-    color: #f87171;
-}
-
-.item-icon-royal {
-    font-size: 1.1rem;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
-}
-
-.royal-dropdown-divider {
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--regal-accent), transparent);
-    margin: 15px 20px;
 }
 
 /* Distinguished Metrics */
@@ -1291,6 +838,7 @@ window.onclick = function(event) {
 .rating-constellation {
     display: flex;
     gap: 3px;
+    justify-content: center;
 }
 
 .star-constellation {
@@ -1306,6 +854,7 @@ window.onclick = function(event) {
 
 .royal-badge {
     margin-top: 15px;
+    text-align: center;
 }
 
 .badge-royal {
@@ -1476,12 +1025,8 @@ window.onclick = function(event) {
 }
 
 .chronicles-header-royal {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+    text-align: center;
     margin-bottom: 30px;
-    flex-wrap: wrap;
-    gap: 20px;
     color: var(--regal-text);
 }
 
@@ -1494,31 +1039,6 @@ window.onclick = function(event) {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-}
-
-.chronicles-filters-royal {
-    display: flex;
-    gap: 10px;
-}
-
-.filter-btn-royal {
-    background: rgba(218, 165, 32, 0.1);
-    border: 2px solid var(--regal-border);
-    color: var(--regal-text-muted);
-    padding: 10px 20px;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 600;
-    font-size: 0.9rem;
-}
-
-.filter-btn-royal.active,
-.filter-btn-royal:hover {
-    background: rgba(218, 165, 32, 0.2);
-    color: var(--regal-accent);
-    border-color: var(--regal-accent);
-    transform: translateY(-2px);
 }
 
 .royal-chronicles-scroll {
@@ -1681,401 +1201,6 @@ window.onclick = function(event) {
     border-color: rgba(239, 68, 68, 0.3);
 }
 
-.chronicles-footer-royal {
-    text-align: center;
-    margin-top: 30px;
-}
-
-/* Royal Privileges */
-.royal-privileges {
-    margin-bottom: 60px;
-}
-
-.privileges-header-royal {
-    text-align: center;
-    margin-bottom: 40px;
-    color: var(--regal-text);
-}
-
-.privileges-header-royal h2 {
-    font-size: 2.5rem;
-    font-weight: 900;
-    margin-bottom: 15px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.privileges-header-royal p {
-    font-size: 1.2rem;
-    opacity: 0.9;
-    font-style: italic;
-}
-
-.privileges-gallery-royal {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
-}
-
-.privilege-card-royal {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding: 30px 25px;
-    background: var(--regal-glass);
-    backdrop-filter: blur(25px);
-    border: 2px solid var(--regal-border);
-    border-radius: 18px;
-    text-decoration: none;
-    color: var(--regal-text);
-    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-    cursor: pointer;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    position: relative;
-    overflow: hidden;
-}
-
-.privilege-card-royal::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(218, 165, 32, 0.1), transparent);
-    transition: left 0.8s ease;
-}
-
-.privilege-card-royal:hover::before {
-    left: 100%;
-}
-
-.privilege-card-royal:hover {
-    transform: translateY(-8px);
-    border-color: var(--regal-accent);
-    box-shadow: 0 15px 35px rgba(218, 165, 32, 0.3);
-}
-
-.privilege-crown {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 1.3rem;
-    opacity: 0.6;
-}
-
-.privilege-icon-bg-royal {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(218, 165, 32, 0.3);
-}
-
-.privilege-card-royal:hover .privilege-icon-bg-royal {
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(218, 165, 32, 0.5);
-}
-
-.privilege-icon-royal {
-    font-size: 1.5rem;
-    color: var(--regal-primary);
-}
-
-.privilege-content-royal h4 {
-    font-weight: 700;
-    margin-bottom: 8px;
-    font-size: 1.2rem;
-    color: var(--regal-accent);
-}
-
-.privilege-content-royal p {
-    font-size: 0.9rem;
-    color: var(--regal-text-muted);
-    font-weight: 500;
-    line-height: 1.4;
-}
-
-.privilege-arrow-royal {
-    margin-left: auto;
-    font-size: 1.5rem;
-    opacity: 0.5;
-    transition: all 0.3s ease;
-    color: var(--regal-accent);
-}
-
-.privilege-card-royal:hover .privilege-arrow-royal {
-    opacity: 1;
-    transform: translateX(5px);
-}
-
-.featured-privilege {
-    border-color: var(--regal-accent);
-    background: linear-gradient(135deg, rgba(218, 165, 32, 0.15), var(--regal-glass));
-}
-
-.royal-privilege-badge {
-    position: absolute;
-    top: 15px;
-    left: 20px;
-    background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
-    color: var(--regal-primary);
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-/* Royal Buttons */
-.btn-regal {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 15px 25px;
-    border: none;
-    border-radius: 12px;
-    font-weight: 700;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-    text-decoration: none;
-    position: relative;
-    overflow: hidden;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-.btn-primary-regal {
-    background: linear-gradient(135deg, var(--regal-accent), var(--regal-accent-light));
-    color: var(--regal-primary);
-    box-shadow: 0 8px 25px rgba(218, 165, 32, 0.4);
-}
-
-.btn-primary-regal:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(218, 165, 32, 0.5);
-    background: linear-gradient(135deg, var(--regal-accent-light), #fff);
-}
-
-.btn-secondary-regal {
-    background: rgba(218, 165, 32, 0.1);
-    color: var(--regal-accent);
-    border: 1px solid var(--regal-border);
-}
-
-.btn-secondary-regal:hover {
-    background: rgba(218, 165, 32, 0.2);
-    border-color: var(--regal-accent);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(218, 165, 32, 0.3);
-}
-
-.btn-icon {
-    font-size: 1.1rem;
-}
-
-/* Royal Modal */
-.royal-modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
-}
-
-.royal-modal-content {
-    background: var(--regal-glass);
-    backdrop-filter: blur(25px);
-    border: 2px solid var(--regal-border);
-    margin: 10% auto;
-    border-radius: 20px;
-    width: 90%;
-    max-width: 600px;
-    box-shadow: var(--regal-shadow);
-    max-height: 80vh;
-    overflow-y: auto;
-    color: var(--regal-text);
-}
-
-.royal-modal-header {
-    padding: 30px;
-    border-bottom: 1px solid var(--regal-border);
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    position: relative;
-}
-
-.modal-crown {
-    font-size: 2rem;
-    filter: drop-shadow(0 2px 8px rgba(218, 165, 32, 0.4));
-}
-
-.royal-modal-header h3 {
-    margin: 0;
-    color: var(--regal-accent);
-    font-size: 1.5rem;
-    font-weight: 800;
-    flex: 1;
-}
-
-.royal-modal-close {
-    position: absolute;
-    top: 20px;
-    right: 25px;
-    background: none;
-    border: none;
-    font-size: 2rem;
-    color: var(--regal-text-muted);
-    cursor: pointer;
-    transition: color 0.3s ease;
-    line-height: 1;
-}
-
-.royal-modal-close:hover {
-    color: var(--regal-accent);
-}
-
-.royal-modal-body {
-    padding: 30px;
-}
-
-.royal-form-group {
-    margin-bottom: 25px;
-}
-
-.royal-form-label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
-    font-weight: 700;
-    color: var(--regal-accent);
-    font-size: 0.95rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-.label-icon-royal {
-    font-size: 1.1rem;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
-}
-
-.royal-input-wrapper {
-    position: relative;
-}
-
-.royal-form-control {
-    width: 100%;
-    padding: 18px 20px;
-    border: 2px solid var(--regal-border);
-    border-radius: 16px;
-    font-size: 1rem;
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--regal-text);
-    backdrop-filter: blur(10px);
-    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    font-weight: 500;
-}
-
-.royal-form-control::placeholder {
-    color: var(--regal-text-muted);
-    opacity: 0.7;
-}
-
-.royal-form-control:focus {
-    outline: none;
-    border-color: var(--regal-accent);
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 
-        0 0 0 4px rgba(218, 165, 32, 0.2),
-        0 8px 25px rgba(218, 165, 32, 0.3);
-    transform: translateY(-2px);
-}
-
-.royal-input-border {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 2px;
-    width: 100%;
-    background: linear-gradient(90deg, var(--regal-accent), var(--regal-accent-light));
-    transform: scaleX(0);
-    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-    border-radius: 1px;
-}
-
-.royal-form-control:focus + .royal-input-border {
-    transform: scaleX(1);
-}
-
-.royal-input-glow {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at center, rgba(218, 165, 32, 0.1), transparent);
-    border-radius: 16px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-}
-
-.royal-form-control:focus + .royal-input-border + .royal-input-glow {
-    opacity: 1;
-}
-
-.royal-form-actions {
-    display: flex;
-    gap: 15px;
-    justify-content: flex-end;
-    margin-top: 30px;
-}
-
-.royal-auth-message {
-    padding: 20px 30px;
-    border-top: 1px solid var(--regal-border);
-}
-
-.royal-message {
-    padding: 15px 20px;
-    border-radius: 12px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    backdrop-filter: blur(20px);
-    border: 1px solid transparent;
-}
-
-.royal-message-success {
-    background: rgba(16, 185, 129, 0.15);
-    color: #34d399;
-    border-color: rgba(16, 185, 129, 0.3);
-}
-
-.royal-message-error {
-    background: rgba(239, 68, 68, 0.15);
-    color: #f87171;
-    border-color: rgba(239, 68, 68, 0.3);
-}
-
 /* Animations */
 .animate-on-scroll {
     opacity: 0;
@@ -2116,24 +1241,8 @@ window.onclick = function(event) {
         gap: 15px;
     }
 
-    .privileges-gallery-royal {
-        grid-template-columns: 1fr;
-    }
-
     .chronicle-details-royal {
         flex-direction: column;
-        gap: 10px;
-    }
-
-    .chronicles-header-royal {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-
-    .royal-actions {
-        flex-direction: column;
-        align-items: stretch;
         gap: 10px;
     }
 
@@ -2164,8 +1273,7 @@ window.onclick = function(event) {
 
     .metrics-header-royal h2,
     .accomplishments-header-royal h2,
-    .chronicles-header-royal h2,
-    .privileges-header-royal h2 {
+    .chronicles-header-royal h2 {
         font-size: 2rem;
     }
 
@@ -2176,17 +1284,6 @@ window.onclick = function(event) {
 
     .chronicle-actions-royal {
         align-self: flex-start;
-    }
-
-    .privilege-card-royal {
-        flex-direction: column;
-        text-align: center;
-        gap: 15px;
-    }
-
-    .filters-btn-royal {
-        flex: 1;
-        min-width: 0;
     }
 }
 </style>
